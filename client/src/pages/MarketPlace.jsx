@@ -1,8 +1,12 @@
 import React from 'react'
+import FilterBar from '../components/FilterBar'
 
 const MarketPlace = () => {
   return (
-    <div>MarketPlace</div>
+    <div>
+        marketplace
+        <FilterBar/>
+    </div>
   )
 }
 

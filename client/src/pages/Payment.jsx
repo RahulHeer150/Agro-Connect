@@ -1,8 +1,13 @@
 import React from 'react'
+import PaymentSuccess from '../components/PaymentSuccess'
+import PaymentFailure from '../components/PaymentFailure'
 
 const Payment = () => {
   return (
-    <div>Payment</div>
+    <div>Payment
+        <PaymentSuccess/>
+        <PaymentFailure/>
+    </div>
   )
 }
 
