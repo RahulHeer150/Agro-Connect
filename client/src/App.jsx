@@ -18,11 +18,12 @@ import Dashboard from './components/Dashboard'
 import MyProduct from './components/MyProduct'
 import MyOrders from './components/MyOrders'
 import FarmerDashBoard from './pages/FarmerDashBoard'
-Ma
+import BuyerDashBoard from './pages/BuyerDashBoard'
+import MarketPlace from './pages/MarketPlace'
+import ProductDetails from './pages/ProductDetails'
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <> 
