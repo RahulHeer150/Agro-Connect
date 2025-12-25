@@ -21,6 +21,7 @@ import FarmerDashBoard from './pages/FarmerDashBoard'
 import BuyerDashBoard from './pages/BuyerDashBoard'
 import MarketPlace from './pages/MarketPlace'
 import ProductDetails from './pages/ProductDetails'
+import Footer from './components/Footer'
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
       <Route path='/product-details' element={<ProductDetails/>}/>
 
     </Routes>
+    <Footer/>
      
 
     </>
