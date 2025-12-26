@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken"); // ✅ MISSING IMPORT (FIXED)
 
 const userSchema = new mongoose.Schema(
   {
-    // Common fields
+    // =========================
+    // COMMON FIELDS
+    // =========================
     name: {
       type: String,
       required: true,
@@ -27,7 +30,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 6,
-      select: false,
+      select: false, // 🔐 important
     },
 
     role: {
@@ -45,7 +48,9 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    // 🔹 Farmer specific fields
+    // =========================
+    // FARMER SPECIFIC
+    // =========================
     farmDetails: {
       farmName: String,
       location: {
@@ -55,24 +60,30 @@ const userSchema = new mongoose.Schema(
       },
       cropsGrown: [String],
       farmSize: {
-        type: String, // small / medium / large
+        type: String, // small | medium | large
       },
     },
 
-    // 🔹 Buyer specific fields
+    // =========================
+    // BUYER SPECIFIC
+    // =========================
     buyerDetails: {
       businessName: String,
       address: String,
     },
 
-    // 🔐 Password reset
+    // =========================
+    // PASSWORD RESET
+    // =========================
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
   { timestamps: true }
 );
 
-// 🔐 Hash password before save
+//
+// 🔐 HASH PASSWORD BEFORE SAVE
+//
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -80,12 +91,28 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+//
+// 🔑 GENERATE JWT TOKEN
+// (Matches your auth.middleware expectations)
+//
 userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-    return token;
-}
+  const token = jwt.sign(
+    {
+      id: this._id,
+      role: this.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
 
-// 🔑 Compare password
+  return token;
+};
+
+//
+// 🔑 COMPARE PASSWORD
+//
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
