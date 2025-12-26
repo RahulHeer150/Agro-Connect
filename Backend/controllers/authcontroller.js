@@ -1,5 +1,5 @@
-const User = require("../models/User.model");
-const BlackListToken = require("../models/blackListToken.model");
+const User = require("../models/usermodel");
+const BlackListToken = require("../models/blackTokenmodel");
 
 /**
  * =====================================
