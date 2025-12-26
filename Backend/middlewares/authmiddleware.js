@@ -1,46 +1,66 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
+const BlackListToken = require("../models/blackListToken.model");
 
-exports.protect = async (req, res, next) => {
+/**
+ * ==================================
+ * AUTHENTICATE USER (Farmer/Buyer/Admin)
+ * ==================================
+ */
+module.exports.authUser = async (req, res, next) => {
   try {
-    let token;
+    // 1️⃣ Get token from cookie OR Authorization header
+    const token =
+      req.cookies?.token || req.headers.authorization?.split(" ")[1];
 
-    // ✅ Get token from Authorization header
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      token = req.headers.authorization.split(" ")[1];
-    }
-
-    // ❌ No token
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "Not authorized, token missing",
+        message: "Unauthorized: Token missing",
       });
     }
 
-    // ✅ Verify token
+    // 2️⃣ Check if token is blacklisted (logout case)
+    const isBlacklisted = await BlackListToken.findOne({ token });
+    if (isBlacklisted) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Token revoked",
+      });
+    }
+
+    // 3️⃣ Verify JWT
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // ✅ Get user from DB
+    // 4️⃣ Get user from DB
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "User not found",
+        message: "Unauthorized: User not found",
       });
     }
 
-    // ✅ Attach user to request
+    // 5️⃣ Attach user to request
     req.user = user;
     next();
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "Invalid or expired token",
+      message: "Unauthorized: Invalid or expired token",
     });
   }
+};
+
+module.exports.authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied: Insufficient permissions",
+      });
+    }
+    next();
+  };
 };
