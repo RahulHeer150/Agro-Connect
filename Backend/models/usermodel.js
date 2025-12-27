@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken"); // ✅ MISSING IMPORT (FIXED)
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema(
   {
-    // =========================
-    // COMMON FIELDS
-    // =========================
     name: {
       type: String,
       required: true,
@@ -30,7 +27,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 6,
-      select: false, // 🔐 important
+      select: false,
     },
 
     role: {
@@ -39,18 +36,13 @@ const userSchema = new mongoose.Schema(
       default: "buyer",
     },
 
-    avatar: {
-      type: String,
-    },
+    avatar: String,
 
     isVerified: {
       type: Boolean,
       default: false,
     },
 
-    // =========================
-    // FARMER SPECIFIC
-    // =========================
     farmDetails: {
       farmName: String,
       location: {
@@ -59,60 +51,36 @@ const userSchema = new mongoose.Schema(
         village: String,
       },
       cropsGrown: [String],
-      farmSize: {
-        type: String, // small | medium | large
-      },
+      farmSize: String,
     },
 
-    // =========================
-    // BUYER SPECIFIC
-    // =========================
     buyerDetails: {
       businessName: String,
       address: String,
     },
 
-    // =========================
-    // PASSWORD RESET
-    // =========================
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
   { timestamps: true }
 );
 
-//
-// 🔐 HASH PASSWORD BEFORE SAVE
-//
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-
+// ✅ FIXED PRE-SAVE HOOK
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
-//
-// 🔑 GENERATE JWT TOKEN
-// (Matches your auth.middleware expectations)
-//
+// Generate JWT
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign(
-    {
-      id: this._id,
-      role: this.role,
-    },
+  return jwt.sign(
+    { id: this._id, role: this.role },
     process.env.JWT_SECRET,
-    {
-      expiresIn: "7d",
-    }
+    { expiresIn: "7d" }
   );
-
-  return token;
 };
 
-//
-// 🔑 COMPARE PASSWORD
-//
+// Compare password
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
