@@ -47,10 +47,7 @@ const UserLogin = () => {
         }
       }
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Invalid email or password"
-      );
+      setError(err.response?.data?.message || "Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -59,7 +56,6 @@ const UserLogin = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-sky-200">
       <div className="bg-white rounded-xl shadow-lg w-[400px] p-8">
-        
         {/* Logo */}
         <div className="flex justify-center mb-6">
           {/* <img
@@ -89,11 +85,7 @@ const UserLogin = () => {
             className="bg-[#eeeeee] mb-4 rounded-lg px-4 py-2 border w-full"
           />
 
-          {error && (
-            <p className="text-red-500 text-sm mb-3">
-              {error}
-            </p>
-          )}
+          {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
           <button
             type="submit"
@@ -108,10 +100,7 @@ const UserLogin = () => {
         {/* Footer */}
         <p className="text-center mt-4 text-sm">
           Don’t have an account?{" "}
-          <Link
-            to="/register"
-            className="text-blue-600 hover:underline"
-          >
+          <Link to="/register" className="text-blue-600 hover:underline">
             Register here
           </Link>
         </p>
