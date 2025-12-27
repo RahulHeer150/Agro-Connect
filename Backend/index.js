@@ -60,6 +60,10 @@ app.use((err, req, res, next) => {
   });
 });
 
+const productRoutes = require("./routes/productroutes");
+
+app.use("/api/products", productRoutes);
+
 // =======================
 // START SERVER
 // =======================
