@@ -16,6 +16,7 @@ const HeroSection = () => {
   const { isLoggedIn, user } = useAuth();
   const [index, setIndex] = useState(0);
 
+  // Auto slide
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
@@ -24,9 +25,8 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="w-full bg-gradient-to-b from-green-50 to-white">
-      {/* FULL WIDTH GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-center min-h-[90vh] px-6 lg:px-20">
+    <section className="w-screen bg-gradient-to-b from-green-50 to-white overflow-hidden mt-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[90vh] items-center px-6 lg:px-24">
 
         {/* LEFT CONTENT */}
         <div>
@@ -40,6 +40,7 @@ const HeroSection = () => {
             middlemen and ensuring fair prices and fresh local produce.
           </p>
 
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
             <button
               onClick={() => navigate("/marketplace")}
@@ -62,7 +63,7 @@ const HeroSection = () => {
             </button>
           </div>
 
-          {/* TRUST INDICATORS */}
+          {/* Trust Indicators */}
           <div className="flex gap-10 text-sm text-gray-600">
             <div>
               <p className="text-xl font-bold text-green-700">100%</p>
@@ -79,8 +80,8 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* RIGHT IMAGE – EDGE TO EDGE */}
-        <div className="relative w-full h-[420px] lg:h-[520px] mt-12 lg:mt-0">
+        {/* RIGHT IMAGE (FINAL SIZE TUNED) */}
+        <div className="relative w-full lg:w-[90%] h-[360px] md:h-[420px] lg:h-[480px] mt-12 lg:mt-0 ml-auto">
           <AnimatePresence mode="wait">
             <motion.img
               key={images[index]}
@@ -90,10 +91,11 @@ const HeroSection = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
             />
           </AnimatePresence>
         </div>
+
       </div>
     </section>
   );
