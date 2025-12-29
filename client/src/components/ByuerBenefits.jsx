@@ -1,38 +1,90 @@
-import React from 'react'
-import { FaLeaf, FaMapMarkedAlt, FaBalanceScale  } from 'react-icons/fa'
+import {
+  FaLeaf,
+  FaMapMarkerAlt,
+  FaBalanceScale,
+  FaShieldAlt,
+} from "react-icons/fa";
+import { MotionSection, MotionItem } from "./common/MotionSection";
 
+const benefits = [
+  {
+    icon: <FaLeaf />,
+    title: "Fresh From Farms",
+    desc: "Produce sourced directly from nearby farms, harvested recently.",
+  },
+  {
+    icon: <FaMapMarkerAlt />,
+    title: "Local Discovery",
+    desc: "Find trusted farmers near your location with ease.",
+  },
+  {
+    icon: <FaBalanceScale />,
+    title: "Fair & Transparent Pricing",
+    desc: "Prices are set by farmers—no hidden charges or commissions.",
+  },
+  {
+    icon: <FaShieldAlt />,
+    title: "Verified Farmers",
+    desc: "All farmers are verified to ensure quality and reliability.",
+  },
+];
 
-const ByuerBenefits = () => {
+const BuyerBenefits = () => {
   return (
-<section className='bg-green-50 py-20'>
-    <div className='max-w-7xl mx-auto px-6 text-center'>
-        <h2 className='text-3xl font-bold mb-12'>
-            Benefits for Buyers
-        </h2>
+    <MotionSection className="bg-green-50 py-20">
+      <div className="max-w-7xl mx-auto px-6">
 
-        <div className='grid md:grid-cols-3 gap-10'>
-            <div className='bg-white p-6 rounded-xl shadow-sm'>
-                <FaLeaf className='text-green-700 text-4xl mx-auto mb-4'/>
-                <h3 className='font-semibold'>Fresh Produce</h3>
+        {/* Section Header */}
+        <MotionItem className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Why Buyers Choose AgroConnect
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Fresh produce, fair pricing, and trusted farmers — all in one place.
+          </p>
+        </MotionItem>
 
-            </div>
+        {/* Benefits Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {benefits.map((b, i) => (
+            <MotionItem
+              key={i}
+              className="bg-white p-6 rounded-xl text-center shadow-sm
+                         hover:shadow-md transition hover:-translate-y-1"
+            >
+              <div className="w-14 h-14 mx-auto mb-4 flex items-center justify-center
+                              rounded-full bg-green-100 text-green-700 text-2xl">
+                {b.icon}
+              </div>
 
-            <div className='bg-white p-6 rounded-xl shadow-sm'>
-                <FaMapMarkedAlt className='text-green-700 text-4xl mx-auto mb-4'/>
-                <h3 className='font-semibold'>Local Farmers</h3>
+              <h3 className="font-semibold text-lg mb-2">
+                {b.title}
+              </h3>
 
-            </div>
-
-            <div className='bg-white p-6 rounded-xl shadow-sm'>
-                <FaBalanceScale className='text-green-700 text-4xl mx-auto mb-4'/>
-                <h3 className='font-semibold'>Fair Pricing</h3>
-
-            </div>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {b.desc}
+              </p>
+            </MotionItem>
+          ))}
         </div>
-    </div>
 
-</section>
-  )
-}
+        {/* Trust Strip */}
+        <MotionItem className="mt-14 flex flex-wrap justify-center gap-6 text-sm text-gray-600">
+          <span>✔ Verified Farmers</span>
+          <span>✔ No Hidden Charges</span>
+          <span>✔ Fresh & Local Produce</span>
+        </MotionItem>
 
-export default ByuerBenefits
+        {/* Soft CTA */}
+        <MotionItem className="mt-10 text-center">
+          <button className="text-green-700 font-semibold hover:underline">
+            Explore fresh produce →
+          </button>
+        </MotionItem>
+
+      </div>
+    </MotionSection>
+  );
+};
+
+export default BuyerBenefits;
