@@ -12,7 +12,25 @@ Benefits for Farmers
                 <div>
                     <FaRupeeSign className='text-green-700 text-4xl mx-auto mb-4'/>
                     <h3 className='font-semibold mb-2'>Better Income</h3>
-                    <p className='text-gray-600 text-sm'></p>
+                    <p className='text-gray-600 text-sm'>
+                        Earn more by selling directly.
+                    </p>
+                </div>
+
+                <div>
+                    <FaMobileAlt className='text-green-700 text-4xl mx-auto mb-4'/>
+                    <h3 className='font-semibold mb-2'>Easy to Use</h3>
+                    <p className='text-gray-600 text-sm'>
+                        Simple mobile-friendly platform.
+                    </p>
+                </div>
+
+                 <div>
+                    <FaHandshake className='text-green-700 text-4xl mx-auto mb-4'/>
+                    <h3 className='font-semibold mb-2'>Direct Buyers</h3>
+                    <p className='text-gray-600 text-sm'>
+                        Build long-term relationships.
+                    </p>
                 </div>
             </div>
 
