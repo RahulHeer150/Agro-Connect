@@ -1,25 +1,30 @@
 import { motion } from "framer-motion";
+import farmer1 from "../assets/farmer-section1.jpg"
+import farmer2 from "../assets/farmer-section2.jpeg"
+import farmer3 from "../assets/farmer-section3.jpg"
+import farmer4 from "../assets/farmer-section4.jpg"
+
 
 const farmerBenefits = [
   {
     title: "Fair Pricing",
     description: "Sell your produce at prices you truly deserve without middlemen.",
-    image: "/images/farmer-fair-pricing.jpg",
+    image: farmer1,
   },
   {
     title: "Direct Buyers",
     description: "Connect directly with verified buyers across regions.",
-    image: "/images/farmer-direct-buyers.jpg",
+    image: farmer2,
   },
   {
     title: "Secure Payments",
     description: "Receive timely and secure digital payments with full transparency.",
-    image: "/images/farmer-secure-payments.jpg",
+    image: farmer3,
   },
   {
     title: "Wider Market Reach",
     description: "Expand beyond local markets and reach more buyers digitally.",
-    image: "/images/farmer-market-reach.jpg",
+    image: farmer4,
   },
 ];
 
