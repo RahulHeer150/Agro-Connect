@@ -120,3 +120,35 @@ module.exports.updateCartItem=async(req,res)=>{
     });
   }
 };
+
+module.exports.removeFromCart=async(req,res)=>{
+    try{
+        const {productId}=req.params;
+
+        const cart=await Cart.findOne({buyer:req.user._id});
+
+        if(!cart){
+            return res.status(404).json({
+                success:false,
+                message:"Cart not found",
+            })
+        }
+        cart.items=cart.items.filter(
+            (item)=>item.product.toString()!==productId
+        );
+
+        await cart.save();
+
+        re.status(200).json({
+            success:true,
+            message:"Item removed from cart",
+            cart,
+        });
+
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            message:"Failed to remove item",
+        });
+    }
+};
