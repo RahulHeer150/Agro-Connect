@@ -1,6 +1,6 @@
 import { useState } from "react";
-import FilterSidebar from "../components/marketplace/FilterSidebar";
-import ProductGrid from "../components/marketplace/ProductGrid";
+import FilterSidebar from "../components/FilterSidebar";
+import ProductGrid from "../components/ProductGrid";
 
 const Marketplace = () => {
   const [filters, setFilters] = useState({
