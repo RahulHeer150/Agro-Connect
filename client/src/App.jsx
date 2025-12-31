@@ -49,6 +49,7 @@ function App() {
       <Route path='/buyer-dashboard' element={<BuyerDashBoard/>}/>
       <Route path='/marketplace' element={<MarketPlace/>}/>
       <Route path='/product-details' element={<ProductDetails/>}/>
+      <Route path="/product/:id" element={<ProductDetails />} />
 
     </Routes>
     <Footer/>
