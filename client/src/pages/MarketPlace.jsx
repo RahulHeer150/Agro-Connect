@@ -14,7 +14,6 @@ const Marketplace = () => {
   return (
     <section className="bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-6 py-16">
-
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold">Marketplace</h1>
@@ -34,7 +33,6 @@ const Marketplace = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-
           {/* Desktop Sidebar */}
           <div className="hidden lg:block">
             <FilterSidebar filters={filters} setFilters={setFilters} />
@@ -42,7 +40,6 @@ const Marketplace = () => {
 
           {/* Product Grid */}
           <ProductGrid filters={filters} />
-
         </div>
 
         {/* Mobile Drawer */}
@@ -59,14 +56,10 @@ const Marketplace = () => {
                 </button>
               </div>
 
-              <FilterSidebar
-                filters={filters}
-                setFilters={setFilters}
-              />
+              <FilterSidebar filters={filters} setFilters={setFilters} />
             </div>
           </div>
         )}
-
       </div>
     </section>
   );

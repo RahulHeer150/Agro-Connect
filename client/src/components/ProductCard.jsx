@@ -8,17 +8,11 @@ const ProductCard = ({ product }) => {
       <div className="h-40 bg-gray-100 rounded-t-xl" />
 
       <div className="p-4">
-        <h3 className="font-semibold text-lg">
-          {product.name}
-        </h3>
+        <h3 className="font-semibold text-lg">{product.name}</h3>
 
-        <p className="text-green-700 font-medium">
-          ₹{product.price} / kg
-        </p>
+        <p className="text-green-700 font-medium">₹{product.price} / kg</p>
 
-        <p className="text-sm text-gray-600">
-          {product.farmer}
-        </p>
+        <p className="text-sm text-gray-600">{product.farmer}</p>
 
         <button
           onClick={() => navigate(`/product/1`)}
