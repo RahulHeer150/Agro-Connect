@@ -22,7 +22,7 @@ import BuyerDashBoard from './pages/BuyerDashBoard'
 import MarketPlace from './pages/MarketPlace'
 import ProductDetails from './pages/ProductDetails'
 import Footer from './components/Footer'
-
+import Checkout from './pages/Checkout'
 
 function App() {
 
@@ -50,6 +50,7 @@ function App() {
       <Route path='/marketplace' element={<MarketPlace/>}/>
       <Route path='/product-details' element={<ProductDetails/>}/>
       <Route path="/product/:id" element={<ProductDetails />} />
+      <Route path="/checkout" element={<Checkout />} />
 
     </Routes>
     <Footer/>
