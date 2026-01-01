@@ -1,28 +1,34 @@
 import { createContext, useContext, useState } from "react";
 
+import { fetchCart, addToCartAPI, updateCartItemAPI, removeFromCartAPI } from "../api/cartApi"
+
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [loading,setLoading]=useState(false);
 
-  // ✅ ADD TO CART
-  const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-
-      // If product already in cart → increase quantity
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-
-      // Else add new product
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+  const loadCart = async () => {
+    try {
+      setLoading(true);
+      const res = await fetchCart();
+      setCart(res.data.cart?.items || []);
+    } catch (err) {
+      console.error("Failed to load cart", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const addToCart=async(productId,quantity=1)=>{
+    try{
+      const res=await addToCartAPI(productId,quantity);
+      setCart(res.data.cart.items)
+    }catch(error){
+      console.error("Add to Cart Failed:",error)
+    }
+
+  }
 
   // ✅ UPDATE CART (increase / decrease quantity)
   const updateCartItem = (id, quantity) => {
