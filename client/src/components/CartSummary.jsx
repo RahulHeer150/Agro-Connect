@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 const CartSummary = () => {
   const { cart } = useCart();
+  const navigate=useNavigate();
 
   const totalItems = cart.reduce(
     (sum, item) => sum + item.quantity,
@@ -31,6 +33,7 @@ const CartSummary = () => {
       </div>
 
       <button
+      onClick={()=>navigate("/checkout")}
         className="w-full bg-green-700 text-white py-3 rounded-lg
                    hover:bg-green-800 transition"
       >
