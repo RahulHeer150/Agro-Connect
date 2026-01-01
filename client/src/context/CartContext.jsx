@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { fetchCart, addToCartAPI, updateCartItemAPI, removeFromCartAPI } from "../api/cartApi"
+import { fetchCart, addToCartAPI, updateCartItemAPI, removeFromCartAPI, clearCartAPI } from "../api/cartApi"
 
 const CartContext = createContext();
 
@@ -31,29 +31,55 @@ export const CartProvider = ({ children }) => {
   }
 
   // ✅ UPDATE CART (increase / decrease quantity)
-  const updateCartItem = (id, quantity) => {
-    if (quantity <= 0) {
-      removeFromCart(id);
-      return;
-    }
+  const updateCartItem = async (productId, quantity) => {
+    try {
+      if (quantity <= 0) {
+        await removeFromCart(productId);
+        return;
+      }
 
-    setCart((prevCart) =>
-      prevCart.map((item) => (item.id === id ? { ...item, quantity } : item))
-    );
+      const res = await updateCartItemAPI(productId, quantity);
+      setCart(res.data.cart.items);
+    } catch (error) {
+      console.error("Update cart failed:", error);
+    }
   };
 
   // ✅ REMOVE ITEM FROM CART
-  const removeFromCart = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  const removeFromCart = (productId) => {
+    try{
+      const res= removeFromCart(productId);
+      setCart(res.data.cart.items);
+    }catch(error){
+      console.error("failed to remove items:",error)
+    }
   };
+
+  
+  const clearCart=async()=>{
+    try{
+      await clearCartAPI();
+      setCart([]);
+    }catch(error){
+      console.error("Failed to Clear Cart",error)
+    }
+  }
+
+  useEffect(()=>{
+    loadCart();
+  },[]);
+
 
   return (
     <CartContext.Provider
       value={{
         cart,
+        loading,
         addToCart,
         updateCartItem,
         removeFromCart,
+        clearCart,
+        loadCart,
       }}
     >
       {children}
