@@ -1,6 +1,6 @@
-const Cart = require("../models/Cart.model");
-const Order = require("../models/Order.model");
-const Product = require("../models/Product.model");
+const Cart = require("../models/cartmodel");
+const Order = require("../models/ordermodel");
+const Product = require("../models/productmodel");
 
 module.exports.placeOrder=async(req,res)=>{
     try{

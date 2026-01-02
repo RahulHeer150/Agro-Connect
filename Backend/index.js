@@ -64,6 +64,9 @@ const productRoutes = require("./routes/productroutes");
 
 app.use("/api/products", productRoutes);
 
+const orderRoutes=require("./routes/orderroutes");
+app.use("/api/orders", orderRoutes);
+
 // =======================
 // START SERVER
 // =======================
