@@ -67,3 +67,23 @@ module.exports.placeOrder=async(req,res)=>{
         })
     }
 }
+
+module.exports.getMyOrders=async(req,res)=>{
+    try{
+        const orders=await Order.find({buyer:req.user._id})
+        .populate("item.product","name price")
+        .sort({createdAt:-1});
+
+        res.status(200).json({
+            success:true,
+            orders,
+        
+        });
+    }catch(error) {
+    res.status(500).json({
+        success:false,
+        message:"Failed to fetch orders",
+    })
+}
+
+}
