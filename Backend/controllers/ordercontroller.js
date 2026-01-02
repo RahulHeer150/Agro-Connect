@@ -4,6 +4,8 @@ const Product = require("../models/Product.model");
 
 module.exports.placeOrder=async(req,res)=>{
     try{
+
+        // 1️⃣ Get buyer cart
         const cart=await Cart.findOne({buyer:req.user._id}).populate(
             "items.product"
         )
@@ -16,6 +18,7 @@ module.exports.placeOrder=async(req,res)=>{
         let totalAmount=0;
         const orderItems=[];
 
+         // 2️⃣ Validate products & calculate total
         for(const item of cart.items){
             const product=item.product;
             if(product.quantity<item.quantity){
@@ -24,6 +27,43 @@ module.exports.placeOrder=async(req,res)=>{
                     message:`Not enough quantity for ${product.name}`,
                 })
             }
+        totalAmount+=product.price*item.quantity;
+
+        orderItems.push({
+            product:product._id,
+            quantity:item.quantity,
+            price:product.price,
+        })
         }
+
+         // 3️⃣ Create order
+        const order= await Order.create({
+            buyer:req.user._id,
+            items:orderItems,
+            totalAmount,
+        })
+
+            // 4️⃣ Reduce product stock
+
+        for(const item of cart.items){
+            await Product.findByIdAndUpdate(item.product._id,{
+                $inc:{quantity:-item.quantity},
+            });
+        }
+
+        // 5️⃣ Clear cart
+        await Cart.findByIdAndUpdate({buyer:req.user._id});
+
+        res.status(201).json({
+            success:true,
+            message:"Order placed successfully",
+            order,
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            message:"Failed to place Order",
+            error:error.message,
+        })
     }
 }
