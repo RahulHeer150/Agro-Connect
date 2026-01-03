@@ -23,6 +23,8 @@ import MarketPlace from './pages/MarketPlace'
 import ProductDetails from './pages/ProductDetails'
 import Footer from './components/Footer'
 import Checkout from './pages/Checkout'
+import OrderSuccess from './pages/OrderSuccess'
+
 
 function App() {
 
