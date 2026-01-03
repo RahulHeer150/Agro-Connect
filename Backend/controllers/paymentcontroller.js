@@ -45,7 +45,7 @@ module.exports.createRazorpayOrder=async(req,res)=>{
     }
 };
 
-const verifyRazorpayPayment=(req,res)=>{
+const verifyRazorpayPayment=async(req,res)=>{
     try{
         const { razorpay_order_id , razorpay_payment_id , razorpay_signature, orderId } =req.body;
 
