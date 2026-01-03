@@ -1,20 +1,54 @@
-import { useCart } from "../context/CartContext";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import { placeOrderAPI } from "../api/order.api";
 
 const Checkout = () => {
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart();
   const navigate = useNavigate();
 
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  // 🔢 Calculate total price
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
 
+  // 🧾 Place order handler
+  const handlePlaceOrder = async () => {
+    setError("");
+
+    if (!address || !city || !phone) {
+      setError("Please fill all delivery details");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await placeOrderAPI({
+        address,
+        city,
+        phone,
+      });
+
+      clearCart(); // clear frontend cart
+      navigate("/order-success");
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to place order"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🛑 Empty cart protection
   if (cart.length === 0) {
     return (
       <p className="text-center mt-20 text-gray-600">
@@ -35,7 +69,6 @@ const Checkout = () => {
 
           {/* LEFT — DELIVERY DETAILS */}
           <div className="md:col-span-2 bg-white p-6 rounded-xl shadow-sm">
-
             <h2 className="text-xl font-semibold mb-6">
               Delivery Details
             </h2>
@@ -64,6 +97,12 @@ const Checkout = () => {
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full border rounded px-4 py-2"
               />
+
+              {error && (
+                <p className="text-red-500 text-sm">
+                  {error}
+                </p>
+              )}
             </div>
           </div>
 
@@ -96,11 +135,12 @@ const Checkout = () => {
             </div>
 
             <button
-              onClick={() => alert("Order placement coming next")}
+              onClick={handlePlaceOrder}
+              disabled={loading}
               className="w-full bg-green-700 text-white py-3 rounded-lg
-                         hover:bg-green-800 transition"
+                         hover:bg-green-800 transition disabled:opacity-60"
             >
-              Place Order
+              {loading ? "Placing Order..." : "Place Order"}
             </button>
 
             <button
