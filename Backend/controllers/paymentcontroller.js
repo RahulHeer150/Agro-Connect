@@ -44,3 +44,49 @@ module.exports.createRazorpayOrder=async(req,res)=>{
         return res.status(500).json({success:false, message:"Failed to create RazorPay Order"})
     }
 };
+
+const verifyRazorpayPayment=(req,res)=>{
+    try{
+        const { razorpay_order_id , razorpay_payment_id , razorpay_signature, orderId } =req.body;
+
+        if(!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !orderId){
+            return res.status(400).json({
+                success:false,
+                messsage:"Missing Payment Info."
+            })
+        }
+
+        const generated_signature=crypto
+        .createHmac("sha256".process.env.RAZORPAY_KEY_SECRET)
+        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+        .digest("hex");
+
+        if(generated_signature !== razorpay_signature){
+            return res.status(400).json({
+                success:false,
+                message:"Invaid Signature"
+            })
+        }
+
+         // Mark order paid in DB
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+     order.payment = {
+      method: "razorpay",
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    };
+    order.status = "paid";
+    await order.save();
+
+    // Optionally clear Cart, notify seller, send email etc.
+
+    return res.status(200).json({ success: true, message: "Payment verified and order completed", order });
+  } catch (err) {
+    console.error("verifyRazorpayPayment error", err);
+    return res.status(500).json({ success: false, message: "Payment verification failed" });
+  }
+};
