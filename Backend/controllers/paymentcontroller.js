@@ -1,4 +1,4 @@
-const Razorpay=requie("razorpay");
+const Razorpay=require("razorpay");
 const crypto=require("crypto");
 const Order=require("../models/ordermodel");
 

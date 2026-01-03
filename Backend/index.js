@@ -67,6 +67,10 @@ app.use("/api/products", productRoutes);
 const orderRoutes=require("./routes/orderroutes");
 app.use("/api/orders", orderRoutes);
 
+const paymentRoutes = require("./routes/paymentroutes");
+app.use("/payment", paymentRoutes);
+
+
 // =======================
 // START SERVER
 // =======================
