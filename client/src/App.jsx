@@ -51,6 +51,8 @@ function App() {
       <Route path='/product-details' element={<ProductDetails/>}/>
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/order-success" element={<OrderSuccess />} />
+
 
     </Routes>
     <Footer/>
