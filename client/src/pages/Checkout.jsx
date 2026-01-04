@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { placeOrderAPI } from "../api/orderapi";
-import { createRazorpayOrderAPI , verifyRazorpayPaymentAPI } from "../api/paymentapi";
+import { placeOrderAPI } from "../api/order.api";
+import {
+  createRazorpayOrderAPI,
+  verifyRazorpayPaymentAPI,
+} from "../api/payment.api";
+import { loadRazorpay } from "../utils/loadRazorpay";
 
 const Checkout = () => {
   const { cart, clearCart } = useCart();
@@ -14,14 +18,12 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🔢 Calculate total price
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
 
-  // 🧾 Place order handler
-  const handlePlaceOrder = async () => {
+  const handlePayment = async () => {
     setError("");
 
     if (!address || !city || !phone) {
@@ -32,18 +34,19 @@ const Checkout = () => {
     try {
       setLoading(true);
 
-      const orderRes= await placeOrderAPI({
+      // 1️⃣ Create Order in DB
+      const orderRes = await placeOrderAPI({
         address,
         city,
         phone,
       });
 
-      const orderId=orderRes.data.order._id;
+      const orderId = orderRes.data.order._id;
 
-      //create razorpay order
+      // 2️⃣ Create Razorpay Order
+      const razorRes = await createRazorpayOrderAPI(orderId);
+      const { razorpayOrder, key_id } = razorRes.data;
 
-      const razorRes=await createRazorpayOrderAPI(orderId);
-      const {razorpayOrder,key_id}=razorRes.data;
       // 3️⃣ Load Razorpay SDK
       const loaded = await loadRazorpay();
       if (!loaded) {
@@ -70,18 +73,36 @@ const Checkout = () => {
               orderId,
             });
 
-      clearCart(); // clear frontend cart
-      navigate("/order-success");
+            clearCart();
+            navigate("/order-success");
+          } catch (err) {
+            setError(
+              err.response?.data?.message ||
+                "Payment verification failed"
+            );
+          }
+        },
+
+        prefill: {
+          contact: phone,
+        },
+
+        theme: {
+          color: "#16a34a",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
     } catch (err) {
       setError(
-        err.response?.data?.message || "Failed to place order"
+        err.response?.data?.message || "Payment failed"
       );
     } finally {
       setLoading(false);
     }
   };
 
-  // 🛑 Empty cart protection
   if (cart.length === 0) {
     return (
       <p className="text-center mt-20 text-gray-600">
@@ -89,19 +110,18 @@ const Checkout = () => {
       </p>
     );
   }
-      }
 
   return (
     <section className="bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto px-6 py-16">
 
         <h1 className="text-3xl font-bold mb-10">
-          Checkout
+          Checkout & Payment
         </h1>
 
         <div className="grid md:grid-cols-3 gap-10">
 
-          {/* LEFT — DELIVERY DETAILS */}
+          {/* Delivery */}
           <div className="md:col-span-2 bg-white p-6 rounded-xl shadow-sm">
             <h2 className="text-xl font-semibold mb-6">
               Delivery Details
@@ -109,27 +129,22 @@ const Checkout = () => {
 
             <div className="space-y-4">
               <input
-                type="text"
                 placeholder="Full Address"
+                className="w-full border px-4 py-2 rounded"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full border rounded px-4 py-2"
               />
-
               <input
-                type="text"
                 placeholder="City"
+                className="w-full border px-4 py-2 rounded"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full border rounded px-4 py-2"
               />
-
               <input
-                type="tel"
                 placeholder="Phone Number"
+                className="w-full border px-4 py-2 rounded"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full border rounded px-4 py-2"
               />
 
               {error && (
@@ -140,28 +155,11 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* RIGHT — ORDER SUMMARY */}
+          {/* Summary */}
           <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
-
             <h2 className="text-xl font-semibold mb-4">
               Order Summary
             </h2>
-
-            <div className="space-y-3 mb-6">
-              {cart.map((item) => (
-                <div
-                  key={item.product._id}
-                  className="flex justify-between text-sm"
-                >
-                  <span>
-                    {item.product.name} × {item.quantity}
-                  </span>
-                  <span>
-                    ₹{item.product.price * item.quantity}
-                  </span>
-                </div>
-              ))}
-            </div>
 
             <div className="flex justify-between font-semibold text-lg mb-6">
               <span>Total</span>
@@ -169,21 +167,13 @@ const Checkout = () => {
             </div>
 
             <button
-              onClick={handlePlaceOrder}
+              onClick={handlePayment}
               disabled={loading}
               className="w-full bg-green-700 text-white py-3 rounded-lg
                          hover:bg-green-800 transition disabled:opacity-60"
             >
-              {loading ? "Placing Order..." : "Place Order"}
+              {loading ? "Processing..." : "Pay Now"}
             </button>
-
-            <button
-              onClick={() => navigate("/cart")}
-              className="w-full mt-3 text-green-700 text-sm hover:underline"
-            >
-              Back to Cart
-            </button>
-
           </div>
 
         </div>
