@@ -28,8 +28,8 @@ const PaymentFailure = () => {
         </h1>
 
         <p className="text-gray-600 mb-8">
-          Something went wrong during the payment.  
-          Don’t worry — your order is not charged.
+          Something went wrong during the payment. Don’t worry — your order is
+          not charged.
         </p>
 
         <div className="flex flex-col gap-4">

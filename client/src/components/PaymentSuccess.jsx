@@ -28,8 +28,8 @@ const PaymentSuccess = () => {
         </h1>
 
         <p className="text-gray-600 mb-8">
-          Your order has been placed successfully.  
-          Farmers are preparing your fresh produce 🌾
+          Your order has been placed successfully. Farmers are preparing your
+          fresh produce 🌾
         </p>
 
         <div className="flex flex-col gap-4">
