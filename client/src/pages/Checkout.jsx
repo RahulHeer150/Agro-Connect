@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { placeOrderAPI } from "../api/order.api";
+import { placeOrderAPI } from "../api/orderapi";
 import {
   createRazorpayOrderAPI,
   verifyRazorpayPaymentAPI,
-} from "../api/payment.api";
+} from "../api/paymentapi";
 import { loadRazorpay } from "../utils/loadRazorpay";
 
 const Checkout = () => {
