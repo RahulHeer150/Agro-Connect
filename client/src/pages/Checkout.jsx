@@ -32,11 +32,43 @@ const Checkout = () => {
     try {
       setLoading(true);
 
-      await placeOrderAPI({
+      const orderRes= await placeOrderAPI({
         address,
         city,
         phone,
       });
+
+      const orderId=orderRes.data.order._id;
+
+      //create razorpay order
+
+      const razorRes=await createRazorpayOrderAPI(orderId);
+      const {razorpayOrder,key_id}=razorRes.data;
+      // 3️⃣ Load Razorpay SDK
+      const loaded = await loadRazorpay();
+      if (!loaded) {
+        setError("Failed to load payment gateway");
+        setLoading(false);
+        return;
+      }
+
+      // 4️⃣ Open Razorpay Checkout
+      const options = {
+        key: key_id,
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        name: "AgroConnect",
+        description: "Farm Fresh Order Payment",
+        order_id: razorpayOrder.id,
+
+        handler: async function (response) {
+          try {
+            await verifyRazorpayPaymentAPI({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              orderId,
+            });
 
       clearCart(); // clear frontend cart
       navigate("/order-success");
@@ -57,6 +89,7 @@ const Checkout = () => {
       </p>
     );
   }
+      }
 
   return (
     <section className="bg-gray-50 min-h-screen">
