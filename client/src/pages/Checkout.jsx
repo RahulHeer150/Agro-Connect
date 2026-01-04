@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { placeOrderAPI } from "../api/orderapi";
+import { createRazorpayOrderAPI , verifyRazorpayPaymentAPI } from "../api/paymentapi";
 
 const Checkout = () => {
   const { cart, clearCart } = useCart();
