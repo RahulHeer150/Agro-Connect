@@ -5,7 +5,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  const linkClasses = ({ isActive }) =>
+  const linkClass = ({ isActive }) =>
     `block px-4 py-2 rounded-lg font-medium transition ${
       isActive
         ? "bg-green-700 text-white"
@@ -13,57 +13,41 @@ const Sidebar = () => {
     }`;
 
   return (
-    <aside className="w-64 min-h-screen bg-white border-r px-4 py-6">
-      {/* Logo / Title */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-green-700">
-          Farmer Panel
-        </h2>
-        <p className="text-sm text-gray-500">
-          AgroConnect
-        </p>
-      </div>
+    <aside className="w-64 bg-white border-r px-4 py-6">
+      <h2 className="text-2xl font-bold text-green-700 mb-8">
+        Farmer Panel
+      </h2>
 
-      {/* Navigation */}
       <nav className="space-y-2">
-        <NavLink to="/farmer/dashboard" className={linkClasses}>
+        <NavLink to="/farmer/dashboard" className={linkClass}>
           Dashboard
         </NavLink>
-
-        <NavLink to="/farmer/products" className={linkClasses}>
+        <NavLink to="/farmer/products" className={linkClass}>
           My Products
         </NavLink>
-
-        <NavLink to="/farmer/add-product" className={linkClasses}>
+        <NavLink to="/farmer/add-product" className={linkClass}>
           Add Product
         </NavLink>
-
-        <NavLink to="/farmer/orders" className={linkClasses}>
+        <NavLink to="/farmer/orders" className={linkClass}>
           Orders
         </NavLink>
-
-        <NavLink to="/farmer/earnings" className={linkClasses}>
+        <NavLink to="/farmer/earnings" className={linkClass}>
           Earnings
         </NavLink>
-
-        <NavLink to="/farmer/profile" className={linkClasses}>
+        <NavLink to="/farmer/profile" className={linkClass}>
           Profile
         </NavLink>
       </nav>
 
-      {/* Logout */}
-      <div className="mt-10">
-        <button
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
-          className="w-full text-left px-4 py-2 rounded-lg
-                     text-red-600 hover:bg-red-50 transition"
-        >
-          Logout
-        </button>
-      </div>
+      <button
+        onClick={() => {
+          logout();
+          navigate("/login");
+        }}
+        className="mt-10 w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+      >
+        Logout
+      </button>
     </aside>
   );
 };
