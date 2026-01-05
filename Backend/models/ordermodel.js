@@ -1,12 +1,13 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
-const orderSchema=new mongoose.Schema(
-    {
-        buyer:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"User",
-            required:true,
-        }, items: [
+const orderSchema = new mongoose.Schema(
+  {
+    buyer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    items: [
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
@@ -27,6 +28,17 @@ const orderSchema=new mongoose.Schema(
     totalAmount: {
       type: Number,
       required: true,
+    },
+
+    shippingAddress: {
+      state: String,
+      district: String,
+      village: String,
+      addressLine: String,
+    },
+
+    paymentId: {
+      type: String,
     },
 
     status: {
