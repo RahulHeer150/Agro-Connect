@@ -1,5 +1,5 @@
-import DashboardStats from "../../components/farmer/DashboardStats";
-import OrderTable from "../../components/farmer/OrderTable";
+import DashboardStats from "./DashboardStats";
+import OrderTable from "./OrderTable";
 
 const Dashboard = () => {
   const stats = [
