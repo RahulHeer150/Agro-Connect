@@ -1,3 +1,5 @@
+import React from 'react'
+
 const OrderTable = ({ orders }) => {
   if (!orders.length) {
     return <p className="text-gray-500">No orders yet.</p>;

@@ -1,5 +1,5 @@
-import ProductTable from "../../components/farmer/ProductTable";
-import EmptyState from "../../components/farmer/EmptyState";
+import ProductTable from "./ProductTable";
+import EmptyState from "./EmptyState";
 
 const Products = () => {
   const products = [];
