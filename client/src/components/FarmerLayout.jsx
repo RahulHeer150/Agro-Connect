@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "../components/farmer/Sidebar";
+import Sidebar from "./Sidebar";
 
 const FarmerLayout = () => {
   return (
