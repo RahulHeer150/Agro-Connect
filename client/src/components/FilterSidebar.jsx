@@ -1,3 +1,5 @@
+import React from 'react'
+
 const FilterSidebar = ({ filters, setFilters }) => {
 
   const toggleCategory = (category) => {
