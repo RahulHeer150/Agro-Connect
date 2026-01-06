@@ -37,5 +37,26 @@ module.exports.getFarmerdashboard=async(req,res)=>{
             })
          })
 
+         const recentOrders=orders
+         .sort((a,b)=>b.createdAt-a.createdAt)
+         .slice(0,5);
+
+         res.status(200).json({
+            success:true,
+            dashboard:{
+                totalProducts,
+                activeProduct,
+                totalOrders:orders.length,
+                totalRevenue,
+                recentOrders,
+            }
+         })
+
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            message:"Failed to Load the Farmer Dashboard Analytics.",
+            error:error.message,
+        })
     }
 }
