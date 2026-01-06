@@ -1,4 +1,4 @@
-import EarningsCard from "../../components/farmer/EarningsCard";
+import EarningsCard from "./EarningsCard";
 
 const Earnings = () => {
   const earnings = [
