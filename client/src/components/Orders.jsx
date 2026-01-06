@@ -1,5 +1,5 @@
-import OrderTable from "../../components/farmer/OrderTable";
-import EmptyState from "../../components/farmer/EmptyState";
+import OrderTable from "./OrderTable";
+import EmptyState from "./EmptyState";
 
 const Orders = () => {
   const orders = [];
