@@ -75,7 +75,6 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-
 /**
  * =========================
  * GET FARMER PRODUCTS
