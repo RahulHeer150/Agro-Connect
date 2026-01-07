@@ -136,3 +136,11 @@ exports.getOrderById = async (req, res) => {
     });
   }
 };
+
+
+module.exports.getFarmerOrders=async(req,res)=>{
+  try{
+    const farmerId=req.user._id;
+
+    //find product owned by farmer 
+}
