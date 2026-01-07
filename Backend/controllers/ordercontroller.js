@@ -137,36 +137,34 @@ exports.getOrderById = async (req, res) => {
   }
 };
 
+module.exports.getFarmerOrders = async (req, res) => {
+  try {
+    const farmerId = req.user._id;
 
-module.exports.getFarmerOrders=async(req,res)=>{
-  try{
-    const farmerId=req.user._id;
+    //find product owned by farmer
 
-    //find product owned by farmer 
-
-    const product= await Product.find({farmer:farmerId}).select("_id");
+    const product = await Product.find({ farmer: farmerId }).select("_id");
 
     // find orders that contains the farmers products.
 
-    const orders=await Order.find({
-      "items.product":{$in:productIds},
-      paymentStatus:"paid"
+    const orders = await Order.find({
+      "items.product": { $in: productIds },
+      paymentStatus: "paid",
     })
-    .populate("buyer","name phone")
-    .populate("items.product","name price unit")
-    .sort({createdAt:-1});
+      .populate("buyer", "name phone")
+      .populate("items.product", "name price unit")
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
-      success:true,
-      count:orders.length,
+      success: true,
+      count: orders.length,
       orders,
     });
-}catch(error){
-  res.status(500).json({
-    success:false,
-    message:"Failed to fetch Farmer Orders.",
-    error:error.message,
-  });
-
-}
-}
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch Farmer Orders.",
+      error: error.message,
+    });
+  }
+};
