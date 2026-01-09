@@ -10,26 +10,22 @@ const benefits = [
   {
     icon: <FaBan />,
     title: "No Middlemen",
-    description:
-      "Farmers sell directly to buyers without commission cuts.",
+    description: "Farmers sell directly to buyers without commission cuts.",
   },
   {
     icon: <FaBalanceScale />,
     title: "Fair Pricing",
-    description:
-      "Transparent prices set by farmers themselves.",
+    description: "Transparent prices set by farmers themselves.",
   },
   {
     icon: <FaMapMarkerAlt />,
     title: "Local & Fresh",
-    description:
-      "Freshly harvested produce from nearby farms.",
+    description: "Freshly harvested produce from nearby farms.",
   },
   {
     icon: <FaTractor />,
     title: "Farmer-First Platform",
-    description:
-      "Simple, mobile-friendly tools designed for farmers.",
+    description: "Simple, mobile-friendly tools designed for farmers.",
   },
 ];
 
@@ -50,7 +46,6 @@ const WhyAgroConnect = () => {
   return (
     <section className="w-full bg-green-50 py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-6">
-
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
