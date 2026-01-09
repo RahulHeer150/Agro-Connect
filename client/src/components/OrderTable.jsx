@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const OrderTable = ({ orders }) => {
   if (!orders.length) {
@@ -20,14 +20,10 @@ const OrderTable = ({ orders }) => {
         <tbody>
           {orders.map((o) => (
             <tr key={o._id} className="border-t">
-              <td className="p-4 font-medium">
-                #{o._id.slice(-6)}
-              </td>
+              <td className="p-4 font-medium">#{o._id.slice(-6)}</td>
               <td>{o.buyer?.name || "Buyer"}</td>
               <td>₹{o.totalAmount}</td>
-              <td className="text-green-700 font-medium">
-                {o.status}
-              </td>
+              <td className="text-green-700 font-medium">{o.status}</td>
             </tr>
           ))}
         </tbody>
