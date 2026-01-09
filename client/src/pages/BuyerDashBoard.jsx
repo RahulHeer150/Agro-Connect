@@ -1,12 +1,12 @@
-import React from 'react'
-import MyOrders from '../components/MyOrders'
+import React from "react";
+import MyOrders from "../components/MyOrders";
 
 const BuyerDashBoard = () => {
   return (
     <div>
-      <MyOrders/>
+      <MyOrders />
     </div>
-  )
-}
+  );
+};
 
-export default BuyerDashBoard
+export default BuyerDashBoard;
