@@ -1,3 +1,4 @@
+import React from 'react'
 export const loadRazorpay = () => {
   return new Promise((resolve) => {
     if (window.Razorpay) {
