@@ -28,7 +28,6 @@ const CartItem = ({ item }) => {
         </button>
 
         <span className="font-semibold">{item.quantity}</span>
-
         <button
           onClick={() => updateCartItem(item.product._id, item.quantity + 1)}
           className="w-8 h-8 rounded-full border text-lg hover:bg-gray-100"
