@@ -33,7 +33,6 @@ const BuyerBenefits = () => {
   return (
     <MotionSection className="bg-green-50 py-20">
       <div className="max-w-7xl mx-auto px-6">
-
         {/* Section Header */}
         <MotionItem className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -52,18 +51,16 @@ const BuyerBenefits = () => {
               className="bg-white p-6 rounded-xl text-center shadow-sm
                          hover:shadow-md transition hover:-translate-y-1"
             >
-              <div className="w-14 h-14 mx-auto mb-4 flex items-center justify-center
-                              rounded-full bg-green-100 text-green-700 text-2xl">
+              <div
+                className="w-14 h-14 mx-auto mb-4 flex items-center justify-center
+                              rounded-full bg-green-100 text-green-700 text-2xl"
+              >
                 {b.icon}
               </div>
 
-              <h3 className="font-semibold text-lg mb-2">
-                {b.title}
-              </h3>
+              <h3 className="font-semibold text-lg mb-2">{b.title}</h3>
 
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {b.desc}
-              </p>
+              <p className="text-gray-600 text-sm leading-relaxed">{b.desc}</p>
             </MotionItem>
           ))}
         </div>
@@ -81,7 +78,6 @@ const BuyerBenefits = () => {
             Explore fresh produce →
           </button>
         </MotionItem>
-
       </div>
     </MotionSection>
   );
