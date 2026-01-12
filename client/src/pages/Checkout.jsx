@@ -77,8 +77,7 @@ const Checkout = () => {
             navigate("/order-success");
           } catch (err) {
             setError(
-              err.response?.data?.message ||
-                "Payment verification failed"
+              err.response?.data?.message || "Payment verification failed"
             );
           }
         },
@@ -95,9 +94,7 @@ const Checkout = () => {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Payment failed"
-      );
+      setError(err.response?.data?.message || "Payment failed");
     } finally {
       setLoading(false);
     }
@@ -105,27 +102,19 @@ const Checkout = () => {
 
   if (cart.length === 0) {
     return (
-      <p className="text-center mt-20 text-gray-600">
-        Your cart is empty.
-      </p>
+      <p className="text-center mt-20 text-gray-600">Your cart is empty.</p>
     );
   }
 
   return (
     <section className="bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto px-6 py-16">
-
-        <h1 className="text-3xl font-bold mb-10">
-          Checkout & Payment
-        </h1>
+        <h1 className="text-3xl font-bold mb-10">Checkout & Payment</h1>
 
         <div className="grid md:grid-cols-3 gap-10">
-
           {/* Delivery */}
           <div className="md:col-span-2 bg-white p-6 rounded-xl shadow-sm">
-            <h2 className="text-xl font-semibold mb-6">
-              Delivery Details
-            </h2>
+            <h2 className="text-xl font-semibold mb-6">Delivery Details</h2>
 
             <div className="space-y-4">
               <input
@@ -147,19 +136,13 @@ const Checkout = () => {
                 onChange={(e) => setPhone(e.target.value)}
               />
 
-              {error && (
-                <p className="text-red-500 text-sm">
-                  {error}
-                </p>
-              )}
+              {error && <p className="text-red-500 text-sm">{error}</p>}
             </div>
           </div>
 
           {/* Summary */}
           <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
-            <h2 className="text-xl font-semibold mb-4">
-              Order Summary
-            </h2>
+            <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
             <div className="flex justify-between font-semibold text-lg mb-6">
               <span>Total</span>
@@ -175,7 +158,6 @@ const Checkout = () => {
               {loading ? "Processing..." : "Pay Now"}
             </button>
           </div>
-
         </div>
       </div>
     </section>
