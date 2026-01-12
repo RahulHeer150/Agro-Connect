@@ -55,7 +55,6 @@ const Marketplace = () => {
                   ✕
                 </button>
               </div>
-
               <FilterSidebar filters={filters} setFilters={setFilters} />
             </div>
           </div>
