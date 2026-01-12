@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-const connectToDb=require('./config/db')
+const connectToDb = require("./config/db");
 
 // =======================
 // LOAD ENV VARIABLES
@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
- connectToDb();
+connectToDb();
 // CORS config (frontend integration)
 app.use(
   cors({
@@ -63,15 +63,14 @@ app.use((err, req, res, next) => {
 const productRoutes = require("./routes/productroutes");
 app.use("/api/products", productRoutes);
 
-const orderRoutes=require("./routes/orderroutes");
+const orderRoutes = require("./routes/orderroutes");
 app.use("/api/orders", orderRoutes);
 
 const paymentRoutes = require("./routes/paymentroutes");
 app.use("/payment", paymentRoutes);
 
-const farmerRoutes=require("./routes/farmerroutes");
-app.use("/api/farmer",farmerRoutes)
-
+const farmerRoutes = require("./routes/farmerroutes");
+app.use("/api/farmer", farmerRoutes);
 
 // =======================
 // START SERVER
