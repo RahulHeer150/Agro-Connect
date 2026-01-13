@@ -28,6 +28,7 @@ const CartItem = ({ item }) => {
           −
         </button>
 
+
         <span className="font-semibold">{item.quantity}</span>
         <button
           onClick={() => updateCartItem(item.product._id, item.quantity + 1)}
