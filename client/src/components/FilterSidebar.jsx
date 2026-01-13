@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
 
 const FilterSidebar = ({ filters, setFilters }) => {
-
   const toggleCategory = (category) => {
     setFilters((prev) => ({
       ...prev,
@@ -13,7 +12,6 @@ const FilterSidebar = ({ filters, setFilters }) => {
 
   return (
     <aside className="bg-white p-6 rounded-xl shadow-sm h-fit">
-
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
@@ -52,9 +50,7 @@ const FilterSidebar = ({ filters, setFilters }) => {
               type="radio"
               name="price"
               checked={filters.price === range}
-              onChange={() =>
-                setFilters((prev) => ({ ...prev, price: range }))
-              }
+              onChange={() => setFilters((prev) => ({ ...prev, price: range }))}
               className="accent-green-700"
             />
             {range === "low" && "Under ₹30 / kg"}
@@ -80,7 +76,6 @@ const FilterSidebar = ({ filters, setFilters }) => {
           <option value="20">Within 20 km</option>
         </select>
       </div>
-
     </aside>
   );
 };
