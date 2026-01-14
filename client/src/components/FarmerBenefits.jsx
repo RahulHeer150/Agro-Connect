@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
-import farmer1 from "../assets/farmer-section1.jpg"
-import farmer2 from "../assets/farmer-section2.jpeg"
-import farmer3 from "../assets/farmer-section3.jpg"
-import farmer4 from "../assets/farmer-section4.jpg"
-
+import farmer1 from "../assets/farmer-section1.jpg";
+import farmer2 from "../assets/farmer-section2.jpeg";
+import farmer3 from "../assets/farmer-section3.jpg";
+import farmer4 from "../assets/farmer-section4.jpg";
 
 const farmerBenefits = [
   {
     title: "Fair Pricing",
-    description: "Sell your produce at prices you truly deserve without middlemen.",
+    description:
+      "Sell your produce at prices you truly deserve without middlemen.",
     image: farmer1,
   },
   {
@@ -18,7 +18,8 @@ const farmerBenefits = [
   },
   {
     title: "Secure Payments",
-    description: "Receive timely and secure digital payments with full transparency.",
+    description:
+      "Receive timely and secure digital payments with full transparency.",
     image: farmer3,
   },
   {

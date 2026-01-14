@@ -50,9 +50,7 @@ const ProductGrid = ({ filters }) => {
           <ProductCard key={index} product={p} />
         ))
       ) : (
-        <p className="text-gray-500 col-span-full">
-          No products found.
-        </p>
+        <p className="text-gray-500 col-span-full">No products found.</p>
       )}
     </div>
   );
