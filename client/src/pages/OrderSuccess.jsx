@@ -7,9 +7,7 @@ const OrderSuccess = () => {
         <h1 className="text-2xl font-bold text-green-700 mb-4">
           🎉 Order Placed Successfully!
         </h1>
-        <p className="text-gray-600 mb-6">
-          Your order has been received.
-        </p>
+        <p className="text-gray-600 mb-6">Your order has been received.</p>
         <Link
           to="/marketplace"
           className="text-green-700 font-semibold hover:underline"
