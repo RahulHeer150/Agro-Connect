@@ -24,30 +24,22 @@ const AddProduct = () => {
         <input
           placeholder="Crop Name"
           className="w-full border px-4 py-2 rounded"
-          onChange={(e) =>
-            setForm({ ...form, name: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
         <input
           placeholder="Price per kg"
           className="w-full border px-4 py-2 rounded"
-          onChange={(e) =>
-            setForm({ ...form, price: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, price: e.target.value })}
         />
         <input
           placeholder="Quantity"
           className="w-full border px-4 py-2 rounded"
-          onChange={(e) =>
-            setForm({ ...form, quantity: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, quantity: e.target.value })}
         />
         <input
           placeholder="Category"
           className="w-full border px-4 py-2 rounded"
-          onChange={(e) =>
-            setForm({ ...form, category: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
         />
 
         <button className="bg-green-700 text-white px-6 py-2 rounded-lg">
