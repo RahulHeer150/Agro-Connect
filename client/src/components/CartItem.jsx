@@ -18,7 +18,6 @@ const CartItem = ({ item }) => {
         </p>
       </div>
 
-
       {/* Quantity Controls */}
       <div className="flex items-center gap-4">
         <button
@@ -27,7 +26,6 @@ const CartItem = ({ item }) => {
         >
           −
         </button>
-
 
         <span className="font-semibold">{item.quantity}</span>
         <button
