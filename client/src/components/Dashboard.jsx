@@ -21,9 +21,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <h2 className="text-xl font-semibold mb-4">
-        Recent Orders
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
 
       <OrderTable orders={recentOrders} />
     </div>
