@@ -3,24 +3,18 @@ import { useCart } from "../context/CartContext";
 
 const CartSummary = () => {
   const { cart } = useCart();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  const totalItems = cart.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const totalPrice = cart.reduce(
-    (sum, item) =>
-      sum + item.product.price * item.quantity,
+    (sum, item) => sum + item.product.price * item.quantity,
     0
   );
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
-      <h3 className="font-semibold text-lg mb-4">
-        Price Summary
-      </h3>
+      <h3 className="font-semibold text-lg mb-4">Price Summary</h3>
 
       <div className="flex justify-between text-sm mb-2">
         <span>Total Items</span>
@@ -33,7 +27,7 @@ const CartSummary = () => {
       </div>
 
       <button
-      onClick={()=>navigate("/checkout")}
+        onClick={() => navigate("/checkout")}
         className="w-full bg-green-700 text-white py-3 rounded-lg
                    hover:bg-green-800 transition"
       >
