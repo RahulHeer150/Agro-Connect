@@ -7,16 +7,12 @@ const Sidebar = () => {
 
   const linkClass = ({ isActive }) =>
     `block px-4 py-2 rounded-lg font-medium transition ${
-      isActive
-        ? "bg-green-700 text-white"
-        : "text-gray-700 hover:bg-green-50"
+      isActive ? "bg-green-700 text-white" : "text-gray-700 hover:bg-green-50"
     }`;
 
   return (
     <aside className="w-64 bg-white border-r px-4 py-6">
-      <h2 className="text-2xl font-bold text-green-700 mb-8">
-        Farmer Panel
-      </h2>
+      <h2 className="text-2xl font-bold text-green-700 mb-8">Farmer Panel</h2>
 
       <nav className="space-y-2">
         <NavLink to="/farmer/dashboard" className={linkClass}>
