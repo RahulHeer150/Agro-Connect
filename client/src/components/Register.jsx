@@ -76,8 +76,7 @@ const UserSignup = () => {
       }
     } catch (err) {
       setError(
-        err.response?.data?.message ||
-          "Registration failed. Please try again."
+        err.response?.data?.message || "Registration failed. Please try again."
       );
     } finally {
       setLoading(false);
@@ -189,9 +188,7 @@ const UserSignup = () => {
                 placeholder="Crop Categories (comma separated)"
                 required
                 value={cropCategories}
-                onChange={(e) =>
-                  setCropCategories(e.target.value.split(","))
-                }
+                onChange={(e) => setCropCategories(e.target.value.split(","))}
                 className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
               />
 
@@ -215,9 +212,7 @@ const UserSignup = () => {
             I accept Terms & Conditions
           </label>
 
-          {error && (
-            <p className="text-red-500 text-sm mb-3">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
           <button
             type="submit"
