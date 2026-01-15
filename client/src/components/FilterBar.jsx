@@ -2,7 +2,7 @@ import React from "react";
 
 const FilterBar = () => {
   return
-   <div>FilterBa r</div>;
+   <div>FilterBar</div>;
 };
 
 export default FilterBar;
