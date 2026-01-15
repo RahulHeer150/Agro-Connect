@@ -8,4 +8,5 @@ const EmptyState = ({ message }) => {
   );
 };
 
+
 export default EmptyState;
