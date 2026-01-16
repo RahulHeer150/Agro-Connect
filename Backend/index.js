@@ -5,9 +5,6 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const connectToDb = require("./config/db");
 
-// =======================
-// LOAD ENV VARIABLES
-// =======================
 dotenv.config();
 
 // =======================
@@ -30,9 +27,6 @@ app.use(
   })
 );
 
-// =======================
-// DATABASE CONNECTION
-// =======================
 
 // =======================
 // ROUTES
