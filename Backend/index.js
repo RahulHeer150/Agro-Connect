@@ -7,9 +7,7 @@ const connectToDb = require("./config/db");
 
 dotenv.config();
 
-// =======================
-// INIT APP
-// =======================
+
 const app = express();
 
 // =======================
