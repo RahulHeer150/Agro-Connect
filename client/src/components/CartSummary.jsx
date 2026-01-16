@@ -16,6 +16,7 @@ const CartSummary = () => {
     <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
       <h3 className="font-semibold text-lg mb-4">Price Summary</h3>
 
+
       <div className="flex justify-between text-sm mb-2">
         <span>Total Items</span>
         <span>{totalItems}</span>
