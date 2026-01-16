@@ -72,9 +72,7 @@ app.use("/payment", paymentRoutes);
 const farmerRoutes = require("./routes/farmerroutes");
 app.use("/api/farmer", farmerRoutes);
 
-// =======================
-// START SERVER
-// =======================
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
