@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 
-// =======================
+
 // MIDDLEWARES
 // =======================
 app.use(express.json());
