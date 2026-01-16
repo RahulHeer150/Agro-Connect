@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 
 
-// MIDDLEWARES
+
 // =======================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
