@@ -2,7 +2,6 @@ const Product = require("../models/productmodel");
 const Order = require("../models/ordermodel");
 
 // Farmer DashBoard
-
 module.exports.getFarmerdashboard = async (req, res) => {
   try {
     const farmerId = req.user._id;
