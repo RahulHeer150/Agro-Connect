@@ -57,5 +57,5 @@ module.exports.getFarmerdashboard = async (req, res) => {
       error: error.message,
     });
   }
-  
+
 };
