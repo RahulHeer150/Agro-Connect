@@ -14,6 +14,7 @@ module.exports.addToCart = async (req, res) => {
       });
     }
 
+    
     const product = await Product.findById(productId);
     if (!product || product.status !== "available") {
       return res.status(404).json({
