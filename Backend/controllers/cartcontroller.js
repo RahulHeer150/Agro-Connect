@@ -13,8 +13,8 @@ module.exports.addToCart = async (req, res) => {
         message: "Product ID and quantity are required",
       });
     }
-    
 
+      
     const product = await Product.findById(productId);
     if (!product || product.status !== "available") {
       return res.status(404).json({
