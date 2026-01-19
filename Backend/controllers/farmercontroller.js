@@ -35,6 +35,7 @@ module.exports.getFarmerdashboard = async (req, res) => {
         totalRevenue += item.price * item.quantity;
       });
     });
+    
 
     const recentOrders = orders
       .sort((a, b) => b.createdAt - a.createdAt)
