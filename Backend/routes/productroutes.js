@@ -11,6 +11,7 @@ const {
 
 const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
 
+// Product zRoutes
 
 // Farmer creates product
 router.post(
