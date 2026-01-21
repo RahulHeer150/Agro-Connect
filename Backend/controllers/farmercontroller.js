@@ -28,7 +28,6 @@ module.exports.getFarmerdashboard = async (req, res) => {
     });
 
     
-
     //Calculate revenue
 
     let totalRevenue = 0;
