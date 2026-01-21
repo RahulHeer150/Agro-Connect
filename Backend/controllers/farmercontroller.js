@@ -27,8 +27,7 @@ module.exports.getFarmerdashboard = async (req, res) => {
       paymentStatus: "paid",
     });
 
-  
-    //Calculate revenue
+      //Calculate revenue
 
     let totalRevenue = 0;
     orders.forEach((order) => {
