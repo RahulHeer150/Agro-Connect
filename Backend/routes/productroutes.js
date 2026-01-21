@@ -11,11 +11,6 @@ const {
 
 const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
 
-/**
- * =========================
- * PRODUCT ROUTES
- * =========================
- */
 
 // Farmer creates product
 router.post(
