@@ -10,7 +10,6 @@ const {
 
 const { authUser } = require("../middlewares/authmiddleware");
 
- * AUTH ROUTES
  * =========================
  
 
