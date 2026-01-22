@@ -10,7 +10,7 @@ const {
 
 const { authUser } = require("../middlewares/authmiddleware");
  
-AuthRoutes 
+//======AuthRoutes =======
 // Register (Farmer / Buyer / Admin)
 router.post("/register", register);
 
