@@ -9,8 +9,6 @@ const {
 } = require("../controllers/authcontroller");
 
 const { authUser } = require("../middlewares/authmiddleware");
-
- * =========================
  
 
 // Register (Farmer / Buyer / Admin)
