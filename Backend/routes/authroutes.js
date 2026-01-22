@@ -14,7 +14,7 @@ const { authUser } = require("../middlewares/authmiddleware");
  * =========================
  * AUTH ROUTES
  * =========================
- */
+ 
 
 // Register (Farmer / Buyer / Admin)
 router.post("/register", register);
