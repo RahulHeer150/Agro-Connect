@@ -17,7 +17,6 @@ module.exports.placeOrder = async (req, res) => {
     let totalAmount = 0;
     const orderItems = [];
 
-    
     // 2️⃣ Validate products & calculate total
     for (const item of cart.items) {
       const product = item.product;
