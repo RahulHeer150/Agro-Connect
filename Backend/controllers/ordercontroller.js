@@ -42,7 +42,6 @@ module.exports.placeOrder = async (req, res) => {
       totalAmount,
     });
 
-
     // 4️⃣ Reduce product stock
 
     for (const item of cart.items) {
