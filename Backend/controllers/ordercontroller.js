@@ -6,7 +6,7 @@ module.exports.placeOrder = async (req, res) => {
   try {
     // 1️⃣ Get buyer cart
     const cart = await Cart.findOne({ buyer: req.user._id }).populate(
-      "items.product"
+      "items.product",
     );
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({
