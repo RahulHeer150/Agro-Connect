@@ -68,7 +68,6 @@ module.exports.placeOrder = async (req, res) => {
   }
 };
 
-
 module.exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ buyer: req.user._id })
