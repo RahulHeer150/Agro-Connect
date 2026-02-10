@@ -63,7 +63,6 @@ const BuyerBenefits = () => {
               <p className="text-gray-600 text-sm leading-relaxed">{b.desc}</p>
             </MotionItem>
           ))}
-        
                 </div>
 
         {/* Trust Strip */}
