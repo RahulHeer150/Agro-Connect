@@ -83,4 +83,5 @@ const BuyerBenefits = () => {
   );
 };
 
+
 export default BuyerBenefits;
