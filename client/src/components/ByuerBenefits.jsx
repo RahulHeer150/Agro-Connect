@@ -64,7 +64,7 @@ const BuyerBenefits = () => {
             </MotionItem>
           ))}
         
-        </div>
+                </div>
 
         {/* Trust Strip */}
         <MotionItem className="mt-14 flex flex-wrap justify-center gap-6 text-sm text-gray-600">
