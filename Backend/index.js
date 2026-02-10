@@ -7,7 +7,6 @@ const connectToDb = require("./config/db");
 
 dotenv.config();
 
-
 const app = express();
 
 app.use(express.json());
@@ -19,9 +18,8 @@ app.use(
   cors({
     origin: "http://localhost:5173", // frontend URL
     credentials: true,
-  })
+  }),
 );
-
 
 // =======================
 // ROUTES
@@ -60,7 +58,6 @@ app.use("/payment", paymentRoutes);
 
 const farmerRoutes = require("./routes/farmerroutes");
 app.use("/api/farmer", farmerRoutes);
-
 
 const PORT = process.env.PORT || 5000;
 
