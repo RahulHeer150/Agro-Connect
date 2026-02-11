@@ -49,7 +49,6 @@ const HeroSection = () => {
               Explore Marketplace
             </button>
 
-
             <button
               onClick={() =>
                 !isLoggedIn
