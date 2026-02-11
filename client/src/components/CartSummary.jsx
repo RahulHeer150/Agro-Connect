@@ -12,7 +12,6 @@ const CartSummary = () => {
     0
   );
   
-
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
       <h3 className="font-semibold text-lg mb-4">Price Summary</h3>
