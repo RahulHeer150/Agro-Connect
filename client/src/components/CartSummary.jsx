@@ -11,6 +11,7 @@ const CartSummary = () => {
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
+  
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
