@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 
+
 import farmer1 from "../assets/farmer-1.jpg";
 import farmer2 from "../assets/farmer-2.jpg";
 import farmer3 from "../assets/farmer-3.jpg";
