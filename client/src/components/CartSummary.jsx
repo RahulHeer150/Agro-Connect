@@ -22,7 +22,6 @@ const CartSummary = () => {
         <span>{totalItems}</span>
       </div>
 
-
       <div className="flex justify-between font-semibold text-lg mb-6">
         <span>Total Price</span>
         <span>₹{totalPrice}</span>
