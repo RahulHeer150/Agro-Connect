@@ -30,7 +30,7 @@ const CartSummary = () => {
       <button
         onClick={() => navigate("/checkout")}
         className="w-full bg-green-700 text-white py-3 rounded-lg
-                   hover:bg-green-800 transition"
+                hover:bg-green-800 transition"
       >
         Proceed to Checkout
       </button>
