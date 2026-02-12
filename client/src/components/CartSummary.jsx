@@ -28,6 +28,7 @@ const CartSummary = () => {
         <span>₹{totalPrice}</span>
       </div>
 
+
       <button
         onClick={() => navigate("/checkout")}
         className="w-full bg-green-700 text-white py-3 rounded-lg
