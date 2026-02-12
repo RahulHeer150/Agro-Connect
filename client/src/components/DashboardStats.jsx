@@ -9,6 +9,4 @@ const DashboardStats = ({ title, value }) => {
   );
 };
 
-
-
 export default DashboardStats;
