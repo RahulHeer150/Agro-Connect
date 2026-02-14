@@ -17,6 +17,7 @@ const benefits = [
     title: "Local Discovery",
     desc: "Find trusted farmers near your location with ease.",
   },
+  
   {
     icon: <FaBalanceScale />,
     title: "Fair & Transparent Pricing",
