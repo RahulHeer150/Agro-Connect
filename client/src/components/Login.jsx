@@ -90,7 +90,7 @@ const UserLogin = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 w-full
+            className="bg-linear-to-r from-green-700 to-green-100  text-white font-semibold rounded-lg px-4 py-2 w-full
                        hover:bg-gray-900 transition disabled:opacity-50"
           >
             {loading ? "Logging in..." : "Login"}
