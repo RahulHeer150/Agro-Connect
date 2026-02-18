@@ -11,6 +11,7 @@ import farmer5 from "../assets/farmer-5.jpg";
 
 const images = [farmer1, farmer2, farmer3, farmer4, farmer5];
 
+
 const HeroSection = () => {
   const navigate = useNavigate();
   const { isLoggedIn, user } = useAuth();
