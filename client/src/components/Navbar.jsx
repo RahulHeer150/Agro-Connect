@@ -38,7 +38,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         
-      
+    
         {/* 🔹 Logo */}
         <Link to="/" className="text-2xl font-bold text-green-700">
           🌾 AgroConnect
