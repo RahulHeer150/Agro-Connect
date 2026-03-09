@@ -1,12 +1,25 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-//import mainlogo from "../assets/mainlogo.png";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { motion } from "framer-motion";
+import axios from "axios";
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 const UserSignup = () => {
-  // Common fields
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -15,11 +28,9 @@ const UserSignup = () => {
   const [role, setRole] = useState("buyer");
   const [acceptTerms, setAcceptTerms] = useState(false);
 
-  // Buyer fields
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [preferredCrops, setPreferredCrops] = useState([]);
 
-  // Farmer fields
   const [farmLocation, setFarmLocation] = useState("");
   const [cropCategories, setCropCategories] = useState([]);
   const [farmingType, setFarmingType] = useState("");
@@ -75,26 +86,56 @@ const UserSignup = () => {
           ? navigate("/farmer/dashboard")
           : navigate("/marketplace");
       }
+
     } catch (err) {
+
       setError(
         err.response?.data?.message || "Registration failed. Please try again."
       );
+
     } finally {
       setLoading(false);
     }
   };
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+
+      const res = await axios.post(
+        "http://localhost:5001/api/auth/google-login",
+        {
+          token: tokenResponse.access_token,
+        }
+      );
+
+      localStorage.setItem("token", res.data.token);
+      navigate("/");
+
+    },
+    onError: () => {
+      console.log("Google Login Failed");
+    },
+  });
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-sky-200">
-      <div className="bg-white rounded-xl shadow-lg w-[400px] p-8">
-        {/* Logo */}
-        <div className="flex justify-center mb-6">
-          {/* <img src={mainlogo} alt="AgroConnect Logo" className="w-56" /> */}
-        </div>
 
-        <form onSubmit={submitHandler}>
-          {/* Common Fields */}
-          <input
+      <motion.div
+        initial={{ opacity: 0, y: 60, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white rounded-xl shadow-lg w-[400px] p-8"
+      >
+
+        <motion.form
+          onSubmit={submitHandler}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+
+          <motion.input
+            variants={itemVariants}
             type="text"
             placeholder="Full Name"
             required
@@ -103,7 +144,8 @@ const UserSignup = () => {
             className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
           />
 
-          <input
+          <motion.input
+            variants={itemVariants}
             type="email"
             placeholder="Email address"
             required
@@ -112,7 +154,8 @@ const UserSignup = () => {
             className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
           />
 
-          <input
+          <motion.input
+            variants={itemVariants}
             type="tel"
             placeholder="Phone number"
             required
@@ -121,7 +164,8 @@ const UserSignup = () => {
             className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
           />
 
-          <input
+          <motion.input
+            variants={itemVariants}
             type="password"
             placeholder="Password"
             required
@@ -130,7 +174,8 @@ const UserSignup = () => {
             className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
           />
 
-          <input
+          <motion.input
+            variants={itemVariants}
             type="password"
             placeholder="Confirm Password"
             required
@@ -140,7 +185,7 @@ const UserSignup = () => {
           />
 
           {/* Role Selection */}
-          <div className="flex gap-4 mb-4">
+          <motion.div variants={itemVariants} className="flex gap-4 mb-4">
             <label className="flex items-center gap-2">
               <input
                 type="radio"
@@ -150,6 +195,7 @@ const UserSignup = () => {
               />
               Buyer
             </label>
+
             <label className="flex items-center gap-2">
               <input
                 type="radio"
@@ -159,11 +205,12 @@ const UserSignup = () => {
               />
               Farmer
             </label>
-          </div>
+          </motion.div>
 
           {/* Buyer Fields */}
           {role === "buyer" && (
-            <input
+            <motion.input
+              variants={itemVariants}
               type="text"
               placeholder="Delivery Location (optional)"
               value={deliveryLocation}
@@ -175,7 +222,8 @@ const UserSignup = () => {
           {/* Farmer Fields */}
           {role === "farmer" && (
             <>
-              <input
+              <motion.input
+                variants={itemVariants}
                 type="text"
                 placeholder="Farm Location"
                 required
@@ -184,7 +232,8 @@ const UserSignup = () => {
                 className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
               />
 
-              <input
+              <motion.input
+                variants={itemVariants}
                 type="text"
                 placeholder="Crop Categories (comma separated)"
                 required
@@ -193,7 +242,8 @@ const UserSignup = () => {
                 className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
               />
 
-              <input
+              <motion.input
+                variants={itemVariants}
                 type="number"
                 placeholder="Years of Experience (optional)"
                 value={experience}
@@ -203,27 +253,60 @@ const UserSignup = () => {
             </>
           )}
 
-          {/* Terms */}
-          <label className="flex items-center gap-2 mb-3 text-sm">
+          <motion.label
+            variants={itemVariants}
+            className="flex items-center gap-2 mb-3 text-sm"
+          >
             <input
               type="checkbox"
               checked={acceptTerms}
               onChange={(e) => setAcceptTerms(e.target.checked)}
             />
             I accept Terms & Conditions
-          </label>
+          </motion.label>
 
-          {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+          {error && (
+            <motion.p variants={itemVariants} className="text-red-500 text-sm mb-3">
+              {error}
+            </motion.p>
+          )}
 
-          <button
+          <motion.button
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={loading}
-            className="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 w-full
-                       hover:bg-gray-900 transition disabled:opacity-50"
+            className="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 w-full hover:bg-gray-900 transition disabled:opacity-50"
           >
             {loading ? "Creating account..." : "Register"}
-          </button>
-        </form>
+          </motion.button>
+
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-3 text-slate-400 my-4"
+          >
+            <div className="flex-1 h-px bg-slate-700"></div>
+            <span className="text-sm">or continue with</span>
+            <div className="flex-1 h-px bg-slate-700"></div>
+          </motion.div>
+
+          <motion.button
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => googleLogin()}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-slate-600 text-black hover:bg-slate-800 transition"
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
+              alt="google"
+              className="w-5 h-5"
+            />
+            Continue with Google
+          </motion.button>
+
+        </motion.form>
 
         <p className="text-center mt-4 text-sm">
           Already have an account?{" "}
@@ -231,7 +314,8 @@ const UserSignup = () => {
             Login here
           </Link>
         </p>
-      </div>
+
+      </motion.div>
     </div>
   );
 };
