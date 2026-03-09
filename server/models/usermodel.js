@@ -59,6 +59,11 @@ const userSchema = new mongoose.Schema(
       address: String,
     },
 
+    provider: {
+    type: String,
+    default: "local"
+  },
+
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
