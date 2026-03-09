@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 //import mainlogo from "../assets/mainlogo.png";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import { GoogleLogin } from "@react-oauth/google";
 
 const UserSignup = () => {
   // Common fields
