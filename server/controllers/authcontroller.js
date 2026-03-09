@@ -1,5 +1,7 @@
 const User = require("../models/usermodel");
 const BlackListToken = require("../models/blackTokenmodel");
+const axios = require("axios");
+const jwt = require("jsonwebtoken");
 
 /**
  * =====================================
@@ -7,6 +9,64 @@ const BlackListToken = require("../models/blackTokenmodel");
  * (Farmer / Buyer / Admin)
  * =====================================
  */
+
+// 🔵 Google Login
+exports.googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    // Get user info from Google
+    const googleRes = await axios.get(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const { name, email } = googleRes.data;
+
+       console.log(`Google OAuth Login: ${name} (${email}) logged in`);
+
+    // Check if user already exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // create user if not exists
+      user = await User.create({
+        name,
+        email,
+        phone: "0000000000", // default phone because your schema requires it
+        password: "google-auth", // dummy password
+       
+        isVerified: true,
+      });
+
+       console.log(`New Google user created: ${email}`);
+
+    }
+
+    // Generate JWT using your existing method
+    const jwtToken = user.generateAuthToken();
+
+    res.status(200).json({
+      success: true,
+      message: "Google login successful",
+      token: jwtToken,
+      user,
+    });
+  } catch (error) {
+    
+    console.error("Google OAuth Error:", error.message);
+
+    res.status(500).json({
+      success: false,
+      message: "Google authentication failed",
+    });
+  }
+};
+
 exports.register = async (req, res) => {
   try {
     const {
