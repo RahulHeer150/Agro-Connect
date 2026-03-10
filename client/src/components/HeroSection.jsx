@@ -24,7 +24,6 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-
   return (
     <section className="w-screen bg-linear-to-b from-green-50 to-white overflow-hidden mt-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[90vh] items-center px-6 lg:px-24">
