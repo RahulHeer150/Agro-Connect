@@ -282,6 +282,7 @@ const UserSignup = () => {
             {loading ? "Creating account..." : "Register"}
           </motion.button>
 
+
           <motion.div
             variants={itemVariants}
             className="flex items-center gap-3 text-slate-400 my-4"
