@@ -31,9 +31,9 @@ const UserSignup = () => {
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [preferredCrops, setPreferredCrops] = useState([]);
 
-  const [farmLocation, setFarmLocation] = useState("");
-  const [cropCategories, setCropCategories] = useState([]);
-  const [farmingType, setFarmingType] = useState("");
+  // const [farmLocation, setFarmLocation] = useState("");
+  // const [cropCategories, setCropCategories] = useState([]);
+  // const [farmingType, setFarmingType] = useState("");
   const [experience, setExperience] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -75,7 +75,7 @@ const UserSignup = () => {
         }),
       };
 
-      const res = await api.post("/users/register", payload, {
+      const res = await api.post("api/auth/register", payload, {
         headers: { Authorization: undefined },
       });
 
@@ -207,7 +207,7 @@ const UserSignup = () => {
             </label>
           </motion.div>
 
-          {/* Buyer Fields */}
+          {/* Buyer Fields
           {role === "buyer" && (
             <motion.input
               variants={itemVariants}
@@ -217,11 +217,11 @@ const UserSignup = () => {
               onChange={(e) => setDeliveryLocation(e.target.value)}
               className="bg-[#eeeeee] mb-4 rounded-lg px-4 py-2 border w-full"
             />
-          )}
+          // )}
 
           {/* Farmer Fields */}
-          {role === "farmer" && (
-            <>
+          {/* {role === "farmer" && ( */}
+            {/* <>
               <motion.input
                 variants={itemVariants}
                 type="text"
@@ -250,8 +250,8 @@ const UserSignup = () => {
                 onChange={(e) => setExperience(e.target.value)}
                 className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
               />
-            </>
-          )}
+            </> */}
+           {/* )}  */}
 
           <motion.label
             variants={itemVariants}
