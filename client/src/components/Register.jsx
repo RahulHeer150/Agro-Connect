@@ -63,16 +63,7 @@ const UserSignup = () => {
         phone,
         password,
         role,
-        ...(role === "buyer" && {
-          deliveryLocation,
-          preferredCrops,
-        }),
-        ...(role === "farmer" && {
-          farmLocation,
-          cropCategories,
-          farmingType,
-          experience,
-        }),
+        
       };
 
       const res = await api.post("api/auth/register", payload, {
