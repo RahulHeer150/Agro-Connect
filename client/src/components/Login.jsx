@@ -20,7 +20,7 @@ const UserLogin = () => {
 
     try {
       const res = await api.post(
-        "/users/login",
+        "/api/auth/login",
         { email, password },
         { headers: { Authorization: undefined } } // public route
       );
