@@ -5,7 +5,7 @@ import { CheckCircle } from "lucide-react";
 const PaymentSuccess = () => {
   const navigate = useNavigate();
 
-  
+
   return (
     <div className="min-h-screen bg-green-50 flex items-center justify-center px-6">
       <motion.div
