@@ -25,6 +25,7 @@ import Footer from "./components/Footer";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import ContactUs from "./pages/ContactUs";
+import AddCrop from "./pages/AddCrop";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
+        {/* <Route path="/add-crop" element={<AddCrop />} /> */}
       </Routes>
       <Footer />
     </>
