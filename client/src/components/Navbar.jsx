@@ -23,8 +23,10 @@ const Navbar = () => {
   ];
 
   const farmerLinks = [
+
     { name: "Dashboard", path: "/farmer/dashboard" },
     { name: "My Products", path: "/farmer/products" },
+    {name : "Add Product", path:"/farmer/addProduct"},
     { name: "Orders", path: "/farmer/orders" },
   ];
 
