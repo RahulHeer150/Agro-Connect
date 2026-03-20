@@ -18,7 +18,7 @@ exports.createProduct = async (req, res) => {
       images,
     } = req.body;
 
-    if (!name || !category || !price || !quantity) {
+    if (!name || !category || !price || !quantity ) {
       return res.status(400).json({
         success: false,
         message: "Required fields are missing",
