@@ -57,7 +57,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
-        {/* <Route path="/add-crop" element={<AddCrop />} /> */}
+        <Route path="/add-crop" element={<AddCrop />} />
         
       </Routes>
       <Footer />
