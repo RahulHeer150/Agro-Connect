@@ -177,7 +177,7 @@ const AddCrop = () => {
             type="file"
             multiple
             onChange={handleImageChange}
-            className="w-full text-gray-300"
+            className="w-full text-gray-300 bg-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-green-500"
           />
 
           <motion.button
