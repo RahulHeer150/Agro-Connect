@@ -51,7 +51,7 @@ const AddCrop = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/crops/add",
+        "http://localhost:5000/api/products/add",
         data,
         {
           headers: {
@@ -131,7 +131,7 @@ const AddCrop = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <input
-              type="number"
+              type="text"
               name="price"
               placeholder="Price"
               value={formData.price}
@@ -141,7 +141,7 @@ const AddCrop = () => {
             />
 
             <input
-              type="number"
+              type="text"
               name="quantity"
               placeholder="Quantity"
               value={formData.quantity}
