@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const uploadMiddleware = require("../middlewares/upload.middleware");
 
 const {
   createProduct,
@@ -15,7 +16,7 @@ const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
 
 // Farmer creates product
 router.post(
-  "/",
+  "/add",
   authUser,
   authorizeRoles("farmer"),
   createProduct
