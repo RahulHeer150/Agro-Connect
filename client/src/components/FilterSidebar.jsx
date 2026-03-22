@@ -81,3 +81,70 @@ const FilterSidebar = ({ filters, setFilters }) => {
 };
 
 export default FilterSidebar;
+
+
+
+
+
+// const categoriesList = ["Fruits", "Vegetables", "Grains"];
+
+// const FilterSidebar = ({ filters, setFilters }) => {
+
+//   const toggleCategory = (category) => {
+//     let updated = [...filters.categories];
+
+//     if (updated.includes(category)) {
+//       updated = updated.filter((c) => c !== category);
+//     } else {
+//       updated.push(category);
+//     }
+
+//     setFilters({ ...filters, categories: updated });
+//   };
+
+//   return (
+//     <div className="bg-white p-4 rounded-xl shadow">
+      
+//       <h2 className="font-semibold mb-4">Filters</h2>
+
+//       {/* Categories */}
+//       <div className="mb-6">
+//         <h3 className="text-sm font-medium mb-2">Category</h3>
+
+//         {categoriesList.map((cat) => (
+//           <label key={cat} className="block text-sm">
+//             <input
+//               type="checkbox"
+//               className="mr-2"
+//               checked={filters.categories.includes(cat)}
+//               onChange={() => toggleCategory(cat)}
+//             />
+//             {cat}
+//           </label>
+//         ))}
+//       </div>
+
+//       {/* Price */}
+//       <div>
+//         <h3 className="text-sm font-medium mb-2">Max Price</h3>
+
+//         <input
+//           type="range"
+//           min="0"
+//           max="1000"
+//           step="50"
+//           className="w-full"
+//           onChange={(e) =>
+//             setFilters({ ...filters, price: Number(e.target.value) })
+//           }
+//         />
+
+//         <p className="text-sm mt-1">
+//           Up to ₹{filters.price || "Any"}
+//         </p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default FilterSidebar;
