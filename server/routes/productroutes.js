@@ -8,6 +8,7 @@ const {
   getMyProducts,
   updateProduct,
   deleteProduct,
+  getSingleProduct
 } = require("../controllers/productcontroller");
 
 const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
@@ -25,6 +26,8 @@ router.post(
 
 // Buyer & public can view products
 router.get("/", getAllProducts);
+
+router.get("/:id", getSingleProduct);
 
 // Farmer views own products
 router.get(

@@ -183,3 +183,30 @@ exports.deleteProduct = async (req, res) => {
     });
   }
 };
+
+// GET SINGLE PRODUCT BY ID
+exports.getSingleProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id)
+      .populate("farmer", "name phone"); // optional but recommended
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
+  }
+};
