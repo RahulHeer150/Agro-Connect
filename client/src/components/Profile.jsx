@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import ProfileProgress from "./ProfileProgress";
+import { calculateProfileCompletion } from "../utils/profileCompletion";
 
 
 const Profile = () => {
+
+
   const [user, setUser] = useState(null);
   const navigate=useNavigate();
+    const completion= calculateProfileCompletion(user)
 
   const fetchProfile = async () => {
     try {
@@ -60,6 +66,8 @@ const Profile = () => {
             </span>
           </div>
         </div>
+
+        <ProfileProgress percentage={completion} />
 
         {/* Divider */}
         <div className="border-t border-gray-700 my-6"></div>
