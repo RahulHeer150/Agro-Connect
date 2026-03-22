@@ -225,6 +225,41 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+exports.updateProfile=async(req,res)=>{
+  try{
+    const user = await User.findById(req.user._id);
+
+    if(user.role==='farmer'){
+      user.farmDetails={
+        ...user.farmDetails,
+        farmName:req.body.farmName,
+        location:{
+          state:req.body.state,
+          district:req.body.district,
+          village:req.body.village,
+        },
+        farmSize:req.body.farmSize,
+      }
+    }
+    
+    if(user.role ==="buyer"){
+      user.buyerDetails={
+        businessName:req.body.businessName,
+        address:req.body.address,
+      }
+    };
+    await user.save();
+
+    res.json({
+      success:true,
+      message:"Profile Updated Successfully."
+    });
+
+  }catch(error){
+    res.status(500).json({success:false})
+  }
+}
+
 /**
  * =====================================
  * LOGOUT USER
