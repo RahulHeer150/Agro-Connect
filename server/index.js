@@ -22,6 +22,9 @@ app.use(
   }),
 );
 
+// Serve uploaded files as static resources
+app.use('/uploads', express.static(require('path').join(__dirname, 'uploads')));
+
 // =======================
 // ROUTES
 // =======================
