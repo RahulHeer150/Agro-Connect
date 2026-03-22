@@ -1,9 +1,20 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
+  const imageUrl = product.images?.[0]?.startsWith("http")
+    ? product.images[0]
+    : `http://localhost:5000${product.images?.[0]}`;
+
   return (
-    <div className="bg-white rounded-xl shadow hover:shadow-lg transition p-4">
-      
+    <div
+      onClick={() => navigate(`/product/${product._id}`)}
+      className="cursor-pointer bg-white rounded-xl shadow hover:shadow-xl hover:scale-105 transition duration-300 p-4"
+    >
       <img
-        src={`http://localhost:5000${product.images?.[0]}`}
+        src={imageUrl}
         alt={product.name}
         className="w-full h-40 object-cover rounded-lg"
       />
@@ -16,7 +27,14 @@ const ProductCard = ({ product }) => {
         <span className="text-green-600 font-bold">
           ₹{product.price}
         </span>
-        <button className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm">
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation(); // ❗ prevents navigation
+            console.log("Buy clicked");
+          }}
+          className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm"
+        >
           Buy
         </button>
       </div>

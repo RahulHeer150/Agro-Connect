@@ -9,16 +9,26 @@ const ProductDetails = () => {
 
   const [product, setProduct] = useState(null);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
+ useEffect(() => {
+  const fetchProduct = async () => {
+    try {
       const res = await axios.get(
         `http://localhost:5000/api/products/${id}`
       );
-      setProduct(res.data.product);
-    };
 
-    fetchProduct();
-  }, [id]);
+      console.log("API DATA:", res.data);
+
+      setProduct(res.data.product);
+    } catch (err) {
+      console.error("ERROR:", err);
+    }
+  };
+
+  fetchProduct();
+}, [id]);
+
+  console.log("ID:", id);
+
 
   if (!product) return <p className="p-6">Loading...</p>;
 
