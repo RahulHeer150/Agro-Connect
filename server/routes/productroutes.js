@@ -18,6 +18,7 @@ const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
 router.post(
   "/add",
   authUser,
+  uploadMiddleware.single("media"),
   authorizeRoles("farmer"),
   createProduct
 );
