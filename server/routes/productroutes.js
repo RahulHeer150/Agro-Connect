@@ -18,7 +18,7 @@ const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
 router.post(
   "/add",
   authUser,
-  uploadMiddleware.single("media"),
+  uploadMiddleware.array("images", 10), // accept up to 10 image files
   authorizeRoles("farmer"),
   createProduct
 );

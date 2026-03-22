@@ -15,25 +15,32 @@ exports.createProduct = async (req, res) => {
       quantity,
       unit,
       location,
-      images,
     } = req.body;
 
-    if (!name || !category || !price || !quantity ) {
+    if (!name || !category || !price || !quantity) {
       return res.status(400).json({
         success: false,
         message: "Required fields are missing",
       });
     }
 
+    // Map uploaded files to stored URLs/paths
+    const imageUrls = (req.files || []).map((file) => {
+      // For local static serving, set as /uploads/<filename>
+      return `/uploads/${file.filename}`;
+    });
+
     const product = await Product.create({
       name,
       category,
       description,
-      price,
-      quantity,
+      price: Number(price),
+      quantity: Number(quantity),
       unit,
-      location,
-      images,
+      location: {
+        village: location || "",
+      },
+      images: imageUrls,
       farmer: req.user._id, // 🔗 link product to farmer
     });
 
