@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const navigate=useNavigate();
 
   const fetchProfile = async () => {
     try {
@@ -121,6 +124,7 @@ const Profile = () => {
         {/* Button */}
         <div className="mt-8 flex justify-end">
           <motion.button
+          onClick={()=>navigate("/edit-profile")}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="bg-gradient-to-r from-green-500 to-green-700 px-6 py-2 rounded-xl font-semibold shadow-lg"
