@@ -27,6 +27,7 @@ import OrderSuccess from "./pages/OrderSuccess";
 import ContactUs from "./pages/ContactUs";
 import AddCrop from "./pages/AddCrop";
 import Profile from "./components/Profile";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/authpage" element={<AuthPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact" element={<ContactUs />} />
