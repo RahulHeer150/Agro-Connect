@@ -37,7 +37,7 @@ const EditProfile = () => {
 
     try {
       await axios.put(
-        "http://localhost:5000/api/user/update-profile",
+        "http://localhost:5000/api/auth/update-profile",
         formData,
         { withCredentials: true }
       );
