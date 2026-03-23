@@ -2,7 +2,15 @@ import OrderTable from "./OrderTable";
 import EmptyState from "./EmptyState";
 
 const Orders = () => {
-  const orders = [];
+  const [orders, setOrders] = useState([]);
+
+useEffect(() => {
+  const loadOrders = async () => {
+    const res = await getMyOrdersAPI();
+    setOrders(res.data.orders);
+  };
+  loadOrders();
+}, []);
 
   return (
     <div>
