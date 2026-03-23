@@ -1,8 +1,11 @@
 import OrderTable from "./OrderTable";
 import EmptyState from "./EmptyState";
+import { useCart } from "../context/CartContext";
 
 const Orders = () => {
+
   const [orders, setOrders] = useState([]);
+  const getMyOrdersAPI= useCart();
 
 useEffect(() => {
   const loadOrders = async () => {
