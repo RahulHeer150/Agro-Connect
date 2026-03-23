@@ -7,7 +7,7 @@ module.exports.addToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
 
-    if ((!productId, !quantity)) {
+    if (!productId || !quantity) {
       return res.status(400).json({
         success: false,
         message: "Product ID and quantity are required",
@@ -55,7 +55,7 @@ module.exports.addToCart = async (req, res) => {
   }
 };
 
-module.exports.gerCart = async (req, res) => {
+module.exports.getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ buyer: req.user._id }).populate(
       "items.product",
@@ -108,11 +108,13 @@ module.exports.updateCartItem = async (req, res) => {
     item.quantity = quantity;
     await cart.save();
 
-    res.status(200).json({
-      success: true,
-      message: "Cart updated",
-      cart,
-    });
+   await cart.populate("items.product", "name price unit");
+
+res.status(200).json({
+  success: true,
+  cart,
+});
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -139,11 +141,13 @@ module.exports.removeFromCart = async (req, res) => {
 
     await cart.save();
 
-    re.status(200).json({
-      success: true,
-      message: "Item removed from cart",
-      cart,
-    });
+   await cart.populate("items.product", "name price unit");
+
+res.status(200).json({
+  success: true,
+  cart,
+});
+
   } catch (error) {
     res.status(500).json({
       success: false,
