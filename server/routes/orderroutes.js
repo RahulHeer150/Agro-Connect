@@ -23,12 +23,12 @@ router.post(
   placeOrder
 );
 
-router.get(
-  "/my",
-  authUser,
-  authorizeRoles("buyer"),
-  getMyOrders
-);
+// router.get(
+//   "/my",
+//   authUser,
+//   authorizeRoles("buyer"),
+//   getMyOrders
+// );
 
 
 
