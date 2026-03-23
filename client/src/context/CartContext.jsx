@@ -46,14 +46,14 @@ export const CartProvider = ({ children }) => {
   };
 
   // ✅ REMOVE ITEM FROM CART
-  const removeFromCart = (productId) => {
-    try{
-      const res= removeFromCart(productId);
-      setCart(res.data.cart.items);
-    }catch(error){
-      console.error("failed to remove items:",error)
-    }
-  };
+ const removeFromCart = async (productId) => {
+  try {
+    const res = await removeFromCartAPI(productId);
+    setCart(res.data.cart.items);
+  } catch (error) {
+    console.error("failed to remove items:", error);
+  }
+};
 
   
   const clearCart=async()=>{
