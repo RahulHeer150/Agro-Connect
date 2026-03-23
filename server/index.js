@@ -63,6 +63,9 @@ app.use("/payment", paymentRoutes);
 const farmerRoutes = require("./routes/farmerroutes");
 app.use("/api/farmer", farmerRoutes);
 
+const cartRoutes= require("./routes/cartroutes")
+app.use("/api/cart", cartRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
