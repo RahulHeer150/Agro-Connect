@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // ✅ updated
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
+import { ShoppingCart } from "lucide-react"; // ✅ added
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
+  const navigate = useNavigate(); // ✅ added
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  // 🔹 Role-based links
   const publicLinks = [
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace" },
@@ -23,10 +24,9 @@ const Navbar = () => {
   ];
 
   const farmerLinks = [
-
     { name: "Dashboard", path: "/farmer/dashboard" },
     { name: "My Products", path: "/farmer/products" },
-    {name : "Add Product", path:"/add-crop"},
+    { name: "Add Product", path: "/add-crop" },
     { name: "Orders", path: "/farmer/orders" },
   ];
 
@@ -39,7 +39,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        
+
         {/* 🔹 Logo */}
         <Link to="/" className="text-2xl font-bold text-green-700">
           🌾 AgroConnect
@@ -73,40 +73,52 @@ const Navbar = () => {
               </Link>
             </>
           ) : (
-            <div className="relative">
-              <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2"
-              >
-                <FaUserCircle className="text-2xl text-green-700" />
-                <span className="font-medium">{user?.name || "User"}</span>
-              </button>
+            <>
+              {/* ✅ CART ICON (ONLY FOR BUYER) */}
+              {user?.role === "buyer" && (
+                <button
+                  onClick={() => navigate("/cart")}
+                  className="relative p-2 rounded-full hover:bg-gray-100 transition"
+                >
+                  <ShoppingCart className="w-6 h-6 text-gray-700" />
+                </button>
+              )}
 
-              {/* 🔽 Profile Dropdown */}
-              <AnimatePresence>
-                {profileOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-3 w-40 bg-white shadow-lg rounded-lg overflow-hidden"
-                  >
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 hover:bg-gray-100"
+              {/* 🔹 Profile */}
+              <div className="relative">
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center gap-2"
+                >
+                  <FaUserCircle className="text-2xl text-green-700" />
+                  <span className="font-medium">{user?.name || "User"}</span>
+                </button>
+
+                <AnimatePresence>
+                  {profileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-3 w-40 bg-white shadow-lg rounded-lg overflow-hidden"
                     >
-                      Profile
-                    </Link>
-                    <button
-                      onClick={logout}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                    >
-                      Logout
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Profile
+                      </Link>
+                      <button
+                        onClick={logout}
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+                      >
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </>
           )}
         </div>
 
@@ -150,15 +162,25 @@ const Navbar = () => {
                 </Link>
               ))}
 
+              {/* ✅ Mobile Cart */}
+              {user?.role === "buyer" && (
+                <button
+                  onClick={() => {
+                    navigate("/cart");
+                    setMobileOpen(false);
+                  }}
+                  className="text-left font-medium text-gray-700"
+                >
+                  🛒 Cart
+                </button>
+              )}
+
               <hr />
 
               {!isLoggedIn ? (
                 <>
                   <Link to="/login">Login</Link>
-                  <Link
-                    to="/register"
-                    className="text-green-700 font-semibold"
-                  >
+                  <Link to="/register" className="text-green-700 font-semibold">
                     Register
                   </Link>
                 </>
@@ -180,6 +202,5 @@ const Navbar = () => {
     </nav>
   );
 };
-
 
 export default Navbar;

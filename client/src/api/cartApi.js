@@ -1,21 +1,21 @@
 import api from './axios';
 
 export const fetchCart=()=>{
-    api.get("/cart")
+  return  api.get("/api/cart")
 }
 
 export const addToCartAPI=(productId,quantity=1)=>{
-    api.post("/cart/add",{productId,quantity});
+    return api.post("/api/cart/add",{productId,quantity});
 }
 
 export const updateCartItemAPI=(productId,quantity) => {
-    api.put("/cart/update", {productId,quantity});
+   return api.put("/cart/update", {productId,quantity});
 }
 
 export const removeFromCartAPI=(productId)=>{
-    api.delete(`/cart/remove/${productId}`);
+  return  api.delete(`/cart/remove/${productId}`);
 }
 
 export const clearCartAPI=()=>{
-    api.delete("/cart/clear")
+  return  api.delete("/cart/clear")
 }
