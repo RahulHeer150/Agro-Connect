@@ -40,6 +40,10 @@ module.exports.placeOrder = async (req, res) => {
       buyer: req.user._id,
       items: orderItems,
       totalAmount,
+      shippingAddress:{
+        addressLine:req.body.address,
+        district:req.body.city,
+      }
     });
 
     // 4️⃣ Reduce product stock
@@ -51,7 +55,9 @@ module.exports.placeOrder = async (req, res) => {
     }
 
     // 5️⃣ Clear cart
-    await Cart.findByIdAndUpdate({ buyer: req.user._id });
+    // await Cart.findByIdAndUpdate({ buyer: req.user._id });
+
+    await Cart.findOneAndDelete({ buyer: req.user._id });
 
     res.status(201).json({
       success: true,
@@ -70,7 +76,7 @@ module.exports.placeOrder = async (req, res) => {
 module.exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ buyer: req.user._id })
-      .populate("item.product", "name price")
+      .populate("items.product", "name price")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -143,7 +149,9 @@ module.exports.getFarmerOrders = async (req, res) => {
 
     //find product owned by farmer
 
-    const product = await Product.find({ farmer: farmerId }).select("_id");
+    const products = await Product.find({ farmer: farmerId }).select("_id");
+    const productIds = products.map(p => p._id)
+
 
     // find orders that contains the farmers products.
 
