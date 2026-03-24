@@ -19,11 +19,13 @@ const Navbar = () => {
   ];
 
   const buyerLinks = [
+     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace" },
     { name: "My Orders", path: "/my-orders" },
   ];
 
   const farmerLinks = [
+     { name: "Home", path: "/" },
     { name: "Dashboard", path: "/farmer/dashboard" },
     { name: "My Products", path: "/farmer/products" },
     { name: "Add Product", path: "/add-crop" },
@@ -189,6 +191,7 @@ const Navbar = () => {
                   <Link to="/profile">Profile</Link>
                   <button
                     onClick={logout}
+                    
                     className="text-left text-red-600"
                   >
                     Logout
