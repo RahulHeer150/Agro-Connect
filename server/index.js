@@ -1,73 +1,79 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
-const connectToDb = require("./config/db");
+// const express = require("express");
+// const dotenv = require("dotenv");
+// const cors = require("cors");
+// const cookieParser = require("cookie-parser");
+// const mongoose = require("mongoose");
+// const connectToDb = require("./config/db");
 
 
-dotenv.config();
+// dotenv.config();
 
-const app = express();
+// const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-connectToDb();
-// CORS config (frontend integration)
-app.use(
-  cors({
-    origin: "http://localhost:5173", // frontend URL
-    credentials: true,
-  }),
-);
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
+// connectToDb();
+// // CORS config (frontend integration)
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // frontend URL
+//     credentials: true,
+//   }),
+// );
 
-// Serve uploaded files as static resources
-app.use('/uploads', express.static(require('path').join(__dirname, 'uploads')));
+// // Serve uploaded files as static resources
+// app.use('/uploads', express.static(require('path').join(__dirname, 'uploads')));
 
-// =======================
-// ROUTES
-// =======================
-const authRoutes = require("./routes/authroutes");
+// // =======================
+// // ROUTES
+// // =======================
+// const authRoutes = require("./routes/authroutes");
 
-app.use("/api/auth", authRoutes);
+// app.use("/api/auth", authRoutes);
 
-// Health check
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "AgroConnect API is running 🚜🌾",
-  });
-});
+// // Health check
+// app.get("/", (req, res) => {
+//   res.status(200).json({
+//     success: true,
+//     message: "AgroConnect API is running 🚜🌾",
+//   });
+// });
 
-// =======================
-// GLOBAL ERROR HANDLER
-// =======================
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    message: "Internal Server Error",
-  });
-});
+// // =======================
+// // GLOBAL ERROR HANDLER
+// // =======================
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).json({
+//     success: false,
+//     message: "Internal Server Error",
+//   });
+// });
 
-const productRoutes = require("./routes/productroutes");
-app.use("/api/products", productRoutes);
+// const productRoutes = require("./routes/productroutes");
+// app.use("/api/products", productRoutes);
 
-const orderRoutes = require("./routes/orderroutes");
-app.use("/api/orders", orderRoutes);
+// const orderRoutes = require("./routes/orderroutes");
+// app.use("/api/orders", orderRoutes);
 
-const paymentRoutes = require("./routes/paymentroutes");
-app.use("/payment", paymentRoutes);
+// const paymentRoutes = require("./routes/paymentroutes");
+// app.use("/payment", paymentRoutes);
 
-const farmerRoutes = require("./routes/farmerroutes");
-app.use("/api/farmer", farmerRoutes);
+// const farmerRoutes = require("./routes/farmerroutes");
+// app.use("/api/farmer", farmerRoutes);
 
-const cartRoutes= require("./routes/cartroutes")
-app.use("/api/cart", cartRoutes);
+// const cartRoutes= require("./routes/cartroutes")
+// app.use("/api/cart", cartRoutes);
 
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`🚀 Server running on port ${PORT}`);
+// });
+ const express = require('express')
+ const app = express()
+ const port = 3000
+ 
+ app.get('/', (req, res) => res.send('Hello World!'))
+ app.listen(port, () => console.log(`Example app listening on port ${port}!`)) 
