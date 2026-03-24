@@ -20,7 +20,7 @@ const Navbar = () => {
 
   const buyerLinks = [
     { name: "Marketplace", path: "/marketplace" },
-    { name: "My Orders", path: "/orders" },
+    { name: "My Orders", path: "/my-orders" },
   ];
 
   const farmerLinks = [
