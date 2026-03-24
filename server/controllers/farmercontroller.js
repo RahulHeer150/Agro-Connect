@@ -29,6 +29,7 @@ module.exports.getFarmerdashboard = async (req, res) => {
 
       //Calculate revenue
 
+      
     let totalRevenue = 0;
     orders.forEach((order) => {
       order.items.forEach((item) => {
@@ -36,7 +37,7 @@ module.exports.getFarmerdashboard = async (req, res) => {
       });
     });
   
-    
+
 
     const recentOrders = orders
       .sort((a, b) => b.createdAt - a.createdAt)
