@@ -9,26 +9,33 @@ const ProductDetails = () => {
 
   const [product, setProduct] = useState(null);
 
- useEffect(() => {
-  const fetchProduct = async () => {
+  const handleAddToCart = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/products/${id}`
-      );
-
-      console.log("API DATA:", res.data);
-
-      setProduct(res.data.product);
-    } catch (err) {
-      console.error("ERROR:", err);
+      await addToCart(product._id, 1);
+      alert("Product added to cart ✅");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to add to cart ❌");
     }
   };
 
-  fetchProduct();
-}, [id]);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+
+        console.log("API DATA:", res.data);
+
+        setProduct(res.data.product);
+      } catch (err) {
+        console.error("ERROR:", err);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   console.log("ID:", id);
-
 
   if (!product) return <p className="p-6">Loading...</p>;
 
@@ -39,7 +46,6 @@ const ProductDetails = () => {
   return (
     <section className="max-w-6xl mx-auto px-6 py-16">
       <div className="grid md:grid-cols-2 gap-10">
-
         <img
           src={imageUrl}
           alt={product.name}
@@ -53,20 +59,23 @@ const ProductDetails = () => {
             ₹{product.price} / {product.unit}
           </p>
 
-          <p className="text-gray-600 mt-4">
-            {product.description}
-          </p>
+          <p className="text-gray-600 mt-4">{product.description}</p>
 
           <div className="mt-4 text-sm text-gray-700">
-            <p><strong>Farmer:</strong> {product.farmer?.name}</p>
-            <p><strong>Location:</strong> {product.location?.village}</p>
+            <p>
+              <strong>Farmer:</strong> {product.farmer?.name}
+            </p>
+            <p>
+              <strong>Location:</strong> {product.location?.village}
+            </p>
           </div>
 
           <button
-            onClick={() => addToCart(product._id, 1)}
-            className="mt-6 bg-green-700 text-white px-6 py-3 rounded-lg"
+            onClick={handleAddToCart}
+            disabled={product.quantity === 0}
+            className="mt-6 bg-green-700 text-white px-6 py-3 rounded-lg disabled:opacity-50"
           >
-            Add to Cart
+            {product.quantity === 0 ? "Out of Stock" : "Add to Cart"}
           </button>
         </div>
       </div>
