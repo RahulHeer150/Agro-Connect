@@ -29,7 +29,6 @@ module.exports.getFarmerdashboard = async (req, res) => {
 
       //Calculate revenue
 
-  
     let totalRevenue = 0;
     orders.forEach((order) => {
       order.items.forEach((item) => {
