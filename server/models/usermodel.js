@@ -64,6 +64,16 @@ const userSchema = new mongoose.Schema(
     default: "local"
   },
 
+  //required for forgot password using reset link
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+    },
+
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
