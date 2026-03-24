@@ -38,6 +38,11 @@ const Navbar = () => {
     ? farmerLinks
     : buyerLinks;
 
+  const handleLogout=()=>{
+    logout();
+    navigate("/");
+  }
+
   return (
     <nav className="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -173,7 +178,7 @@ const Navbar = () => {
                   }}
                   className="text-left font-medium text-gray-700"
                 >
-                  🛒 Cart
+                 Cart
                 </button>
               )}
 
@@ -190,7 +195,7 @@ const Navbar = () => {
                 <>
                   <Link to="/profile">Profile</Link>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     
                     className="text-left text-red-600"
                   >
