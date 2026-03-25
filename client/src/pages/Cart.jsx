@@ -14,14 +14,15 @@ const Cart = () => {
         <h1 className="text-3xl font-bold mb-10">Your Cart</h1>
 
         {cart.length === 0 ? (
-<div className="text-center py-20">
-  <h2 className="text-xl font-semibold text-gray-700">
-    Your cart is empty 🛒
-  </h2>
-  <p className="text-gray-500 mt-2">
-    Start adding fresh crops from farmers 🌾
-  </p>
-</div>        ) : (
+          <div className="text-center py-20">
+            <h2 className="text-xl font-semibold text-gray-700">
+              Your cart is empty 🛒
+            </h2>
+            <p className="text-gray-500 mt-2">
+              Start adding fresh crops from farmers 🌾
+            </p>
+          </div>
+        ) : (
           <div className="grid md:grid-cols-3 gap-10">
             {/* Cart Items */}
             <div className="md:col-span-2 space-y-6">
