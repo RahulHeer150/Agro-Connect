@@ -1,6 +1,6 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-const Order = require("../models/ordermodel");
+const order = require("../models/ordermodel");
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -68,35 +68,24 @@ module.exports.verifyRazorpayPayment = async (req, res) => {
       });
     }
 
-    const generated_signature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest("hex");
+ const generated_signature = crypto
+  .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+  .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+  .digest("hex");
 
-    if (generated_signature !== razorpay_signature) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid Signature",
-      });
-    }
+if (generated_signature !== razorpay_signature) {
+  return res.status(400).json({
+    success: false,
+    message: "Invalid Signature",
+  });
+}
 
-    // Mark order paid in DB
-    const order = await Order.findById(orderId);
-    if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order not found" });
-    }
-    order.payment = {
-      method: "razorpay",
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-    };
-    order.paymentStatus = "paid";
-    order.status= "confirmed";
-    order.paymentId= razorpay_payment_id;
-    await order.save();
+// ✅ Correct update
+order.paymentStatus = "paid";
+order.status = "confirmed";
+order.paymentId = razorpay_payment_id;
+
+await order.save();
 
     // Optionally clear Cart, notify seller, send email etc.
 
