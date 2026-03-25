@@ -59,7 +59,7 @@ module.exports.getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ buyer: req.user._id }).populate(
       "items.product",
-      "name price unit"
+      "name price unit images category farmer"
     );
     
 
