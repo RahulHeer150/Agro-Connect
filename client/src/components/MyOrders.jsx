@@ -21,7 +21,7 @@ const MyOrders = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center mt-20">Loading orders...</p>;
+    return <p className="text-center mt-50 min-h-screen justify-center text-center">Loading orders...</p>;
   }
 
   return (
