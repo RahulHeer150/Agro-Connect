@@ -108,7 +108,7 @@ module.exports.updateCartItem = async (req, res) => {
     item.quantity = quantity;
     await cart.save();
 
-   await cart.populate("items.product", "name price unit");
+   await cart.populate("items.product", "name price unit category images farmer");
 
 res.status(200).json({
   success: true,
@@ -141,7 +141,7 @@ module.exports.removeFromCart = async (req, res) => {
 
     await cart.save();
 
-   await cart.populate("items.product", "name price unit");
+   await cart.populate("items.product", "name price unit category images farmer");
 
 res.status(200).json({
   success: true,
