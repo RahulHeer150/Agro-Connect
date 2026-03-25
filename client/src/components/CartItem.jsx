@@ -2,7 +2,16 @@ import { useCart } from "../context/CartContext";
 import { motion } from "framer-motion";
 
 const CartItem = ({ item }) => {
+
+
   const { updateCartItem, removeFromCart } = useCart();
+
+  const imageUrl =
+  item.product?.images && item.product.images.length > 0
+    ? item.product.images[0].startsWith("http")
+      ? item.product.images[0]
+      : `http://localhost:5000${item.product.images[0]}`
+    : "/placeholder.png";
 
   return (
     <motion.div
@@ -12,11 +21,14 @@ const CartItem = ({ item }) => {
     >
       {/* 🖼️ Product Image */}
       <div className="w-28 h-28 flex-shrink-0">
-        <img
-          src={item.product.image || "/placeholder.png"}
-          alt={item.product.name}
-          className="w-full h-full object-cover rounded-lg"
-        />
+      <img
+  src={imageUrl}
+  alt={item.product.name}
+  onError={(e) => {
+    e.target.src = "/placeholder.png";
+  }}
+  className="w-full h-full object-cover rounded-lg"
+/>
       </div>
 
       {/* 📦 Product Details */}
