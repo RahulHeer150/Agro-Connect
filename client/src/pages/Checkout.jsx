@@ -15,9 +15,9 @@ const Checkout = () => {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("ONLINE");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("ONLINE");
 
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
@@ -32,18 +32,42 @@ const Checkout = () => {
       return;
     }
 
+    // ✅ COD FLOW
+    if (paymentMethod === "COD") {
+      try {
+        setLoading(true);
+
+        await placeOrderAPI({
+          address,
+          city,
+          phone,
+          paymentMethod: "COD",
+          paymentStatus: "PENDING",
+        });
+
+        clearCart();
+        navigate("/order-success");
+      } catch (err) {
+        setError(err.response?.data?.message || "Order failed");
+      } finally {
+        setLoading(false);
+      }
+
+      return;
+    }
+
+    // ✅ ONLINE PAYMENT FLOW
     try {
       setLoading(true);
 
-    
+      // 1️⃣ Create Razorpay order
+      const razorRes = await createRazorpayOrderAPI({
+        amount: totalPrice,
+      });
 
-      const orderId = orderRes.data.order._id;
-
-      // 2️⃣ Create Razorpay Order
-      const razorRes = await createRazorpayOrderAPI(orderId);
       const { razorpayOrder, key_id } = razorRes.data;
 
-      // 3️⃣ Load Razorpay SDK
+      // 2️⃣ Load Razorpay SDK
       const loaded = await loadRazorpay();
       if (!loaded) {
         setError("Failed to load payment gateway");
@@ -51,7 +75,7 @@ const Checkout = () => {
         return;
       }
 
-      // 4️⃣ Open Razorpay Checkout
+      // 3️⃣ Open Razorpay Checkout
       const options = {
         key: key_id,
         amount: razorpayOrder.amount,
@@ -62,11 +86,21 @@ const Checkout = () => {
 
         handler: async function (response) {
           try {
+            // 4️⃣ Verify payment
             await verifyRazorpayPaymentAPI({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
-              orderId,
+            });
+
+            // 5️⃣ Create order AFTER payment
+            await placeOrderAPI({
+              address,
+              city,
+              phone,
+              paymentMethod: "ONLINE",
+              paymentStatus: "PAID",
+              transactionId: response.razorpay_payment_id,
             });
 
             clearCart();
@@ -98,7 +132,9 @@ const Checkout = () => {
 
   if (cart.length === 0) {
     return (
-      <p className="text-center mt-20 text-gray-600">Your cart is empty.</p>
+      <p className="text-center mt-20 text-gray-600">
+        Your cart is empty.
+      </p>
     );
   }
 
@@ -140,34 +176,34 @@ const Checkout = () => {
           <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
             <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
+            <div className="mb-6">
+              <h3 className="font-semibold mb-2">Payment Method</h3>
+
+              <label className="block">
+                <input
+                  type="radio"
+                  value="ONLINE"
+                  checked={paymentMethod === "ONLINE"}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                <span className="ml-2">UPI / Card / Net Banking</span>
+              </label>
+
+              <label className="block mt-2">
+                <input
+                  type="radio"
+                  value="COD"
+                  checked={paymentMethod === "COD"}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                <span className="ml-2">Cash on Delivery</span>
+              </label>
+            </div>
+
             <div className="flex justify-between font-semibold text-lg mb-6">
               <span>Total</span>
               <span>₹{totalPrice}</span>
             </div>
-
-            <div className="mb-6">
-  <h3 className="font-semibold mb-2">Select Payment Method</h3>
-
-  <label className="block">
-    <input
-      type="radio"
-      value="ONLINE"
-      checked={paymentMethod === "ONLINE"}
-      onChange={(e) => setPaymentMethod(e.target.value)}
-    />
-    <span className="ml-2">UPI / Card / Net Banking</span>
-  </label>
-
-  <label className="block mt-2">
-    <input
-      type="radio"
-      value="COD"
-      checked={paymentMethod === "COD"}
-      onChange={(e) => setPaymentMethod(e.target.value)}
-    />
-    <span className="ml-2">Cash on Delivery</span>
-  </label>
-</div>
 
             <button
               onClick={handlePayment}
@@ -175,7 +211,11 @@ const Checkout = () => {
               className="w-full bg-green-700 text-white py-3 rounded-lg
                          hover:bg-green-800 transition disabled:opacity-60"
             >
-              {loading ? "Processing..." : "Pay Now"}
+              {loading
+                ? "Processing..."
+                : paymentMethod === "COD"
+                ? "Place Order"
+                : "Pay Now"}
             </button>
           </div>
         </div>
