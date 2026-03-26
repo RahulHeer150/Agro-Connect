@@ -24,6 +24,7 @@ module.exports.createRazorpayOrder = async (req, res) => {
       });
     }
   
+    
     const options = {
       amount: order.totalAmount *100 , //paisa
       currency: "INR",
