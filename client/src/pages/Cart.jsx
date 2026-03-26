@@ -19,8 +19,15 @@ const Cart = () => {
               Your cart is empty 🛒
             </h2>
             <p className="text-gray-500 mt-2">
-              Start adding fresh crops from farmers 🌾
+              Start adding fresh crops from farmers
+
             </p>
+            <button
+  onClick={() => navigate("/")}
+  className="mt-4 px-6 py-2 bg-green-700 text-white rounded"
+>
+  Continue Shopping
+</button>
           </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-10">
