@@ -11,11 +11,10 @@ const CartSummary = () => {
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  
+
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm h-fit">
       <h3 className="font-semibold text-lg mb-4">Price Summary</h3>
-
 
       <div className="flex justify-between text-sm mb-2">
         <span>Total Items</span>
@@ -29,8 +28,9 @@ const CartSummary = () => {
 
       <button
         onClick={() => navigate("/checkout")}
+        disabled={cart.length === 0}
         className="w-full bg-green-700 text-white py-3 rounded-lg
-        hover:bg-green-800 transition"
+        hover:bg-green-800 transition disabled:opacity-50"
       >
         Proceed to Checkout
       </button>
