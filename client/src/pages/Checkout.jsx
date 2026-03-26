@@ -17,6 +17,7 @@ const Checkout = () => {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("ONLINE");
 
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
@@ -34,12 +35,7 @@ const Checkout = () => {
     try {
       setLoading(true);
 
-      // 1️⃣ Create Order in DB
-      const orderRes = await placeOrderAPI({
-        address,
-        city,
-        phone,
-      });
+    
 
       const orderId = orderRes.data.order._id;
 
@@ -148,6 +144,30 @@ const Checkout = () => {
               <span>Total</span>
               <span>₹{totalPrice}</span>
             </div>
+
+            <div className="mb-6">
+  <h3 className="font-semibold mb-2">Select Payment Method</h3>
+
+  <label className="block">
+    <input
+      type="radio"
+      value="ONLINE"
+      checked={paymentMethod === "ONLINE"}
+      onChange={(e) => setPaymentMethod(e.target.value)}
+    />
+    <span className="ml-2">UPI / Card / Net Banking</span>
+  </label>
+
+  <label className="block mt-2">
+    <input
+      type="radio"
+      value="COD"
+      checked={paymentMethod === "COD"}
+      onChange={(e) => setPaymentMethod(e.target.value)}
+    />
+    <span className="ml-2">Cash on Delivery</span>
+  </label>
+</div>
 
             <button
               onClick={handlePayment}
