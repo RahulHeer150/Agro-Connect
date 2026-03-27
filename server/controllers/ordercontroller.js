@@ -46,16 +46,12 @@ module.exports.placeOrder = async (req, res) => {
         addressLine: address,
         district: city,
       },
+      paymentMethod,
       paymentStatus: paymentMethod === "COD" ? "paid" : "pending",
+       status: paymentMethod === "COD" ? "confirmed" : "pending",
     });
 
-    // 4️⃣ Reduce product stock
 
-    for (const item of cart.items) {
-      await Product.findByIdAndUpdate(item.product._id, {
-        $inc: { quantity: -item.quantity },
-      });
-    }
 
     // 5️⃣ Clear cart only for COD
     if (paymentMethod === "COD") {
