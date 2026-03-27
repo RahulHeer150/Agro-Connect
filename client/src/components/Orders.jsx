@@ -3,11 +3,10 @@ import EmptyState from "./EmptyState";
 import { useCart } from "../context/CartContext";
 
 const Orders = () => {
-
   const [orders, setOrders] = useState([]);
   const getMyOrdersAPI= useCart();
 
-  
+
 useEffect(() => {
   const loadOrders = async () => {
     const res = await getMyOrdersAPI();
