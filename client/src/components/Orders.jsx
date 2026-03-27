@@ -1,6 +1,7 @@
 import OrderTable from "./OrderTable";
 import EmptyState from "./EmptyState";
 import { useCart } from "../context/CartContext";
+import { useState, useEffect } from "react";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
