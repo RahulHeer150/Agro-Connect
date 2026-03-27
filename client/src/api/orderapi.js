@@ -1,7 +1,7 @@
 import api from "./axios";
 
 export const placeOrderAPI = (orderData) => {
-  return api.post("/order/create", orderData);
+  return api.post("/api/orders/place", orderData);
 
 
 };
