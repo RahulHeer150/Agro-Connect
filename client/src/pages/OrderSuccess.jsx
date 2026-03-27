@@ -16,7 +16,7 @@ const OrderSuccess = () => {
 
         <div className="space-y-3">
           <button
-            onClick={() => navigate("/orders")}
+            onClick={() => navigate("/my-orders")}
             className="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800"
           >
             View Orders
