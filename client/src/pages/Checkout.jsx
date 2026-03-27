@@ -60,9 +60,19 @@ const Checkout = () => {
     try {
       setLoading(true);
 
-      // 1️⃣ Create Razorpay order
+      // 1️⃣ Place order first
+      const orderRes = await placeOrderAPI({
+        address,
+        city,
+        phone,
+        paymentMethod: "ONLINE",
+      });
+
+      const { order } = orderRes.data;
+
+      // 2️⃣ Create Razorpay order
       const razorRes = await createRazorpayOrderAPI({
-        amount: totalPrice,
+        orderId: order._id,
       });
 
       const { razorpayOrder, key_id } = razorRes.data;
@@ -91,18 +101,10 @@ const Checkout = () => {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
+              orderId: order._id,
             });
 
-            // 5️⃣ Create order AFTER payment
-            await placeOrderAPI({
-              address,
-              city,
-              phone,
-              paymentMethod: "ONLINE",
-              paymentStatus: "PAID",
-              transactionId: response.razorpay_payment_id,
-            });
-
+            // 5️⃣ No need to create order again, it's already created
             clearCart();
             navigate("/order-success");
           } catch (err) {

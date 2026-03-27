@@ -81,12 +81,24 @@ if (generated_signature !== razorpay_signature) {
   });
 }
 
+const order = await Order.findById(orderId);
+if (!order) {
+  return res.status(404).json({
+    success: false,
+    message: "Order not found",
+  });
+}
+
 // ✅ Correct update
 order.paymentStatus = "paid";
 order.status = "confirmed";
 order.paymentId = razorpay_payment_id;
 
 await order.save();
+
+// Clear cart after successful payment
+const Cart = require("../models/cartmodel");
+await Cart.findOneAndDelete({ buyer: order.buyer });
 
     // Optionally clear Cart, notify seller, send email etc.
 

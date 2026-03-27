@@ -35,15 +35,18 @@ module.exports.placeOrder = async (req, res) => {
       });
     }
 
+    const { address, city, phone, paymentMethod } = req.body;
+
     // 3️⃣ Create order
     const order = await Order.create({
       buyer: req.user._id,
       items: orderItems,
       totalAmount,
       shippingAddress:{
-        addressLine:req.body.address,
-        district:req.body.city,
-      }
+        addressLine: address,
+        district: city,
+      },
+      paymentStatus: paymentMethod === "COD" ? "paid" : "pending",
     });
 
     // 4️⃣ Reduce product stock
@@ -54,10 +57,10 @@ module.exports.placeOrder = async (req, res) => {
       });
     }
 
-    // 5️⃣ Clear cart
-    // await Cart.findByIdAndUpdate({ buyer: req.user._id });
-
-    await Cart.findOneAndDelete({ buyer: req.user._id });
+    // 5️⃣ Clear cart only for COD
+    if (paymentMethod === "COD") {
+      await Cart.findOneAndDelete({ buyer: req.user._id });
+    }
 
     res.status(201).json({
       success: true,
