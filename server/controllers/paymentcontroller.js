@@ -1,6 +1,7 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const Order = require("../models/ordermodel");
+const Product = require("../models/productmodel");
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -95,6 +96,12 @@ order.status = "confirmed";
 order.paymentId = razorpay_payment_id;
 
 await order.save();
+
+for (const item of order.items) {
+  await Product.findByIdAndUpdate(item.product, {
+    $inc: { quantity: -item.quantity },
+  });
+}
 
 // Clear cart after successful payment
 const Cart = require("../models/cartmodel");
