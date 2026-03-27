@@ -1,7 +1,7 @@
 import api from "./axios";
 
 // create razorpay order
-export const createRazorpayOrderAPI = (orderId) => {
+export const createRazorpayOrderAPI = ({ orderId }) => {
   return api.post("/payment/razorpay/create", { orderId });
 };
 
