@@ -6,6 +6,7 @@ const Earnings = () => {
     { label: "This Month", amount: 18200 },
     { label: "Total", amount: 96000 },
   ];
+  
 
   return (
     <div>
