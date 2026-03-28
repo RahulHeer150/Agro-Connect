@@ -9,7 +9,7 @@ const Dashboard = () => {
     { title: "Monthly Earnings", value: "₹18,200" },
   ];
 
-  
+
   const recentOrders = [];
 
   return (
