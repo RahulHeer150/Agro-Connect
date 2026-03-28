@@ -7,7 +7,6 @@ const Earnings = () => {
     { label: "Total", amount: 96000 },
   ];
   
-
   return (
     <div>
       <h1 className="text-2xl font-bold mb-8">Earnings</h1>
