@@ -62,7 +62,7 @@ const ProductDetails = () => {
     : `http://localhost:5000${product.images?.[0]}`;
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-16">
+    <section className="max-w-6xl mx-auto px-6 py-16 mt-10">
       <div className="grid md:grid-cols-2 gap-10">
         <img
           src={imageUrl}
