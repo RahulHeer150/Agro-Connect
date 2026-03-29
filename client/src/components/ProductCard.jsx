@@ -1,8 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from "../context/CartContext";
+import {useAuth} from "../context/AuthContext";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  const { isLoggedIn, user } = useAuth();
+  const { addToCart } = useCart();
+
+  const handleAddToCart = async () => {
+
+    if (!isLoggedIn) {
+      alert("Please login to add products to cart");
+      navigate("/login");
+      return;
+    }
+    if(user?.role !=="buyer"){
+      alert("Only buyers can add products to cart");
+      return;
+    }
+    try {
+      await addToCart(product._id, 1);
+      alert("Product added to cart ✅");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to add to cart ❌");
+    }
+  };
 
   const imageUrl = product.images?.[0]?.startsWith("http")
     ? product.images[0]
@@ -29,11 +53,10 @@ const ProductCard = ({ product }) => {
         </span>
 
         <button
-          onClick={(e) => {
-            e.stopPropagation(); // ❗ prevents navigation
-            console.log("Buy clicked");
-          }}
-          className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm"
+          onClick={
+            handleAddToCart
+          }
+          className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700"
         >
           Buy
         </button>
