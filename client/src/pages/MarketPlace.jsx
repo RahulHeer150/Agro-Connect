@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import FilterSidebar from "../components/FilterSidebar";
 import ProductGrid from "../components/ProductGrid";
 import { getAllProducts } from "../api/productApi";
+import Loader from "../components/Loader";
 
 const Marketplace = () => {
   const [filters, setFilters] = useState({
@@ -82,9 +83,9 @@ const Marketplace = () => {
           </div>
 
           {/* Product Grid */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 items-center">
             {loading ? (
-              <p>Loading products...</p>
+              <Loader size="large"/>
             ) : error ? (
               <p className="text-red-500">{error}</p>
             ) : (
