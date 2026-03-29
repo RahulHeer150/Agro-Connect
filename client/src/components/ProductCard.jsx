@@ -52,14 +52,15 @@ const ProductCard = ({ product }) => {
           ₹{product.price}
         </span>
 
-        <button
-          onClick={
-            handleAddToCart
-          }
-          className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700"
-        >
-          Buy
-        </button>
+       <button
+  onClick={(e) => {
+    e.stopPropagation();
+    handleAddToCart();
+  }}
+  className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700"
+>
+  Buy
+</button>
       </div>
     </div>
   );
