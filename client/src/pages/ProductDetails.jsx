@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -6,11 +6,25 @@ import useAuth from "../context/AuthContext";
 
 const ProductDetails = () => {
   const { addToCart } = useCart();
+
+  const {user, isLoggedIn} = useAuth();
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const [product, setProduct] = useState(null);
 
   const handleAddToCart = async () => {
+
+    if (!isLoggedIn) {
+      alert("Please login to add products to cart");
+      navigate("/login");
+      return;
+    }
+    if(user?.role !=="buyer"){
+      alert("Only buyers can add products to cart");
+      return;
+    }
     try {
       await addToCart(product._id, 1);
       alert("Product added to cart ✅");
@@ -19,6 +33,8 @@ const ProductDetails = () => {
       alert("Failed to add to cart ❌");
     }
   };
+
+
 
   useEffect(() => {
     const fetchProduct = async () => {
