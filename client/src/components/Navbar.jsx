@@ -38,10 +38,10 @@ const Navbar = () => {
     ? farmerLinks
     : buyerLinks;
 
-  const handleLogout=()=>{
+  const handleLogout = () => {
     logout();
     navigate("/");
-  }
+  };
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
@@ -116,7 +116,7 @@ const Navbar = () => {
                         Profile
                       </Link>
                       <button
-                        onClick={logout}
+                        onClick={handleLogout}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
                       >
                         Logout
