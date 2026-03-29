@@ -84,13 +84,13 @@ const Marketplace = () => {
 
           {/* Product Grid */}
           <div className="lg:col-span-3 items-center">
-            {loading ? (
-              <Loader size="large"/>
-            ) : error ? (
-              <p className="text-red-500">{error}</p>
-            ) : (
-              <ProductGrid products={filteredProducts} />
-            )}
+           {loading ? (
+  <div className="flex justify-center items-center h-full min-h-[60vh]">
+    <Loader size="large" />
+  </div>
+) : (
+  <ProductGrid products={filteredProducts} />
+)}
           </div>
         </div>
 
