@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {useAuth} from "../context/AuthContext";
+import Loader from "../components/Loader";
 
 const ProductDetails = () => {
   const { addToCart } = useCart();
@@ -54,7 +55,7 @@ const ProductDetails = () => {
 
   console.log("ID:", id);
 
-  if (!product) return <p className="p-6">Loading...</p>;
+  if (!product) return <Loader size="large"/>;
 
   const imageUrl = product.images?.[0]?.startsWith("http")
     ? product.images[0]
