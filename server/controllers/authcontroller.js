@@ -75,70 +75,67 @@ exports.register = async (req, res) => {
       phone,
       password,
       role,
+      lat,
+      lng,
       farmDetails,
       buyerDetails,
     } = req.body;
 
-    // 1️⃣ Validate required fields
-    if (!name || !email || !phone || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "All required fields must be provided",
-      });
-    }
-
-    // 2️⃣ Check if user already exists
+    // 🔹 Check existing user
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({
+      return res.status(400).json({
         success: false,
-        message: "User already exists with this email",
+        message: "User already exists",
       });
     }
-    console.log(req.body);
 
-    // 3️⃣ Create user
-    const user = await User.create({
+    // 🔹 Prepare user data
+    let userData = {
       name,
       email,
       phone,
       password,
       role,
-      farmDetails: role === "farmer" ? farmDetails : undefined,
-      buyerDetails: role === "buyer" ? buyerDetails : undefined,
-    });
+      farmDetails,
+      buyerDetails,
+    };
 
-    // 4️⃣ Generate JWT using model method
+    // 🌍 IMPORTANT: Add location ONLY for farmers
+    if (role === "farmer") {
+      if (!lat || !lng) {
+        return res.status(400).json({
+          success: false,
+          message: "Location (lat, lng) is required for farmers",
+        });
+      }
+
+      userData.location = {
+        type: "Point",
+        coordinates: [parseFloat(lng), parseFloat(lat)], // ⚠️ [lng, lat]
+      };
+    }
+
+    // 🔹 Create user
+    const user = await User.create(userData);
+
+    // 🔑 Generate token
     const token = user.generateAuthToken();
 
-    // 5️⃣ Set token in cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
       message: "User registered successfully",
       token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      user,
     });
   } catch (error) {
-    return res.status(500).json({
+    console.error("Register Error:", error);
+    res.status(500).json({
       success: false,
-      message: "Registration failed",
-      error: error.message,
+      message: "Server Error",
     });
   }
 };
-
 /**
  * =====================================
  * LOGIN USER
