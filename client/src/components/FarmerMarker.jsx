@@ -1,9 +1,16 @@
-import React from 'react'
+import { Marker, Popup } from "react-leaflet";
+import FarmerPopup from "./FarmerPopup";
 
-const FarmerMarker = () => {
+const FarmerMarker = ({ farmer }) => {
+  const [lng, lat] = farmer.location.coordinates;
+
   return (
-    <div>FarmerMarker</div>
-  )
-}
+    <Marker position={[lat, lng]}>
+      <Popup>
+        <FarmerPopup farmer={farmer} />
+      </Popup>
+    </Marker>
+  );
+};
 
-export default FarmerMarker
+export default FarmerMarker;
