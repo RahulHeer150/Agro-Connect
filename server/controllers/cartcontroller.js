@@ -57,10 +57,7 @@ module.exports.addToCart = async (req, res) => {
 
 module.exports.getCart = async (req, res) => {
   try {
-    const cart = await Cart.findOne({ buyer: req.user._id }).populate(
-      "items.product",
-      "name price unit images category farmer"
-    );
+    const cart = await Cart.findOne({ buyer: req.user._id }).populate("items.product", "name price unit images farmer category")
     
 
     if (!cart) {
