@@ -7,7 +7,11 @@ const DistanceFilter = ({ setDistance }) => {
         <button
           key={km}
           onClick={() => setDistance(km)}
-          className="px-3 py-1 bg-gray-200 hover:bg-green-500 hover:text-white rounded-md transition"
+         className={`px-4 py-1 rounded-full border transition ${
+            distance === km
+              ? "bg-green-600 text-white"
+              : "bg-gray-200 hover:bg-green-500 hover:text-white"
+          }`}
         >
           {km} KM
         </button>
