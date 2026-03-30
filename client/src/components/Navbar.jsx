@@ -5,6 +5,7 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { ShoppingCart } from "lucide-react"; // ✅ added
 import { useAuth } from "../context/AuthContext";
+import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
@@ -49,7 +50,7 @@ const Navbar = () => {
 
         {/* 🔹 Logo */}
         <Link to="/" className="text-2xl font-bold text-green-700">
-          🌾 AgroConnect
+          <img src={logo} alt="AgroConnect" className="h-15" />
         </Link>
 
         {/* 🔹 Desktop Links */}
