@@ -1,6 +1,8 @@
 import { Marker, Popup } from "react-leaflet";
+import L from "leaflet"; // ✅ FIX
 import FarmerPopup from "./FarmerPopup";
 
+// 🌾 Custom Icon
 const farmerIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/2909/2909768.png",
   iconSize: [35, 35],

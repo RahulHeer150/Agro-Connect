@@ -23,6 +23,7 @@ const Navbar = () => {
      { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace" },
     { name: "My Orders", path: "/my-orders" },
+      { name: "Nearby Farmers", path: "/maps" },
   ];
 
   const farmerLinks = [

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import useUserLocation from "../../hooks/useUserLocation";
-import { getNearbyFarmers } from "../../services/mapService";
+import useUserLocation from "../hooks/useUserLocation";
+import { getNearbyFarmers } from "../services/mapService";
 
-import MapContainer from "../../components/Map/MapContainer";
-import LocationButton from "../../components/Map/LocationButton";
-import DistanceFilter from "../../components/Map/DistanceFilter";
+import MapContainer from "../components/MapContainer";
+import LocationButton from "../components/LocationButton";
+import DistanceFilter from "../components/DistanceFilter";
 
 const MapPage = () => {
   const { location, getLocation } = useUserLocation();
@@ -31,7 +31,7 @@ const MapPage = () => {
       );
 
       // assuming backend returns { success, data }
-      setFarmers(res.data);
+      setFarmers(res.data.data);
     } catch (error) {
       console.error("Error fetching farmers:", error);
     } finally {

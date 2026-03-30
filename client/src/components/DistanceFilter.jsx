@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DistanceFilter = ({ setDistance }) => {
+const DistanceFilter = ({ distance,setDistance }) => {
   return (
     <div className="flex gap-3 mt-3">
       {[10, 30, 50].map((km) => (

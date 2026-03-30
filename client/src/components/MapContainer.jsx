@@ -7,7 +7,7 @@ import FarmerMarker from './FarmerMarker';
 const MapContainer = ({location,farmers}) => {
 
   if(!location){
-    return   <p className='text-center mt-10'> <Loader/>Loading map...</p>
+    return   <p className='text-center mt-10'>Loading map...</p>
   }
   return (
     <div className='w-full h-[500px] rounded-xl overflow-hidden shadow-lg mt-5'>
