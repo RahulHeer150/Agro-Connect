@@ -5,6 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import { useGoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
 import axios from "axios";
+import mainlogo from "../assets/logo.png";
+import bgImg from "../assets/farmer-1.jpg"
 
 const containerVariants = {
   hidden: {},
@@ -109,14 +111,20 @@ const UserSignup = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-sky-200">
+    <div
+    style={{backgroundImage:`url(${bgImg})`}} 
+    className="min-h-screen flex items-center justify-center bg-cover bg-center ">
 
       <motion.div
         initial={{ opacity: 0, y: 60, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-xl shadow-lg w-[400px] p-8"
+        className="bg-white rounded-xl shadow-lg w-[400px] p-8 my-20"
       >
+        {/* Logo */}
+        <div className="flex justify-center mb-3">
+          <img src={mainlogo} alt="AgroConnect Logo" className="w-56" />
+        </div>
 
         <motion.form
           onSubmit={submitHandler}
@@ -132,7 +140,7 @@ const UserSignup = () => {
             required
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
+            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-1.5 border w-full"
           />
 
           <motion.input
@@ -142,7 +150,7 @@ const UserSignup = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
+            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-1.5 border w-full"
           />
 
           <motion.input
@@ -152,7 +160,7 @@ const UserSignup = () => {
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
+            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-1.5 border w-full"
           />
 
           <motion.input
@@ -162,7 +170,7 @@ const UserSignup = () => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-2 border w-full"
+            className="bg-[#eeeeee] mb-3 rounded-lg px-4 py-1.5 border w-full"
           />
 
           <motion.input
@@ -172,7 +180,7 @@ const UserSignup = () => {
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="bg-[#eeeeee] mb-4 rounded-lg px-4 py-2 border w-full"
+            className="bg-[#eeeeee] mb-4 rounded-lg px-4 py-1.5 border w-full"
           />
 
           {/* Role Selection */}
