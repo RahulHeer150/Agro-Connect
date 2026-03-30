@@ -28,6 +28,7 @@ import ContactUs from "./pages/ContactUs";
 import AddCrop from "./pages/AddCrop";
 import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
+import MapPage from "./pages/MapPage";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/add-crop" element={<AddCrop />} />
+        <Route path="/maps" element={<MapPage />} />
         
       </Routes>
       <Footer />
