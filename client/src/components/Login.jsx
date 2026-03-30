@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import mainlogo from "../assets/logo.png";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import bgImg from "../assets/farmer-1.jpg"
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
@@ -55,7 +56,9 @@ const UserLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-sky-200">
+    <div
+    style={{backgroundImage:`url(${bgImg})`}} 
+    className="min-h-screen flex items-center justify-center bg-cover bg-center">
       <div className="bg-white rounded-xl shadow-lg w-[400px] p-8">
         {/* Logo */}
         <div className="flex justify-center mb-6">
