@@ -1,15 +1,16 @@
-const Farmer= require("../models/farmermodel");
+const User = require("../models/usermodel");
 
-exports.findNearbyFarmers=async(lng, lat,maxDistance)=>{
-    return await Farmer.find({
-        location:{
-            $near:{
-                $geometry:{
-                    type:"Point",
-                    coordinates:[lng,lat] // Example coordinates (longitude, latitude)
+exports.findNearbyFarmers = async (lng, lat, maxDistance) => {
+  return await User.find({
+    role: "farmer", // 🔥 IMPORTANT
+    location: {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [lng, lat], // [lng, lat]
         },
-        $maxDistance:maxDistance ,// Maximum distance in meters
-    }
-    }
-});
-}
+        $maxDistance: maxDistance,
+      },
+    },
+  }).select("-password"); // hide password
+};
