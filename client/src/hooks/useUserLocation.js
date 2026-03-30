@@ -10,5 +10,21 @@ const useUserLocation=()=>{
             setError("Geolocation not supported");
             return;
         }
-    }
+
+        navigator.geolocation.getCurrentPosition(
+            (position)=>{
+                setLocation({
+                    lat:position.coords.latitude,
+                    lng:position.coords.longitude
+                })
+
+            },
+            (err)=>{
+                setError(err.message)
+            }
+        )
+    };
+
+    return {location, error, getLocation};
 }
+export default useUserLocation;
