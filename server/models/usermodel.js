@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema(
   {
+    // 🔹 Basic Info
     name: {
       type: String,
       required: true,
@@ -25,11 +26,11 @@ const userSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      required: false,
       minlength: 6,
       select: false,
     },
 
+    // 🔹 Role System
     role: {
       type: String,
       enum: ["farmer", "buyer", "admin"],
@@ -43,6 +44,18 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
+    // 🌍 GEOJSON LOCATION (FOR MAP FUNCTIONALITY)
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+      },
+    },
+
+    // 🌾 Farmer Details
     farmDetails: {
       farmName: String,
       location: {
@@ -54,39 +67,43 @@ const userSchema = new mongoose.Schema(
       farmSize: String,
     },
 
+    // 🛒 Buyer Details
     buyerDetails: {
       businessName: String,
       address: String,
     },
 
     provider: {
-    type: String,
-    default: "local"
-  },
+      type: String,
+      default: "local",
+    },
 
-  //required for forgot password using reset link
+    // 🔐 Password Reset
     resetPasswordToken: {
       type: String,
       default: null,
     },
-    resetPasswordExpires: {
+    resetPasswordExpire: {
       type: Date,
       default: null,
     },
-
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
   },
   { timestamps: true }
 );
 
-// ✅ FIXED PRE-SAVE HOOK
+
+// 🌍 IMPORTANT: 2dsphere INDEX FOR GEO QUERIES
+userSchema.index({ location: "2dsphere" });
+
+
+// 🔐 HASH PASSWORD BEFORE SAVE
 userSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
+  if (!this.isModified("password") || !this.password) return;
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-// Generate JWT
+
+// 🔑 GENERATE JWT TOKEN
 userSchema.methods.generateAuthToken = function () {
   return jwt.sign(
     { id: this._id, role: this.role },
@@ -95,9 +112,11 @@ userSchema.methods.generateAuthToken = function () {
   );
 };
 
-// Compare password
+
+// 🔍 COMPARE PASSWORD
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
 
 module.exports = mongoose.model("User", userSchema);
