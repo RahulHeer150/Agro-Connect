@@ -51,6 +51,9 @@ app.use((err, req, res, next) => {
   });
 });
 
+const mapsRoutes = require("./routes/mapsroutes");
+app.use("/api/map", mapsRoutes);
+
 const productRoutes = require("./routes/productroutes");
 app.use("/api/products", productRoutes);
 
