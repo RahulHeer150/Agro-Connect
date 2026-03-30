@@ -11,7 +11,7 @@ const CartItem = ({ item }) => {
     ? item.product.images[0].startsWith("http")
       ? item.product.images[0]
       : `http://localhost:5000${item.product.images[0]}`
-    : "/placeholder.png";
+    : "loading...";
 
   return (
     <motion.div
@@ -46,7 +46,7 @@ const CartItem = ({ item }) => {
         </p>
 
         <p className="text-sm text-green-700 font-medium mt-2">
-          ₹{item.product.price} / {item.product.unit || "kg"}
+          ₹{(item.product.price ||0)*item.quantity} / {item.product.unit || "kg"}
         </p>
 
         {/* Quantity Controls */}
