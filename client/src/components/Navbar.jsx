@@ -28,7 +28,7 @@ const Navbar = () => {
 
   const farmerLinks = [
      { name: "Home", path: "/" },
-    { name: "Dashboard", path: "/farmer/dashboard" },
+    { name: "Dashboard", path: "/farmer-dashboard" },
     { name: "My Products", path: "/farmer/products" },
     { name: "Add Product", path: "/add-crop" },
     { name: "Orders", path: "/farmer/orders" },
