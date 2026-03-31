@@ -41,9 +41,10 @@ const UserLogin = () => {
       if (res.data?.token && res.data?.user) {
         login(res.data.user, res.data.token);
 
+
         // 🔀 Role-based redirect
         if (res.data.user.role === "farmer") {
-          navigate("/farmer/dashboard");
+          navigate("/farmer-dashboard");
         } else {
           navigate("/marketplace");
         }
