@@ -60,8 +60,7 @@ const AddCrop = () => {
         }
       );
   
-
-      if (response.data.success) {
+     if (response.data.success) {
         alert("✅ Crop added successfully");
 
         // Reset form
