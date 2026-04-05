@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProfileProgress from "./ProfileProgress";
 import { calculateProfileCompletion } from "../utils/profileCompletion";
 
-
 const Profile = () => {
-
-
   const [user, setUser] = useState(null);
-  const navigate=useNavigate();
-    const completion= calculateProfileCompletion(user)
+  const [geoLocation, setGeoLocation] = useState(null);
+  const [locLoading, setLocLoading] = useState(false);
 
+  const navigate = useNavigate();
+
+  const completion = calculateProfileCompletion(user);
+
+  // 🔹 Fetch Profile
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/auth/profile", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "http://localhost:5000/api/auth/profile",
+        { withCredentials: true }
+      );
       setUser(res.data.user);
     } catch (error) {
       console.error("Profile fetch error:", error);
@@ -28,6 +30,31 @@ const Profile = () => {
   useEffect(() => {
     fetchProfile();
   }, []);
+
+  // 📍 Get Location
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation not supported");
+      return;
+    }
+
+    setLocLoading(true);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        setGeoLocation({ lat, lng });
+        setLocLoading(false);
+      },
+      (error) => {
+        console.error(error);
+        alert("Location access denied");
+        setLocLoading(false);
+      }
+    );
+  };
 
   if (!user) {
     return (
@@ -39,14 +66,12 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-black to-gray-900 text-white p-6">
-      
       {/* Profile Card */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-4xl mx-auto mt-20 bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-6"
       >
-        
         {/* Header */}
         <div className="flex items-center gap-6">
           <img
@@ -72,7 +97,7 @@ const Profile = () => {
         {/* Divider */}
         <div className="border-t border-gray-700 my-6"></div>
 
-        {/* Role Based Info */}
+        {/* FARMER SECTION */}
         {user.role === "farmer" && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -104,9 +129,37 @@ const Profile = () => {
               <strong>Crops:</strong>{" "}
               {user.farmDetails?.cropsGrown?.join(", ") || "Not added"}
             </p>
+
+            {/* 📍 LOCATION BUTTON */}
+            <div className="mt-4">
+              <button
+                onClick={handleGetLocation}
+                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg shadow-md"
+              >
+                {locLoading
+                  ? "Getting location..."
+                  : "📍 Use My Farm Location"}
+              </button>
+
+              {/* Show new location */}
+              {geoLocation && (
+                <p className="text-green-400 mt-2">
+                  Location Selected ✅ ({geoLocation.lat.toFixed(3)},{" "}
+                  {geoLocation.lng.toFixed(3)})
+                </p>
+              )}
+
+              {/* Show existing DB location */}
+              {user.location && (
+                <p className="text-blue-400 mt-2">
+                  Existing Location Saved 🌍
+                </p>
+              )}
+            </div>
           </motion.div>
         )}
 
+        {/* BUYER SECTION */}
         {user.role === "buyer" && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -129,10 +182,38 @@ const Profile = () => {
           </motion.div>
         )}
 
-        {/* Button */}
-        <div className="mt-8 flex justify-end">
+        {/* BUTTONS */}
+        <div className="mt-8 flex justify-between">
+          {/* Save Location Button */}
+          {geoLocation && user.role === "farmer" && (
+            <button
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    "http://localhost:5000/api/auth/update-profile",
+                    {
+                      lat: geoLocation.lat,
+                      lng: geoLocation.lng,
+                    },
+                    { withCredentials: true }
+                  );
+
+                  alert("Location saved successfully ✅");
+                  fetchProfile();
+                } catch (error) {
+                  console.error(error);
+                  alert("Failed to save location");
+                }
+              }}
+              className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-xl font-semibold"
+            >
+              Save Location 📍
+            </button>
+          )}
+
+          {/* Edit Profile */}
           <motion.button
-          onClick={()=>navigate("/edit-profile")}
+            onClick={() => navigate("/edit-profile")}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="bg-gradient-to-r from-green-500 to-green-700 px-6 py-2 rounded-xl font-semibold shadow-lg"
