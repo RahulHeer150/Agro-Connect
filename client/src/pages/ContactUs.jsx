@@ -6,6 +6,7 @@ const ContactUs = () => {
     e.preventDefault();
   };
 
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-700 to-sky-50">
       <div className="bg-white rounded-xl shadow-lg w-[400px] p-8 shadow-green-800">
