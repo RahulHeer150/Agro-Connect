@@ -222,40 +222,76 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-exports.updateProfile=async(req,res)=>{
-  try{
+exports.updateProfile = async (req, res) => {
+  try {
     const user = await User.findById(req.user._id);
 
-    if(user.role==='farmer'){
-      user.farmDetails={
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const {
+      farmName,
+      state,
+      district,
+      village,
+      farmSize,
+      businessName,
+      address,
+      lat,
+      lng,
+    } = req.body;
+
+    // 🌾 FARMER UPDATE
+    if (user.role === "farmer") {
+      user.farmDetails = {
         ...user.farmDetails,
-        farmName:req.body.farmName,
-        location:{
-          state:req.body.state,
-          district:req.body.district,
-          village:req.body.village,
+        farmName,
+        location: {
+          state,
+          district,
+          village,
         },
-        farmSize:req.body.farmSize,
+        farmSize,
+      };
+
+      // 🌍 🔥 ADD THIS (MOST IMPORTANT)
+      if (lat && lng) {
+        user.location = {
+          type: "Point",
+          coordinates: [parseFloat(lng), parseFloat(lat)], // [lng, lat]
+        };
       }
     }
-    
-    if(user.role ==="buyer"){
-      user.buyerDetails={
-        businessName:req.body.businessName,
-        address:req.body.address,
-      }
-    };
+
+    // 🛒 BUYER UPDATE
+    if (user.role === "buyer") {
+      user.buyerDetails = {
+        businessName,
+        address,
+      };
+    }
+
     await user.save();
 
-    res.json({
-      success:true,
-      message:"Profile Updated Successfully."
+    res.status(200).json({
+      success: true,
+      message: "Profile Updated Successfully",
+      user,
     });
 
-  }catch(error){
-    res.status(500).json({success:false})
+  } catch (error) {
+    console.error("Update Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
   }
-}
+};
 
 /**
  * =====================================
