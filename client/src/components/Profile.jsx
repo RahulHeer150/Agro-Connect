@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProfileProgress from "./ProfileProgress";
 import { calculateProfileCompletion } from "../utils/profileCompletion";
+import LocationPicker from "../components/Map/LocationPicker";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [geoLocation, setGeoLocation] = useState(null);
-  const [locLoading, setLocLoading] = useState(false);
+  const [showMap, setShowMap] = useState(false);
 
   const navigate = useNavigate();
-
   const completion = calculateProfileCompletion(user);
 
   // 🔹 Fetch Profile
@@ -31,31 +31,6 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  // 📍 Get Location
-  const handleGetLocation = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation not supported");
-      return;
-    }
-
-    setLocLoading(true);
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-
-        setGeoLocation({ lat, lng });
-        setLocLoading(false);
-      },
-      (error) => {
-        console.error(error);
-        alert("Location access denied");
-        setLocLoading(false);
-      }
-    );
-  };
-
   if (!user) {
     return (
       <div className="h-screen flex items-center justify-center text-white">
@@ -63,6 +38,27 @@ const Profile = () => {
       </div>
     );
   }
+
+  // 📍 Save Location to Backend
+  const handleSaveLocation = async () => {
+    try {
+      await axios.put(
+        "http://localhost:5000/api/auth/update-profile",
+        {
+          lat: geoLocation.lat,
+          lng: geoLocation.lng,
+        },
+        { withCredentials: true }
+      );
+
+      alert("Location saved successfully ✅");
+      setGeoLocation(null);
+      fetchProfile();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save location ❌");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-black to-gray-900 text-white p-6">
@@ -72,7 +68,7 @@ const Profile = () => {
         animate={{ opacity: 1, y: 0 }}
         className="max-w-4xl mx-auto mt-20 bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-6"
       >
-        {/* Header */}
+        {/* HEADER */}
         <div className="flex items-center gap-6">
           <img
             src={
@@ -94,7 +90,6 @@ const Profile = () => {
 
         <ProfileProgress percentage={completion} />
 
-        {/* Divider */}
         <div className="border-t border-gray-700 my-6"></div>
 
         {/* FARMER SECTION */}
@@ -130,26 +125,24 @@ const Profile = () => {
               {user.farmDetails?.cropsGrown?.join(", ") || "Not added"}
             </p>
 
-            {/* 📍 LOCATION BUTTON */}
+            {/* 📍 MAP BUTTON */}
             <div className="mt-4">
               <button
-                onClick={handleGetLocation}
+                onClick={() => setShowMap(true)}
                 className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg shadow-md"
               >
-                {locLoading
-                  ? "Getting location..."
-                  : "📍 Use My Farm Location"}
+                📍 Select Farm Location on Map
               </button>
 
-              {/* Show new location */}
+              {/* Selected Location */}
               {geoLocation && (
                 <p className="text-green-400 mt-2">
-                  Location Selected ✅ ({geoLocation.lat.toFixed(3)},{" "}
+                  Selected Location ✅ ({geoLocation.lat.toFixed(3)},{" "}
                   {geoLocation.lng.toFixed(3)})
                 </p>
               )}
 
-              {/* Show existing DB location */}
+              {/* Existing Location */}
               {user.location && (
                 <p className="text-blue-400 mt-2">
                   Existing Location Saved 🌍
@@ -184,34 +177,17 @@ const Profile = () => {
 
         {/* BUTTONS */}
         <div className="mt-8 flex justify-between">
-          {/* Save Location Button */}
+          {/* SAVE LOCATION */}
           {geoLocation && user.role === "farmer" && (
             <button
-              onClick={async () => {
-                try {
-                  await axios.put(
-                    "http://localhost:5000/api/auth/update-profile",
-                    {
-                      lat: geoLocation.lat,
-                      lng: geoLocation.lng,
-                    },
-                    { withCredentials: true }
-                  );
-
-                  alert("Location saved successfully ✅");
-                  fetchProfile();
-                } catch (error) {
-                  console.error(error);
-                  alert("Failed to save location");
-                }
-              }}
+              onClick={handleSaveLocation}
               className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-xl font-semibold"
             >
               Save Location 📍
             </button>
           )}
 
-          {/* Edit Profile */}
+          {/* EDIT PROFILE */}
           <motion.button
             onClick={() => navigate("/edit-profile")}
             whileHover={{ scale: 1.1 }}
@@ -222,6 +198,34 @@ const Profile = () => {
           </motion.button>
         </div>
       </motion.div>
+
+      {/* 🗺️ MAP MODAL */}
+      {showMap && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded-xl w-[90%] max-w-2xl">
+            <h2 className="text-black font-bold mb-3">
+              Select Farm Location
+            </h2>
+
+            <LocationPicker
+              onSelect={(pos) => {
+                setGeoLocation({
+                  lat: pos.lat,
+                  lng: pos.lng,
+                });
+                setShowMap(false);
+              }}
+            />
+
+            <button
+              onClick={() => setShowMap(false)}
+              className="mt-3 text-red-500"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
