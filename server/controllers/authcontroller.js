@@ -222,56 +222,44 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+const axios = require("axios");
+
 exports.updateProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const userId = req.user.id;
+    const { lat, lng } = req.body;
 
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
+    const user = await User.findById(userId);
 
-    const {
-      farmName,
-      state,
-      district,
-      village,
-      farmSize,
-      businessName,
-      address,
-      lat,
-      lng,
-    } = req.body;
-
-    // 🌾 FARMER UPDATE
-    if (user.role === "farmer") {
-      user.farmDetails = {
-        ...user.farmDetails,
-        farmName,
-        location: {
-          state,
-          district,
-          village,
-        },
-        farmSize,
+    // 🔥 Save GeoJSON location
+    if (lat && lng) {
+      user.location = {
+        type: "Point",
+        coordinates: [lng, lat],
       };
 
-      // 🌍 🔥 ADD THIS (MOST IMPORTANT)
-      if (lat && lng) {
-        user.location = {
-          type: "Point",
-          coordinates: [parseFloat(lng), parseFloat(lat)], // [lng, lat]
-        };
-      }
-    }
+      // 🌍 Reverse Geocoding
+      const geoRes = await axios.get(
+        "https://nominatim.openstreetmap.org/reverse",
+        {
+          params: {
+            lat,
+            lon: lng,
+            format: "json",
+          },
+        }
+      );
 
-    // 🛒 BUYER UPDATE
-    if (user.role === "buyer") {
-      user.buyerDetails = {
-        businessName,
-        address,
+      const address = geoRes.data.address;
+
+      user.farmDetails.location = {
+        state: address.state || "",
+        district: address.county || "",
+        village:
+          address.village ||
+          address.town ||
+          address.city ||
+          "",
       };
     }
 
@@ -279,16 +267,13 @@ exports.updateProfile = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Profile Updated Successfully",
       user,
     });
-
   } catch (error) {
-    console.error("Update Error:", error);
-
+    console.error(error);
     res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: "Update failed",
     });
   }
 };
