@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProfileProgress from "./ProfileProgress";
 import { calculateProfileCompletion } from "../utils/profileCompletion";
-import LocationPicker from "../components/Map/LocationPicker";
+import LocationPicker from "../components/LocationPicker";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -39,7 +39,7 @@ const Profile = () => {
     );
   }
 
-  // 📍 Save Location to Backend
+  // 📍 Save Location
   const handleSaveLocation = async () => {
     try {
       await axios.put(
@@ -60,9 +60,18 @@ const Profile = () => {
     }
   };
 
+  // 📍 Open Map (Google)
+  const openMap = () => {
+    if (!geoLocation && !user.location) return;
+
+    const lat = geoLocation?.lat || user.location.coordinates[1];
+    const lng = geoLocation?.lng || user.location.coordinates[0];
+
+    window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-black to-gray-900 text-white p-6">
-      {/* Profile Card */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -94,11 +103,7 @@ const Profile = () => {
 
         {/* FARMER SECTION */}
         {user.role === "farmer" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             <h2 className="text-xl font-semibold text-green-400">
               Farm Details 🌾
             </h2>
@@ -108,11 +113,27 @@ const Profile = () => {
               {user.farmDetails?.farmName || "Not added"}
             </p>
 
+            {/* LOCATION DISPLAY */}
             <p>
               <strong>Location:</strong>{" "}
-              {user.farmDetails?.location?.village || "N/A"},{" "}
-              {user.farmDetails?.location?.district},{" "}
-              {user.farmDetails?.location?.state}
+              {user.farmDetails?.location?.village ||
+              user.farmDetails?.location?.district ||
+              user.farmDetails?.location?.state ? (
+                <>
+                  {user.farmDetails?.location?.village || ""},{" "}
+                  {user.farmDetails?.location?.district || ""},{" "}
+                  {user.farmDetails?.location?.state || ""}
+                </>
+              ) : user.location ? (
+                <span
+                  onClick={openMap}
+                  className="text-green-400 cursor-pointer hover:underline"
+                >
+                  Location Selected 📍 (Click to view)
+                </span>
+              ) : (
+                "N/A"
+              )}
             </p>
 
             <p>
@@ -136,29 +157,30 @@ const Profile = () => {
 
               {/* Selected Location */}
               {geoLocation && (
-                <p className="text-green-400 mt-2">
-                  Selected Location ✅ ({geoLocation.lat.toFixed(3)},{" "}
-                  {geoLocation.lng.toFixed(3)})
+                <p
+                  onClick={openMap}
+                  className="text-green-400 mt-2 cursor-pointer hover:underline"
+                >
+                  📍 View Selected Location
                 </p>
               )}
 
               {/* Existing Location */}
               {user.location && (
-                <p className="text-blue-400 mt-2">
-                  Existing Location Saved 🌍
+                <p
+                  onClick={openMap}
+                  className="text-blue-400 mt-2 cursor-pointer hover:underline"
+                >
+                  🌍 Existing Location (Click to view)
                 </p>
               )}
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* BUYER SECTION */}
         {user.role === "buyer" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             <h2 className="text-xl font-semibold text-blue-400">
               Business Details 🏢
             </h2>
@@ -172,12 +194,11 @@ const Profile = () => {
               <strong>Address:</strong>{" "}
               {user.buyerDetails?.address || "Not added"}
             </p>
-          </motion.div>
+          </div>
         )}
 
         {/* BUTTONS */}
         <div className="mt-8 flex justify-between">
-          {/* SAVE LOCATION */}
           {geoLocation && user.role === "farmer" && (
             <button
               onClick={handleSaveLocation}
@@ -187,7 +208,6 @@ const Profile = () => {
             </button>
           )}
 
-          {/* EDIT PROFILE */}
           <motion.button
             onClick={() => navigate("/edit-profile")}
             whileHover={{ scale: 1.1 }}
