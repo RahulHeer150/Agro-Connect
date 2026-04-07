@@ -21,24 +21,24 @@ const MapPage = () => {
   }, [location, distance]);
 
   const fetchFarmers = async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const data = await getNearbyFarmers(
-        location.lat,
-        location.lng,
-        distance
-      );
+    const data = await getNearbyFarmers(
+      location.lat,
+      location.lng,
+      distance
+    );
 
-      console.log("Farmers:", data); // ✅ DEBUG
+    console.log("Farmers:", data); // ✅ debug
 
-      setFarmers(data); // ✅ FIXED
-    } catch (error) {
-      console.error("Error fetching farmers:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    setFarmers(data || []);; // ✅ FIXED (NO .data.data)
+  } catch (error) {
+    console.error("Error fetching farmers:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -68,7 +68,7 @@ const MapPage = () => {
       )}
 
       {/* EMPTY */}
-      {!loading && location && farmers.length === 0 && (
+{!loading && location && farmers?.length === 0 && ( 
         <p className="text-center text-gray-400 mt-4">
           No farmers found in this area 🌍
         </p>
