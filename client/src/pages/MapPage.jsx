@@ -21,24 +21,20 @@ const MapPage = () => {
   }, [location, distance]);
 
   const fetchFarmers = async () => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const data = await getNearbyFarmers(
-      location.lat,
-      location.lng,
-      distance
-    );
+      const data = await getNearbyFarmers(location.lat, location.lng, distance);
 
-    console.log("Farmers:", data); // ✅ debug
+      console.log("Farmers:", data); // ✅ debug
 
-    setFarmers(data || []);; // ✅ FIXED (NO .data.data)
-  } catch (error) {
-    console.error("Error fetching farmers:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+      setFarmers(data || []); // ✅ FIXED (NO .data.data)
+    } catch (error) {
+      console.error("Error fetching farmers:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -53,10 +49,7 @@ const MapPage = () => {
         {/* CONTROLS */}
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-xl space-y-3 z-[1000] border border-gray-200">
           <LocationButton onClick={getLocation} />
-          <DistanceFilter
-            distance={distance}
-            setDistance={setDistance}
-          />
+          <DistanceFilter distance={distance} setDistance={setDistance} />
         </div>
       </div>
 
@@ -68,7 +61,7 @@ const MapPage = () => {
       )}
 
       {/* EMPTY */}
-{!loading && location && farmers?.length === 0 && ( 
+      {!loading && location && farmers?.length === 0 && (
         <p className="text-center text-gray-400 mt-4">
           No farmers found in this area 🌍
         </p>
