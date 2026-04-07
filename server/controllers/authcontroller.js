@@ -222,7 +222,6 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-const axios = require("axios");
 
 exports.updateProfile = async (req, res) => {
   try {
