@@ -223,42 +223,78 @@ exports.getProfile = async (req, res) => {
 };
 
 
+// exports.updateProfile = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+//     const { lat, lng } = req.body;
+
+//     const user = await User.findById(userId);
+
+//     // 🔥 Save GeoJSON location
+//     if (lat && lng) {
+//       user.location = {
+//         type: "Point",
+//         coordinates: [lng, lat],
+//       };
+
+//       // 🌍 Reverse Geocoding
+//       const geoRes = await axios.get(
+//         "https://nominatim.openstreetmap.org/reverse",
+//         {
+//           params: {
+//             lat,
+//             lon: lng,
+//             format: "json",
+//           },
+//         }
+//       );
+
+//       const address = geoRes.data.address;
+
+//       user.farmDetails.location = {
+//         state: address.state || "",
+//         district: address.county || "",
+//         village:
+//           address.village ||
+//           address.town ||
+//           address.city ||
+//           "",
+//       };
+//     }
+
+//     await user.save();
+
+//     res.status(200).json({
+//       success: true,
+//       user,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Update failed",
+//     });
+//   }
+// };
+
 exports.updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { lat, lng } = req.body;
+    const user = await User.findById(req.user.id);
 
-    const user = await User.findById(userId);
+    const { lat, lng, address } = req.body;
 
-    // 🔥 Save GeoJSON location
     if (lat && lng) {
       user.location = {
         type: "Point",
         coordinates: [lng, lat],
       };
+    }
 
-      // 🌍 Reverse Geocoding
-      const geoRes = await axios.get(
-        "https://nominatim.openstreetmap.org/reverse",
-        {
-          params: {
-            lat,
-            lon: lng,
-            format: "json",
-          },
-        }
-      );
-
-      const address = geoRes.data.address;
-
+    if (address) {
       user.farmDetails.location = {
-        state: address.state || "",
-        district: address.county || "",
-        village:
-          address.village ||
-          address.town ||
-          address.city ||
-          "",
+        state: address.state,
+        district: address.district,
+        village: address.village,
       };
     }
 
@@ -276,7 +312,6 @@ exports.updateProfile = async (req, res) => {
     });
   }
 };
-
 /**
  * =====================================
  * LOGOUT USER
