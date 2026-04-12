@@ -1,19 +1,23 @@
 const User = require("../models/usermodel");
 
 exports.findNearbyFarmers = async (lng, lat, maxDistance) => {
- return await User.find({
-  role: "farmer",
-  location: { $exists: true },
-  "location.coordinates.0": { $exists: true },
-  "location.coordinates.1": { $exists: true },
-  location: {
-    $near: {
-      $geometry: {
-        type: "Point",
-        coordinates: [lng, lat],
+  return await User.aggregate([
+    {
+      $geoNear: {
+        near: { type: "Point", coordinates: [lng, lat] },
+        distanceField: "distanceInMeters",
+        maxDistance: maxDistance,
+        spherical: true,
+        query: { role: "farmer", location: { $exists: true } },
       },
-      $maxDistance: maxDistance,
     },
-  },
-}).select("-password");
+    {
+      $addFields: {
+        distance: { $divide: ["$distanceInMeters", 1000] },
+      },
+    },
+    {
+      $project: { password: 0, distanceInMeters: 0 },
+    },
+  ]);
 };
