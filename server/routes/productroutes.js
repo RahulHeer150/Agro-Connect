@@ -8,28 +8,26 @@ const {
   getMyProducts,
   updateProduct,
   deleteProduct,
-  getSingleProduct
+  getSingleProduct,
 } = require("../controllers/productcontroller");
 
 const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
 
-// Product zRoutes
+// ✅ Specific routes FIRST (before /:id)
 
 // Farmer creates product
 router.post(
   "/add",
   authUser,
-  uploadMiddleware.array("images", 10), // accept up to 10 image files
+  uploadMiddleware.array("images", 10),
   authorizeRoles("farmer"),
   createProduct
 );
 
-// Buyer & public can view products
+// All available products (public)
 router.get("/", getAllProducts);
 
-router.get("/:id", getSingleProduct);
-
-// Farmer views own products
+// ✅ /my MUST come before /:id — otherwise Express treats "my" as an id
 router.get(
   "/my",
   authUser,
@@ -37,7 +35,9 @@ router.get(
   getMyProducts
 );
 
-// Farmer updates product
+// ✅ Dynamic routes LAST
+router.get("/:id", getSingleProduct);
+
 router.put(
   "/:id",
   authUser,
@@ -45,7 +45,6 @@ router.put(
   updateProduct
 );
 
-// Farmer deletes product
 router.delete(
   "/:id",
   authUser,
