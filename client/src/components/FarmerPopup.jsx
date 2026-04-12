@@ -11,7 +11,7 @@ const FarmerPopup = ({ farmer }) => {
 
       {/* Farm name if available */}
       {farmer.farmDetails?.farmName && (
-        <p className="flex items-center gap-1 text-gray-500 text-xs">
+        <p className="flex items-center gap-1 text-green-500 text-xs">
           <Sprout size={12} />
           {farmer.farmDetails.farmName}
         </p>
