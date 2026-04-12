@@ -20,5 +20,6 @@ const FarmerPopup = ({ farmer }) => {
   );
 };
 
+
 export default FarmerPopup;
 
