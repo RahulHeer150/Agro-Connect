@@ -2,9 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
 const connectToDb = require("./config/db");
-
 
 dotenv.config();
 
@@ -14,25 +12,35 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 connectToDb();
-// CORS config (frontend integration)
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: "http://localhost:5173",
     credentials: true,
-  }),
+  })
 );
 
-// Serve uploaded files as static resources
-app.use('/uploads', express.static(require('path').join(__dirname, 'uploads')));
+app.use("/uploads", express.static(require("path").join(__dirname, "uploads")));
 
 // =======================
-// ROUTES
+// ROUTES (all above error handler)
 // =======================
 const authRoutes = require("./routes/authroutes");
+const mapsRoutes = require("./routes/mapsroutes");
+const productRoutes = require("./routes/productroutes");
+const orderRoutes = require("./routes/orderroutes");
+const paymentRoutes = require("./routes/paymentroutes");
+const farmerRoutes = require("./routes/farmerroutes");
+const cartRoutes = require("./routes/cartroutes");
 
 app.use("/api/auth", authRoutes);
+app.use("/api/map", mapsRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/payment", paymentRoutes);
+app.use("/api/farmer", farmerRoutes);
+app.use("/api/cart", cartRoutes);
 
-// Health check
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -41,7 +49,7 @@ app.get("/", (req, res) => {
 });
 
 // =======================
-// GLOBAL ERROR HANDLER
+// GLOBAL ERROR HANDLER (always last)
 // =======================
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -51,27 +59,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-const mapsRoutes = require("./routes/mapsroutes");
-app.use("/api/map", mapsRoutes);
-
-const productRoutes = require("./routes/productroutes");
-app.use("/api/products", productRoutes);
-
-const orderRoutes = require("./routes/orderroutes");
-app.use("/api/orders", orderRoutes);
-
-const paymentRoutes = require("./routes/paymentroutes");
-app.use("/payment", paymentRoutes);
-
-const farmerRoutes = require("./routes/farmerroutes");
-app.use("/api/farmer", farmerRoutes);
-
-const cartRoutes= require("./routes/cartroutes")
-app.use("/api/cart", cartRoutes);
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
- 

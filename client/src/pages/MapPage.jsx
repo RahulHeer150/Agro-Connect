@@ -7,13 +7,13 @@ import LocationButton from "../components/LocationButton";
 import DistanceFilter from "../components/DistanceFilter";
 
 const MapPage = () => {
-  const { location, getLocation } = useUserLocation();
+  const { location, error: locationError, getLocation } = useUserLocation();
 
   const [farmers, setFarmers] = useState([]);
-  const [distance, setDistance] = useState(50); // 🔥 increased default
+  const [distance, setDistance] = useState(50);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Fetch farmers
   useEffect(() => {
     if (location) {
       fetchFarmers();
@@ -21,26 +21,38 @@ const MapPage = () => {
   }, [location, distance]);
 
   const fetchFarmers = async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
+    setError(null);
 
-      const data = await getNearbyFarmers(location.lat, location.lng, distance);
+    const data = await getNearbyFarmers(location.lat, location.lng, distance);
 
-      console.log("Farmers:", data); // ✅ debug
+    console.log("Farmers received:", data);        // 🔍 check this in console
+    console.log("Farmers count:", data?.length);   // 🔍 and this
 
-      setFarmers(data || []); // ✅ FIXED (NO .data.data)
-    } catch (error) {
-      console.error("Error fetching farmers:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+    setFarmers(Array.isArray(data) ? data : []);
+  } catch (err) {
+    console.error("Full error:", err.response || err);
+    setError("Failed to fetch nearby farmers. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="p-6 max-w-6xl mx-auto">
       <h2 className="text-2xl font-bold text-green-700 mb-4">
         🌾 Nearby Farmers
       </h2>
+
+      {/* GPS error */}
+      {locationError && (
+        <p className="text-center text-red-400 mt-2">📍 {locationError}</p>
+      )}
+
+      {/* API error */}
+      {error && (
+        <p className="text-center text-red-500 mt-2">{error}</p>
+      )}
 
       <div className="relative">
         {/* MAP */}

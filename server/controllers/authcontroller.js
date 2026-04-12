@@ -81,6 +81,8 @@ exports.register = async (req, res) => {
       buyerDetails,
     } = req.body;
 
+    console.log(req.body);
+
     // 🔹 Check existing user
     const existingUser = await User.findOne({ email });
     if (existingUser) {
