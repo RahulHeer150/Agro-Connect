@@ -42,6 +42,7 @@ const FarmerPopup = ({ farmer }) => {
           )}
         </ul>
       )}
+      
 
       {/* Distance */}
       {farmer.distance != null && (
