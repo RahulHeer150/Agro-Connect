@@ -42,7 +42,7 @@ const FarmerPopup = ({ farmer }) => {
           )}
         </ul>
       )}
-    
+  
       {/* Distance */}
       {farmer.distance != null && (
         <p className="flex items-center gap-1 text-green-600 font-medium pt-1
