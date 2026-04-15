@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    
+
     items: [
       {
         product: {
@@ -50,15 +50,42 @@ const orderSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "confirmed", "shipped", "delivered", "cancelled"],
-      default: "pending",
+      enum: [
+        "PLACED",
+        "CONFIRMED",
+        "READY_TO_SHIP",
+        "SHIPPED",
+        "DELIVERED",
+        "CANCELLED",
+      ],
+      default: "PLACED",
     },
+
 
     paymentStatus: {
       type: String,
       enum: ["pending", "paid"],
       default: "pending",
     },
+
+      statusHistory: [
+      {
+        status: String,
+        updatedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    // ⭐ Optional: Prevent duplicate notifications
+    notifications: {
+      orderPlacedSent: { type: Boolean, default: false },
+      readySent: { type: Boolean, default: false },
+      shippedSent: { type: Boolean, default: false },
+    },
+
+
   },
   { timestamps: true }
 );
