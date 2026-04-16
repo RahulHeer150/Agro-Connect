@@ -1,7 +1,6 @@
 const Cart = require("../models/cartmodel");
 const Order = require("../models/ordermodel");
 const Product = require("../models/productmodel");
-const {notifyFarmer}
 
 module.exports.placeOrder = async (req, res) => {
   try {
