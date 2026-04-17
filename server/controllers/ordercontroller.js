@@ -1,6 +1,10 @@
 const Cart = require("../models/cartmodel");
 const Order = require("../models/ordermodel");
 const Product = require("../models/productmodel");
+const { notifyFarmerNewOrder, 
+    notifyBuyerOrderStatus,
+    notifyBuyerShipped
+ } = require("../services/notificationservice");
 
 module.exports.placeOrder = async (req, res) => {
   try {
@@ -17,6 +21,8 @@ module.exports.placeOrder = async (req, res) => {
     let totalAmount = 0;
     const orderItems = [];
 
+    let farmerId = null; // To track the farmer for notification
+
     // 2️⃣ Validate products & calculate total
     for (const item of cart.items) {
       const product = item.product;
@@ -26,6 +32,20 @@ module.exports.placeOrder = async (req, res) => {
           message: `Not enough quantity for ${product.name}`,
         });
       }
+
+        // 👉 Assign farmer (first product)
+      if (!farmerId) {
+        farmerId = product.farmer;
+      }
+
+      // ❗ Ensure all products belong to same farmer
+      if (farmerId.toString() !== product.farmer.toString()) {
+        return res.status(400).json({
+          success: false,
+          message: "All products must belong to same farmer",
+        });
+      }
+
       totalAmount += product.price * item.quantity;
 
       orderItems.push({
@@ -40,6 +60,7 @@ module.exports.placeOrder = async (req, res) => {
     // 3️⃣ Create order
     const order = await Order.create({
       buyer: req.user._id,
+      farmer: farmerId,
       items: orderItems,
       totalAmount,
       shippingAddress:{
@@ -48,8 +69,17 @@ module.exports.placeOrder = async (req, res) => {
       },
       paymentMethod,
       paymentStatus: paymentMethod === "COD" ? "paid" : "pending",
-       status: paymentMethod === "COD" ? "confirmed" : "pending",
+       status: "PLACED",
     });
+
+    const populatedOrder = await order.populate("buyer farmer");
+
+    // 4️⃣ Notify farmer about new order
+    notifyFarmerNewOrder(populatedOrder);
+
+     // ✅ Clear cart
+    await Cart.findOneAndDelete({ buyer: req.user._id });
+
 
 
 
@@ -175,3 +205,54 @@ module.exports.getFarmerOrders = async (req, res) => {
     });
   }
 };
+
+const updateOrderStatus = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const { status } = req.body;
+
+    const order = await Order.findById(orderId).populate("buyer farmer");
+    if (!order) {
+      return res.status(404).json({ 
+        success: false,
+        message: "Order not found" 
+      });
+    }
+    if(order.farmer._id.toString() !== req.user._id.toString()){
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to update this order"
+      });
+    }
+    order.status = status;
+
+    await order.save();
+
+    // 🔔 Notifications
+    if (status === "READY_TO_SHIP") {
+      notifyBuyerReady(order);
+    }
+
+    if (status === "SHIPPED") {
+      notifyBuyerShipped(order);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Order status updated",
+      order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false, 
+      message: "Failed to update order status",
+      error: error.message,
+    });
+  } 
+};
+
+module.exports.updateOrderStatus = updateOrderStatus;
+
+
+    
+  
