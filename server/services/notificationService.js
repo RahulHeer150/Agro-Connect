@@ -1,4 +1,4 @@
-const sendEmail= require('./emailService');
+const sendEmail= require('../utils/emailService');
 
 // Notification service to send notifications to users
 
