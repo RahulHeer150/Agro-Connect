@@ -11,7 +11,7 @@ const sendSMS = async (phone, message) => {
         message: message,
       },
 
-    
+  
       {
         headers: {
           authkey: process.env.MSG91_AUTH_KEY,
