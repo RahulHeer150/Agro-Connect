@@ -103,21 +103,6 @@ exports.register = async (req, res) => {
       buyerDetails,
     };
 
-    // 🌍 IMPORTANT: Add location ONLY for farmers
-    if (role === "farmer") {
-      if (!lat || !lng) {
-        return res.status(400).json({
-          success: false,
-          message: "Location (lat, lng) is required for farmers",
-        });
-      }
-
-      userData.location = {
-        type: "Point",
-        coordinates: [parseFloat(lng), parseFloat(lat)], // ⚠️ [lng, lat]
-      };
-    }
-
     // 🔹 Create user
     const user = await User.create(userData);
 
