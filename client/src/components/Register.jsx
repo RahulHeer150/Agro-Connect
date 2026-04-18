@@ -101,8 +101,8 @@ const UserSignup = () => {
       if (res.data?.token && res.data?.user) {
         login(res.data.user, res.data.token);
         role === "farmer"
-          ? navigate("/farmer/dashboard")
-          : navigate("/marketplace");
+          ? navigate("/farmer-dashboard")
+          : navigate("/");
       }
     } catch (err) {
       setError(
@@ -195,6 +195,7 @@ const UserSignup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="bg-[#eeeeee] mb-4 rounded-lg px-4 py-1.5 border w-full"
           />
+
 
           {/* Role Selection */}
           <motion.div variants={itemVariants} className="flex gap-4 mb-4">
