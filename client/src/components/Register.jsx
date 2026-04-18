@@ -196,7 +196,6 @@ const UserSignup = () => {
             className="bg-[#eeeeee] mb-4 rounded-lg px-4 py-1.5 border w-full"
           />
 
-
           {/* Role Selection */}
           <motion.div variants={itemVariants} className="flex gap-4 mb-4">
             <label className="flex items-center gap-2">
