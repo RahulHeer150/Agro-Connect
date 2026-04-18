@@ -197,7 +197,6 @@ const UserSignup = () => {
           />
 
 
-
           {/* Role Selection */}
           <motion.div variants={itemVariants} className="flex gap-4 mb-4">
             <label className="flex items-center gap-2">
