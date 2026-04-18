@@ -195,7 +195,7 @@ const UserSignup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="bg-[#eeeeee] mb-4 rounded-lg px-4 py-1.5 border w-full"
           />
-
+          
 
 
           {/* Role Selection */}
