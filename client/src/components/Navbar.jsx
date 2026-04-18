@@ -29,7 +29,7 @@ const Navbar = () => {
   const farmerLinks = [
      { name: "Home", path: "/" },
     { name: "Dashboard", path: "/farmer-dashboard" },
-    { name: "My Products", path: "/farmer/products" },
+    { name: "My Products", path: "/my-products" },
     { name: "Add Product", path: "/add-crop" },
     { name: "Orders", path: "/farmer/orders" },
   ];
