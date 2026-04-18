@@ -16,8 +16,15 @@ const MyProduct = () => {
 
   // 📍 Fetch farmer's products
   useEffect(() => {
-    if (!isLoggedIn || user?.role !== "farmer") {
+    console.log("🔍 Auth Check:", { isLoggedIn, role: user?.role });
+    
+    if (!isLoggedIn) {
       navigate("/login");
+      return;
+    }
+
+    if (user?.role !== "farmer") {
+      setError("Only farmers can access this page");
       return;
     }
 
@@ -112,7 +119,7 @@ const MyProduct = () => {
 
   // 🎨 Main Component
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white p-6 md:p-10">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white p-6 md:p-10 mt-10">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -172,6 +179,8 @@ const MyProduct = () => {
             </button>
           </motion.div>
         ) : (
+
+          
           /* Products Grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product, index) => (

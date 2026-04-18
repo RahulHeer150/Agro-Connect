@@ -52,7 +52,7 @@ function App() {
         <Route path="/cart-summary" element={<CartSummary />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/my-orders" element={<MyOrders />} />
-        <Route path="/my-product" element={<MyProduct />} />
+        <Route path="/my-products" element={<MyProduct />} />
         <Route path="/farmer-dashboard" element={<FarmerDashBoard />} />
         <Route path="/buyer-dashboard" element={<BuyerDashBoard />} />
         <Route path="/marketplace" element={<MarketPlace />} />

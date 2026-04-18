@@ -4,8 +4,9 @@ const router = express.Router();
 const {
   placeOrder,
   getMyOrders,
-   getBuyerOrders,
+  getBuyerOrders,
   getOrderById,
+  getFarmerOrders,
 } = require("../controllers/ordercontroller");
 
 const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
@@ -38,6 +39,14 @@ router.get(
   authUser,
   authorizeRoles("buyer"),
   getBuyerOrders
+);
+
+// 🌾 Farmer's orders (sellers view - orders they received)
+router.get(
+  "/farmer/my",
+  authUser,
+  authorizeRoles("farmer"),
+  getFarmerOrders
 );
 
 // Buyer single order tracking
