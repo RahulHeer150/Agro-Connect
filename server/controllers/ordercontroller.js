@@ -26,6 +26,21 @@ module.exports.placeOrder = async (req, res) => {
     // 2️⃣ Validate products & calculate total
     for (const item of cart.items) {
       const product = item.product;
+
+      if (!product) {
+        return res.status(400).json({
+          success: false,
+          message: "One of the cart items is no longer available",
+        });
+      }
+
+      if (product.status !== "available") {
+        return res.status(400).json({
+          success: false,
+          message: `Product ${product.name} is not available`,
+        });
+      }
+
       if (product.quantity < item.quantity) {
         return res.status(400).json({
           success: false,
@@ -33,7 +48,7 @@ module.exports.placeOrder = async (req, res) => {
         });
       }
 
-        // 👉 Assign farmer (first product)
+      // 👉 Assign farmer (first product)
       if (!farmerId) {
         farmerId = product.farmer;
       }
@@ -57,36 +72,42 @@ module.exports.placeOrder = async (req, res) => {
 
     const { address, city, phone, paymentMethod } = req.body;
 
+    if (!address || !city || !phone || !paymentMethod) {
+      return res.status(400).json({
+        success: false,
+        message: "Address, city, phone and payment method are required",
+      });
+    }
+
     // 3️⃣ Create order
     const order = await Order.create({
       buyer: req.user._id,
       farmer: farmerId,
       items: orderItems,
       totalAmount,
-      shippingAddress:{
+      shippingAddress: {
         addressLine: address,
         district: city,
       },
       paymentMethod,
       paymentStatus: paymentMethod === "COD" ? "paid" : "pending",
-       status: "PLACED",
+      status: "PLACED",
     });
 
-    const populatedOrder = await order.populate("buyer farmer");
+    await order.populate([
+      { path: "buyer", select: "name email" },
+      { path: "farmer", select: "name email" },
+      { path: "items.product", select: "name" },
+    ]);
+
+    const populatedOrder = order;
 
     // 4️⃣ Notify farmer about new order
     notifyFarmerNewOrder(populatedOrder);
 
      // ✅ Clear cart
+    // Clear cart after order placement
     await Cart.findOneAndDelete({ buyer: req.user._id });
-
-
-
-
-    // 5️⃣ Clear cart only for COD
-    if (paymentMethod === "COD") {
-      await Cart.findOneAndDelete({ buyer: req.user._id });
-    }
 
     res.status(201).json({
       success: true,
@@ -94,6 +115,7 @@ module.exports.placeOrder = async (req, res) => {
       order,
     });
   } catch (error) {
+    console.error("Order placement failed:", error);
     res.status(500).json({
       success: false,
       message: "Failed to place Order",
