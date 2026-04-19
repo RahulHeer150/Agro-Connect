@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MiniMap from "../components/MiniMap";
 import Loader from "../components/Loader";
 
@@ -10,6 +10,9 @@ const FarmerProfile = () => {
   const [farmer, setFarmer] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
   const fetchData = async () => {
@@ -27,6 +30,16 @@ const FarmerProfile = () => {
   fetchData();
 }, [id]);
 
+const getImageUrl = (product) => {
+  const img = product.images?.[0];
+
+  if (!img) return "https://via.placeholder.com/300";
+
+  return img.startsWith("http")
+    ? img
+    : `http://localhost:5000${img}`;
+};
+
   if (loading) {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
@@ -36,7 +49,7 @@ const FarmerProfile = () => {
 }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="min-h-screen bg-black text-white p-6 mt-15">
 
       {/* 🔥 PROFILE HEADER */}
       <div className="max-w-5xl mx-auto">
@@ -79,25 +92,25 @@ const FarmerProfile = () => {
         <h2 className="text-xl mb-4 text-green-400">Products 🌾</h2>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+  {products.map((product) => (
+    <div
+      key={product._id}
+     onClick={() => navigate(`/product/${product._id}`)}
+      className="bg-white/10 rounded-xl overflow-hidden hover:scale-105 transition"
+    >
+      <img
+        src={getImageUrl(product)}
+        alt={product.name}
+        className="w-full h-40 object-cover"
+      />
 
-          {products.map((product) => (
-            <div
-              key={product._id}
-              className="bg-white/10 rounded-xl overflow-hidden hover:scale-105 transition"
-            >
-              <img
-                src={product.image}
-                className="w-full h-40 object-cover"
-              />
-
-              <div className="p-2">
-                <p className="font-semibold">{product.name}</p>
-                <p className="text-green-400">₹{product.price}</p>
-              </div>
-            </div>
-          ))}
-
-        </div>
+      <div className="p-2">
+        <p className="font-semibold">{product.name}</p>
+        <p className="text-green-400">₹{product.price}</p>
+      </div>
+    </div>
+  ))}
+</div>
 
       </div>
     </div>
