@@ -80,9 +80,12 @@ const ProductDetails = () => {
           <p className="text-gray-600 mt-4">{product.description}</p>
 
           <div className="mt-4 text-sm text-gray-700">
-            <p>
-              <strong>Farmer:</strong> {product.farmer?.name}
-            </p>
+            <p
+  onClick={() => navigate(`/farmer/${product.farmer._id}`)}
+  className="text-green-600 cursor-pointer hover:underline"
+>
+  {product.farmer.name}
+</p>
             <p>
               <strong>Location:</strong> {product.location?.village}
             </p>
