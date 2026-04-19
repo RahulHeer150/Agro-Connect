@@ -1,13 +1,20 @@
 import { MapPin, Sprout, ShoppingBasket } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 const FarmerPopup = ({ farmer }) => {
+
+  const navigate = useNavigate();
   return (
     <div className="text-sm space-y-2 min-w-[180px]">
 
       {/* Farmer name */}
-      <h3 className="font-semibold text-base text-green-700">
-        {farmer.name}
-      </h3>
+      <h3
+  onClick={() => navigate(`/farmer/${farmer._id}`)}
+  className="cursor-pointer text-green-700 font-bold"
+>
+  {farmer.name}
+</h3>
 
       {/* Farm name if available */}
       {farmer.farmDetails?.farmName && (
