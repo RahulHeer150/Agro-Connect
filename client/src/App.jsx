@@ -29,6 +29,7 @@ import AddCrop from "./pages/AddCrop";
 import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
 import MapPage from "./pages/MapPage";
+import FarmerProfile from "./components/FarmerProfile";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/add-crop" element={<AddCrop />} />
         <Route path="/maps" element={<MapPage />} />
+        <Route path="/farmer/:id" element={<FarmerProfile />} />
         
       </Routes>
       <Footer />
