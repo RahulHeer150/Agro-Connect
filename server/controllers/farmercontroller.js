@@ -62,3 +62,34 @@ module.exports.getFarmerdashboard = async (req, res) => {
   }
 
 };
+
+
+const User = require("../models/usermodel");
+
+exports.getFarmerWithProducts = async (req, res) => {
+  try {
+    const farmer = await User.findById(req.params.id).select("-password");
+
+    if (!farmer || farmer.role !== "farmer") {
+      return res.status(404).json({
+        success: false,
+        message: "Farmer not found",
+      });
+    }
+
+    const products = await Product.find({
+      farmer: req.params.id,
+    });
+
+    res.status(200).json({
+      success: true,
+      farmer,
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
