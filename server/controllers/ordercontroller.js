@@ -127,7 +127,7 @@ module.exports.placeOrder = async (req, res) => {
 module.exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ buyer: req.user._id })
-      .populate("items.product", "name price")
+      .populate("items.product", "name price images unit")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -145,7 +145,7 @@ module.exports.getMyOrders = async (req, res) => {
 exports.getBuyerOrders = async (req, res) => {
   try {
     const orders = await Order.find({ buyer: req.user._id })
-      .populate("items.product", "name price unit")
+      .populate("items.product", "name price unit images")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -164,7 +164,7 @@ exports.getBuyerOrders = async (req, res) => {
 exports.getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
-      .populate("items.product", "name price unit")
+      .populate("items.product", "name price unit images")
       .populate("buyer", "name email phone");
 
     if (!order) {
@@ -211,7 +211,7 @@ module.exports.getFarmerOrders = async (req, res) => {
       paymentStatus: "paid",
     })
       .populate("buyer", "name phone")
-      .populate("items.product", "name price unit")
+      .populate("items.product", "name price unit images")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
