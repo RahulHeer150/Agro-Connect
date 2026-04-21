@@ -40,7 +40,7 @@ const Marketplace = () => {
   useEffect(() => {
     let updated = [...products];
 
-    
+  
     if (filters.categories.length > 0) {
       updated = updated.filter((p) =>
         filters.categories.includes(p.category)
