@@ -10,6 +10,7 @@ const notifyFarmerNewOrder= async(order)=>{
       console.warn("Cannot send farmer notification: missing farmer email for order", order._id);
       return;
     }
+    
 
     const subject = 'New Order Received';
     const buyerName = order.buyer?.name || 'a buyer';
