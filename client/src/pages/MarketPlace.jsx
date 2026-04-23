@@ -8,6 +8,7 @@ const Marketplace = () => {
   const [filters, setFilters] = useState({
     categories: [],
     price: null,
+    distance: "",
   });
 
   const [products, setProducts] = useState([]);
@@ -47,7 +48,25 @@ const Marketplace = () => {
     }
 
     if (filters.price) {
-      updated = updated.filter((p) => p.price <= filters.price);
+      let maxPrice;
+      switch (filters.price) {
+        case "low":
+          maxPrice = 30;
+          break;
+        case "mid":
+          maxPrice = 50;
+          break;
+        case "high":
+          maxPrice = Infinity;
+          break;
+        default:
+          maxPrice = Infinity;
+      }
+      updated = updated.filter((p) => p.price <= maxPrice);
+    }
+
+    if (filters.distance) {
+      updated = updated.filter((p) => p.distance <= parseInt(filters.distance));
     }
 
     setFilteredProducts(updated);

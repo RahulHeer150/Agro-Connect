@@ -17,7 +17,7 @@ const FilterSidebar = ({ filters, setFilters }) => {
         <h3 className="text-lg font-semibold">Filters</h3>
         <button
           onClick={() =>
-            setFilters({ categories: [], price: null, distance: null })
+            setFilters({ categories: [], price: null, distance: "" })
           }
           className="text-sm text-green-700 hover:underline"
         >
