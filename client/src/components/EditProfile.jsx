@@ -8,7 +8,7 @@ const EditProfile = () => {
 
   // Fetch user
   const fetchProfile = async () => {
-    const res = await axios.get("http://localhost:5000/api/auth/profile", {
+    const res = await axios.get("https://agro-connect-8yjz.onrender.com/api/auth/profile", {
       withCredentials: true,
     });
 

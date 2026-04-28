@@ -38,7 +38,7 @@ const getImageUrl = (product) => {
 
   return img.startsWith("http")
     ? img
-    : `http://localhost:5000${img}`;
+    : `https://agro-connect-8yjz.onrender.com${img}`;
 };
 
   if (loading) {

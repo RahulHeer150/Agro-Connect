@@ -70,7 +70,7 @@ const Profile = () => {
       );
 
       await axios.put(
-        "http://localhost:5000/api/auth/update-profile",
+        "https://agro-connect-8yjz.onrender.com/api/auth/update-profile",
         {
           lat: geoLocation.lat,
           lng: geoLocation.lng,

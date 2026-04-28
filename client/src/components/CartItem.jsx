@@ -11,7 +11,7 @@ const CartItem = ({ item }) => {
   const imageUrl = imagePath
     ? imagePath.startsWith("http")
       ? imagePath
-      : `http://localhost:5000${imagePath}`
+      : `https://agro-connect-8yjz.onrender.com${imagePath}`
     : "/placeholder.png";
 
   return (
