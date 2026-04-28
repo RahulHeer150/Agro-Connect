@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ProfileProgress from "./ProfileProgress";
 import { calculateProfileCompletion } from "../utils/profileCompletion";
 import LocationPicker from "./LocationPicker";
-import MiniMap from "../components/MiniMap";
+import MiniMap from "./MiniMap";
 
 const Profile = () => {
   const [user, setUser] = useState(null);

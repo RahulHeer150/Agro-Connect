@@ -4,7 +4,7 @@ const Product = require("../models/productmodel");
 const { notifyFarmerNewOrder, 
     notifyBuyerOrderStatus,
     notifyBuyerShipped
- } = require("../services/notificationService");
+ } = require("../services/notificationservice");
 
 module.exports.placeOrder = async (req, res) => {
   try {
