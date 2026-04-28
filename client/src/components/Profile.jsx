@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import ProfileProgress from "./ProfileProgress";
+import ProfileProgress from "./ProfileProgress.jsx";
 import { calculateProfileCompletion } from "../utils/profileCompletion";
-import LocationPicker from "./LocationPicker";
-import MiniMap from "./MiniMap";
+import LocationPicker from "./LocationPicker.jsx";
+import MiniMap from "./MiniMap.jsx";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
