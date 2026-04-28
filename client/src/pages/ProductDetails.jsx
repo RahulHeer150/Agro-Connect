@@ -14,6 +14,7 @@ const ProductDetails = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState(null);
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   const handleAddToCart = async () => {
 
@@ -40,7 +41,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const res = await axios.get(`${apiBaseUrl}/api/products/${id}`);
 
         console.log("API DATA:", res.data);
 
@@ -61,7 +62,7 @@ const ProductDetails = () => {
   const imagePath = productImage?.url || productImage;
   const imageUrl = imagePath?.startsWith("http")
     ? imagePath
-    : `http://localhost:5000${imagePath}`;
+    : `${apiBaseUrl}${imagePath}`;
 
   return (
     <section className="max-w-6xl mx-auto px-6 py-16 mt-10">

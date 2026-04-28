@@ -10,6 +10,7 @@ import Loader from "./Loader";
 const MyProduct = () => {
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -86,7 +87,7 @@ const MyProduct = () => {
     if (normalizedPath.startsWith("http")) {
       return normalizedPath;
     }
-    return `http://localhost:5000${normalizedPath}`;
+    return `${apiBaseUrl}${normalizedPath}`;
   };
 
   // ⏳ Loading state

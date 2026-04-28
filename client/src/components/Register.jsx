@@ -32,6 +32,7 @@ const UserSignup = () => {
 
   const navigate = useNavigate();
   const { login } = useAuth();
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
 
 
@@ -80,7 +81,7 @@ const UserSignup = () => {
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const res = await axios.post(
-        "http://localhost:5001/api/auth/google-login",
+        `${apiBaseUrl}/api/auth/google-login`,
         { token: tokenResponse.access_token }
       );
       localStorage.setItem("token", res.data.token);

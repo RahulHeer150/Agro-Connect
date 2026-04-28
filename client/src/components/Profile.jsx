@@ -14,12 +14,12 @@ const Profile = () => {
 
   const navigate = useNavigate();
   const completion = calculateProfileCompletion(user);
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   const fetchProfile = async () => {
-    const res = await axios.get(
-      "https://agro-connect-8yjz.onrender.com/api/auth/profile",
-      { withCredentials: true }
-    );
+    const res = await axios.get(`${apiBaseUrl}/api/auth/profile`, {
+      withCredentials: true,
+    });
     setUser(res.data.user);
   };
 
@@ -70,7 +70,7 @@ const Profile = () => {
       );
 
       await axios.put(
-        "https://agro-connect-8yjz.onrender.com/api/auth/update-profile",
+        `${apiBaseUrl}/api/auth/update-profile`,
         {
           lat: geoLocation.lat,
           lng: geoLocation.lng,

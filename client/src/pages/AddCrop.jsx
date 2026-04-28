@@ -15,6 +15,7 @@ const AddCrop = () => {
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   // Handle inputs
   const handleChange = (e) => {
@@ -51,7 +52,7 @@ const AddCrop = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/products/add",
+        `${apiBaseUrl}/api/products/add`,
         data,
         {
           headers: {

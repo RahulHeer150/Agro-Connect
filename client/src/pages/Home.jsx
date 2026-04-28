@@ -6,6 +6,7 @@ import FarmerBenefits from '../components/FarmerBenefits'
 import ByuerBenefits from '../components/ByuerBenefits'
 
 const Home = () => {
+  console.log(import.meta.env.VITE_API_URL);
   return (
     <>
       <HeroSection/>

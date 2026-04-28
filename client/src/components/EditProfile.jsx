@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({});
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   // Fetch user
   const fetchProfile = async () => {
-    const res = await axios.get("https://agro-connect-8yjz.onrender.com/api/auth/profile", {
+    const res = await axios.get(`${apiBaseUrl}/api/auth/profile`, {
       withCredentials: true,
     });
 
@@ -37,7 +38,7 @@ const EditProfile = () => {
 
     try {
       await axios.put(
-        "http://localhost:5000/api/auth/update-profile",
+        `${apiBaseUrl}/api/auth/update-profile`,
         formData,
         { withCredentials: true }
       );

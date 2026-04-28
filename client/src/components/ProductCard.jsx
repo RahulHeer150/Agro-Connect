@@ -7,6 +7,7 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const { isLoggedIn, user } = useAuth();
   const { addToCart } = useCart();
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   const handleAddToCart = async () => {
 
@@ -32,7 +33,7 @@ const ProductCard = ({ product }) => {
   const imagePath = productImage?.url || productImage;
   const imageUrl = imagePath?.startsWith("http")
     ? imagePath
-    : `http://localhost:5000${imagePath}`;
+    : `${apiBaseUrl}${imagePath}`;
 
   return (
     <div

@@ -8,12 +8,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "https://agro-connect-8yjz.onrender.com",
         changeOrigin: true,
         secure: false,
       },
       "/payment": {
-        target: "http://localhost:5000",
+        target: "https://agro-connect-8yjz.onrender.com",
         changeOrigin: true,
         secure: false,
       },
