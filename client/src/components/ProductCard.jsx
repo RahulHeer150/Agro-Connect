@@ -28,9 +28,11 @@ const ProductCard = ({ product }) => {
     }
   };
 
-  const imageUrl = product.images?.[0]?.startsWith("http")
-    ? product.images[0]
-    : `http://localhost:5000${product.images?.[0]}`;
+  const productImage = product.images?.[0];
+  const imagePath = productImage?.url || productImage;
+  const imageUrl = imagePath?.startsWith("http")
+    ? imagePath
+    : `http://localhost:5000${imagePath}`;
 
   return (
     <div

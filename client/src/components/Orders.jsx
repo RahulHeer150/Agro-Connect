@@ -1,20 +1,22 @@
 import OrderTable from "./OrderTable";
 import EmptyState from "./EmptyState";
-import { useCart } from "../context/CartContext";
+import { getFarmerOrdersAPI } from "../api/orderapi";
 import { useState, useEffect } from "react";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const getMyOrdersAPI= useCart();
 
-
-useEffect(() => {
-  const loadOrders = async () => {
-    const res = await getMyOrdersAPI();
-    setOrders(res.data.orders);
-  };
-  loadOrders();
-}, []);
+  useEffect(() => {
+    const loadOrders = async () => {
+      try {
+        const res = await getFarmerOrdersAPI();
+        setOrders(res.data.orders || []);
+      } catch (error) {
+        console.error("Failed to load farmer orders", error);
+      }
+    };
+    loadOrders();
+  }, []);
 
   return (
     <div>

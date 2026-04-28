@@ -6,12 +6,13 @@ const CartItem = ({ item }) => {
 
   const { updateCartItem, removeFromCart } = useCart();
 
-  const imageUrl =
-  item.product?.images && item.product.images.length > 0
-    ? item.product.images[0].startsWith("http")
-      ? item.product.images[0]
-      : `http://localhost:5000${item.product.images[0]}`
-    : "loading...";
+  const image = item.product?.images?.[0];
+  const imagePath = image?.url || image;
+  const imageUrl = imagePath
+    ? imagePath.startsWith("http")
+      ? imagePath
+      : `http://localhost:5000${imagePath}`
+    : "/placeholder.png";
 
   return (
     <motion.div

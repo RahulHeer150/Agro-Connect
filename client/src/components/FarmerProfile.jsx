@@ -31,7 +31,8 @@ const FarmerProfile = () => {
 }, [id]);
 
 const getImageUrl = (product) => {
-  const img = product.images?.[0];
+  const image = product.images?.[0];
+  const img = image?.url || image;
 
   if (!img) return "https://via.placeholder.com/300";
 

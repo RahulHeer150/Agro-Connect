@@ -6,6 +6,11 @@ const connectToDb = require("./config/db");
 
 dotenv.config();
 
+// console.log("ENV CHECK:");
+// console.log("CLOUD NAME:", process.env.CLOUDINARY_CLOUD_NAME);
+// console.log("API KEY:", process.env.CLOUDINARY_API_KEY);
+// console.log("API SECRET:", process.env.CLOUDINARY_API_SECRET);
+
 const app = express();
 
 app.use(express.json());
@@ -13,12 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 connectToDb();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+app.use(cors({ origin: "*" }));
 
 app.use("/uploads", express.static(require("path").join(__dirname, "uploads")));
 

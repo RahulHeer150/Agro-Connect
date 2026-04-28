@@ -50,10 +50,17 @@ const productSchema = new mongoose.Schema(
       village: String,
     },
 
-    // Images (Cloudinary URLs later)
+    // Images (Cloudinary URLs)
     images: [
       {
-        type: String,
+        url: {
+          type: String,
+          required: true,
+        },
+        public_id: {
+          type: String,
+          required: true,
+        },
       },
     ],
 

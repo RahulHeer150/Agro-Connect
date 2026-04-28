@@ -75,14 +75,18 @@ const MyProduct = () => {
   };
 
   // 🖼️ Get image URL
-  const getImageUrl = (imagePath) => {
+  const getImageUrl = (image) => {
+    const imagePath = image?.url || image;
+
     if (!imagePath) {
       return "https://via.placeholder.com/300x200?text=No+Image";
     }
-    if (imagePath.startsWith("http")) {
-      return imagePath;
+
+    const normalizedPath = String(imagePath).trim();
+    if (normalizedPath.startsWith("http")) {
+      return normalizedPath;
     }
-    return `http://localhost:5000${imagePath}`;
+    return `http://localhost:5000${normalizedPath}`;
   };
 
   // ⏳ Loading state

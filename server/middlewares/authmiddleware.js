@@ -55,7 +55,10 @@ module.exports.authUser = async (req, res, next) => {
 
 module.exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {
-    if (!req.user || !roles.includes(req.user.role)) {
+    const userRole = req.user?.role?.toString().toLowerCase();
+    const normalizedRoles = roles.map((role) => role.toString().toLowerCase());
+
+    if (!req.user || !normalizedRoles.includes(userRole)) {
       return res.status(403).json({
         success: false,
         message: "Access denied: Insufficient permissions",

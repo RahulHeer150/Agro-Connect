@@ -57,9 +57,11 @@ const ProductDetails = () => {
 
   if (!product) return <Loader size="large"/>;
 
-  const imageUrl = product.images?.[0]?.startsWith("http")
-    ? product.images[0]
-    : `http://localhost:5000${product.images?.[0]}`;
+  const productImage = product.images?.[0];
+  const imagePath = productImage?.url || productImage;
+  const imageUrl = imagePath?.startsWith("http")
+    ? imagePath
+    : `http://localhost:5000${imagePath}`;
 
   return (
     <section className="max-w-6xl mx-auto px-6 py-16 mt-10">

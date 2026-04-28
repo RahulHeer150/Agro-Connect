@@ -1,9 +1,8 @@
 const express=require("express");
 const router=express.Router();
+const { authUser, authorizeRoles } = require("../middlewares/authmiddleware");
 
-const { getFarmerdashboard}=require("../controllers/farmercontroller");
-const { authUser, authorizeRoles }=require("../middlewares/authmiddleware");
-const { getFarmerWithProducts } = require("../controllers/farmerController");
+const { getFarmerdashboard, getFarmerWithProducts }=require("../controllers/farmercontroller");
 
 router.get("/:id", getFarmerWithProducts);
 
