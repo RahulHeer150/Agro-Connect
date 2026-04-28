@@ -33,7 +33,6 @@ const paymentRoutes = require("./routes/paymentroutes");
 const farmerRoutes = require("./routes/farmerroutes");
 const cartRoutes = require("./routes/cartroutes");
 
-
 app.use("/api/auth", authRoutes);
 app.use("/api/map", mapsRoutes);
 app.use("/api/products", productRoutes);
