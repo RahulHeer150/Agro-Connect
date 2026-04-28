@@ -18,7 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 connectToDb();
 
-app.use(cors({ origin: "*" }));
+app.use(cors({
+  origin: "https://agro-connect-qtnv.vercel.app",
+  credentials: true
+}));
 
 app.use("/uploads", express.static(require("path").join(__dirname, "uploads")));
 
