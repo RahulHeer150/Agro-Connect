@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProfileProgress from "./ProfileProgress";
 import { calculateProfileCompletion } from "../utils/profileCompletion";
-import LocationPicker from "../components/LocationPicker";
+import LocationPicker from "./LocationPicker";
 import MiniMap from "../components/MiniMap";
 
 const Profile = () => {
