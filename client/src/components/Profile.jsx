@@ -17,7 +17,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     const res = await axios.get(
-      "http://localhost:5000/api/auth/profile",
+      "https://agro-connect-8yjz.onrender.com/api/auth/profile",
       { withCredentials: true }
     );
     setUser(res.data.user);
