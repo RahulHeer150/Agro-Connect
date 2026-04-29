@@ -2,14 +2,11 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
+const fs = require("fs");
 const connectToDb = require("./config/db");
 
 dotenv.config();
-
-// console.log("ENV CHECK:");
-// console.log("CLOUD NAME:", process.env.CLOUDINARY_CLOUD_NAME);
-// console.log("API KEY:", process.env.CLOUDINARY_API_KEY);
-// console.log("API SECRET:", process.env.CLOUDINARY_API_SECRET);
 
 const app = express();
 
@@ -18,10 +15,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 connectToDb();
 
-app.use(cors({
-  origin: "https://agro-connect-qtnv.vercel.app",
-  credentials: true
-}));
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "https://agro-connect-qtnv.vercel.app",
+  "https://agro-connect-8yjz.onrender.com",
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
 
 app.use("/uploads", express.static(require("path").join(__dirname, "uploads")));
 
@@ -64,6 +74,14 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
+const clientBuildPath = path.join(__dirname, "../client/dist");
+if (fs.existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath));
+
+  app.get(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(path.join(clientBuildPath, "index.html"));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
