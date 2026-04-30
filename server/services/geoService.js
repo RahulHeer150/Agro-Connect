@@ -13,13 +13,12 @@ exports.findNearbyFarmers = async (lng, lat, maxDistance) => {
       },
     },
 
-  
     // Step 2: join their products from products collection
     {
       $lookup: {
-        from: "products",           // MongoDB collection name
-        localField: "_id",          // farmer _id
-        foreignField: "farmer",     // product.farmer field
+        from: "products", // MongoDB collection name
+        localField: "_id", // farmer _id
+        foreignField: "farmer", // product.farmer field
         as: "products",
         pipeline: [
           { $match: { status: "available" } }, // only available products
