@@ -13,6 +13,7 @@ exports.findNearbyFarmers = async (lng, lat, maxDistance) => {
       },
     },
 
+    
     // Step 2: join their products from products collection
     {
       $lookup: {
