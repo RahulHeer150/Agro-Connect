@@ -27,7 +27,6 @@ exports.findNearbyFarmers = async (lng, lat, maxDistance) => {
         ],
       },
     },
-
     // Step 3: convert meters to km and add product count
     {
       $addFields: {
