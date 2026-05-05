@@ -7,7 +7,6 @@ const cloudinary = require("cloudinary").v2;
  * =========================
  */
 
-
 exports.createProduct = async (req, res) => {
   try {
     const {
