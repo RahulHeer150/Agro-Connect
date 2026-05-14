@@ -25,9 +25,14 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="w-screen bg-linear-to-b from-green-50 to-white overflow-hidden mt-10 sm:mt-20">
-      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[90vh] items-center px-6 lg:px-24">
-
+    <section className="w-full bg-gradient-to-b from-green-50 to-white overflow-hidden mt-10 sm:mt-20">
+      <div
+        className="grid grid-cols-1 lg:grid-cols-2 
+min-h-screen lg:min-h-[90vh] 
+items-center 
+gap-10
+px-4 sm:px-6 md:px-10 lg:px-24"
+      >
         {/* LEFT CONTENT */}
         <div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
@@ -54,8 +59,8 @@ const HeroSection = () => {
                 !isLoggedIn
                   ? navigate("/register")
                   : user?.role === "farmer"
-                  ? navigate("/farmer/dashboard")
-                  : navigate("/marketplace")
+                    ? navigate("/farmer/dashboard")
+                    : navigate("/marketplace")
               }
               className="border border-green-700 text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition"
             >
@@ -95,11 +100,9 @@ const HeroSection = () => {
             />
           </AnimatePresence>
         </div>
-
       </div>
     </section>
   );
 };
 
 export default HeroSection;
-
