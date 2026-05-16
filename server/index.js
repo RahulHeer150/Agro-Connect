@@ -86,4 +86,3 @@ if (fs.existsSync(clientBuildPath)) {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
-
