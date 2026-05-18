@@ -155,7 +155,6 @@ exports.login = async (req, res) => {
       });
     }
 
-
     // 3️⃣ Compare password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
