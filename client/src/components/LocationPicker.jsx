@@ -37,7 +37,7 @@ const LocationPicker = ({ onSelect }) => {
   }, []);
 
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-72 md:h-[400px]">
       <MapContainer
         center={center}
         zoom={13}

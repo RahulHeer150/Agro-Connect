@@ -208,14 +208,14 @@ const Profile = () => {
               <h3 className="text-xl text-green-400 mb-3">Farm Location 🗺️</h3>
 
               {user.location ? (
-                <div className="h-[220px] w-full rounded-xl overflow-hidden border border-gray-700">
+                <div className="h-56 md:h-[220px] w-full rounded-xl overflow-hidden border border-gray-700">
                   <MiniMap
                     lat={user.location.coordinates[1]}
                     lng={user.location.coordinates[0]}
                   />
                 </div>
               ) : (
-                <div className="h-[220px] flex items-center justify-center border border-gray-700 rounded-xl text-gray-400">
+                <div className="h-56 md:h-[220px] flex items-center justify-center border border-gray-700 rounded-xl text-gray-400">
                   No location selected 🌍
                 </div>
               )}

@@ -23,7 +23,7 @@ const MapContainer = ({ location, farmers }) => {
   }
 
   return (
-    <div className="w-full h-[500px] rounded-xl overflow-hidden shadow-lg mt-5">
+    <div className="w-full h-72 md:h-[500px] rounded-xl overflow-hidden shadow-lg mt-5">
       <LeafletMap
         center={[location.lat, location.lng]}
         zoom={13}

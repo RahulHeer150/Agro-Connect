@@ -81,7 +81,7 @@ const getImageUrl = (product) => {
 
         {/* 🗺️ MINI MAP */}
         {farmer.location && (
-          <div className="h-[250px] rounded-xl overflow-hidden mb-6">
+          <div className="h-56 md:h-[250px] rounded-xl overflow-hidden mb-6">
             <MiniMap
               lat={farmer.location.coordinates[1]}
               lng={farmer.location.coordinates[0]}
