@@ -99,7 +99,7 @@ const UserSignup = () => {
         initial={{ opacity: 0, y: 60, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-xl shadow-lg w-[400px] p-8 my-20"
+        className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 my-20 mx-auto"
       >
         <div className="flex justify-center mb-3">
           <img src={mainlogo} alt="AgroConnect Logo" className="w-56" />

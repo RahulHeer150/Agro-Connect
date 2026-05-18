@@ -60,8 +60,8 @@ const UserLogin = () => {
   return (
     <div
     style={{backgroundImage:`url(${bgImg})`}} 
-    className="min-h-screen flex items-center justify-center bg-cover bg-center">
-      <div className="bg-white rounded-xl shadow-lg w-[400px] p-8">
+    className="min-h-screen flex items-center justify-center bg-cover bg-center px-4">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8">
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <img

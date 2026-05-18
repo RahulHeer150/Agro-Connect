@@ -7,8 +7,8 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-700 to-sky-50">
-      <div className="bg-white rounded-xl shadow-lg w-[400px] p-8 shadow-green-800">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-700 to-sky-50 px-4">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 shadow-green-800">
         <div className="flex mb-6 justify-center">
           <img src="" alt="" />
           Logo will placed here
