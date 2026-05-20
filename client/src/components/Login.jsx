@@ -25,7 +25,7 @@ const UserLogin = () => {
       const res = await api.post(
         "/api/auth/login",
         { email, password },
-        { headers: { Authorization: undefined } } // public route
+        { withCredentials: true, headers: { Authorization: undefined } } // public route
       );
 
       /**

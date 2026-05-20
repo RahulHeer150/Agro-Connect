@@ -60,6 +60,7 @@ const UserSignup = () => {
       };
 
       const res = await api.post("api/auth/register", payload, {
+        withCredentials: true,
         headers: { Authorization: undefined },
       });
 

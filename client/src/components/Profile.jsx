@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import api from "../api/axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProfileProgress from "./ProfileProgress.jsx";
@@ -11,16 +12,23 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [geoLocation, setGeoLocation] = useState(null);
   const [showMap, setShowMap] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const completion = calculateProfileCompletion(user);
-  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   const fetchProfile = async () => {
-    const res = await axios.get(`${apiBaseUrl}/api/auth/profile`, {
-      withCredentials: true,
-    });
-    setUser(res.data.user);
+    try {
+      const res = await api.get("/api/auth/profile");
+      setUser(res.data.user);
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Could not load profile. Please log in again."
+      );
+      if (err.response?.status === 401) {
+        navigate("/login");
+      }
+    }
   };
 
   useEffect(() => {
@@ -69,21 +77,20 @@ const Profile = () => {
         geoLocation.lng
       );
 
-      await axios.put(
-        `${apiBaseUrl}/api/auth/update-profile`,
-        {
-          lat: geoLocation.lat,
-          lng: geoLocation.lng,
-          address,
-        },
-        { withCredentials: true }
-      );
+      await api.put("/api/auth/update-profile", {
+        lat: geoLocation.lat,
+        lng: geoLocation.lng,
+        address,
+      });
 
       alert("Location saved ✅");
       setGeoLocation(null);
       fetchProfile();
     } catch (error) {
       console.error(error);
+      setError(
+        error.response?.data?.message || "Failed to save location."
+      );
     }
   };
 
@@ -105,10 +112,30 @@ const Profile = () => {
     window.open(`https://www.google.com/maps?q=${lat},${lng}`);
   };
 
-  if (!user) return <div className="text-white">Loading...</div>;
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-900 via-black to-gray-900 text-white p-6 flex items-center justify-center">
+        <div className="text-center">
+          {error ? (
+            <>
+              <p className="text-red-400 mb-4">{error}</p>
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg"
+              >
+                Go to Login
+              </button>
+            </>
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
- return (
-  <div className="min-h-screen bg-gradient-to-br from-green-900 via-black to-gray-900 text-white p-6">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-black to-gray-900 text-white p-6">
 
     <div className="max-w-5xl mx-auto mt-10 bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-6">
 
