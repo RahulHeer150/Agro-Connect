@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { motion } from "framer-motion";
 
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({});
-  const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   // Fetch user
   const fetchProfile = async () => {
-    const res = await axios.get(`${apiBaseUrl}/api/auth/profile`, {
-      withCredentials: true,
-    });
+    try {
+      const res = await api.get("/api/auth/profile");
+      setUser(res.data.user);
 
-    setUser(res.data.user);
-
-    // Pre-fill form
-    setFormData({
-      ...res.data.user.farmDetails,
-      ...res.data.user.buyerDetails,
-    });
+      // Pre-fill form
+      setFormData({
+        ...res.data.user.farmDetails,
+        ...res.data.user.buyerDetails,
+      });
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    }
   };
 
   useEffect(() => {
@@ -37,15 +37,10 @@ const EditProfile = () => {
     e.preventDefault();
 
     try {
-      await axios.put(
-        `${apiBaseUrl}/api/auth/update-profile`,
-        formData,
-        { withCredentials: true }
-      );
-
+      await api.put("/api/auth/update-profile", formData);
       alert("Profile Updated ✅");
     } catch (err) {
-      console.error(err);
+      console.error("Error updating profile:", err);
     }
   };
 
