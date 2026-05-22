@@ -103,8 +103,6 @@ exports.register = async (req, res) => {
       buyerDetails,
     };
 
-
-
     // 🔹 Create user
     const user = await User.create(userData);
 
