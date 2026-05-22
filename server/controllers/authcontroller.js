@@ -105,8 +105,6 @@ exports.register = async (req, res) => {
 
 
 
-
-
     // 🔹 Create user
     const user = await User.create(userData);
 
