@@ -8,11 +8,6 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-
-
-
-
-
 module.exports.createRazorpayOrder = async (req, res) => {
   try {
     const { orderId } = req.body;
@@ -29,10 +24,9 @@ module.exports.createRazorpayOrder = async (req, res) => {
         message: "Order not Found",
       });
     }
-  
-  
+
     const options = {
-      amount: order.totalAmount *100 , //paisa
+      amount: order.totalAmount * 100, //paisa
       currency: "INR",
       receipt: order._id.toString(),
       payment_capture: 1,
@@ -75,52 +69,50 @@ module.exports.verifyRazorpayPayment = async (req, res) => {
       });
     }
 
- const generated_signature = crypto
-  .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-  .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-  .digest("hex");
+    const generated_signature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest("hex");
 
-if (generated_signature !== razorpay_signature) {
-  return res.status(400).json({
-    success: false,
-    message: "Invalid Signature",
-  });
-}
+    if (generated_signature !== razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Signature",
+      });
+    }
 
-const order = await Order.findById(orderId);
-if (!order) {
-  return res.status(404).json({
-    success: false,
-    message: "Order not found",
-  });
-}
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
 
-// ✅ Correct update
-order.paymentStatus = "paid";
-order.status = "confirmed";
-order.paymentId = razorpay_payment_id;
+    // ✅ Correct update
+    order.paymentStatus = "paid";
+    order.status = "confirmed";
+    order.paymentId = razorpay_payment_id;
 
-await order.save();
+    await order.save();
 
-for (const item of order.items) {
-  await Product.findByIdAndUpdate(item.product, {
-    $inc: { quantity: -item.quantity },
-  });
-}
+    for (const item of order.items) {
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: { quantity: -item.quantity },
+      });
+    }
 
-// Clear cart after successful payment
-const Cart = require("../models/cartmodel");
-await Cart.findOneAndDelete({ buyer: order.buyer });
+    // Clear cart after successful payment
+    const Cart = require("../models/cartmodel");
+    await Cart.findOneAndDelete({ buyer: order.buyer });
 
     // Optionally clear Cart, notify seller, send email etc.
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Payment verified and order completed",
-        order,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Payment verified and order completed",
+      order,
+    });
   } catch (err) {
     console.error("verifyRazorpayPayment error", err);
     return res
