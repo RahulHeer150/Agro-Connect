@@ -2,12 +2,12 @@ const express=require('express');
 const router=express.Router();
 
 
-const {authUser}= require('../middlewares/authmiddleware')
+// const {authUser}= require('../middlewares/authmiddleware')
 
-const adminMiddleware=require("../middlewares/admin.middleware");
-const { AuthMechanism } = require('mongodb');
+// const adminMiddleware=require("../middlewares/admin.middleware");
+const {getDashBoardStats}= require("../controllers/admin.controller")
 
 
-router.get("/test",authUser,adminMiddleware)
+router.get("/stats", getDashBoardStats)
 
 module.exports=router;
