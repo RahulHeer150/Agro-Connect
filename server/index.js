@@ -45,6 +45,7 @@ const orderRoutes = require("./routes/orderroutes");
 const paymentRoutes = require("./routes/paymentroutes");
 const farmerRoutes = require("./routes/farmerroutes");
 const cartRoutes = require("./routes/cartroutes");
+const adminRoutes = require('./routes/adminroutes')
 
 
 app.use("/api/auth", authRoutes);
@@ -54,6 +55,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/api/farmer", farmerRoutes);
 app.use("/api/cart", cartRoutes);
+app.use('/api/admin', adminRoutes)
 
 app.get("/", (req, res) => {
   res.status(200).json({
