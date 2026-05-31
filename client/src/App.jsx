@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useLocation } from "react-router-dom";
+
 import "./index.css";
 import Navbar from "./components/Navbar";
 import { Router, Routes, Route } from "react-router-dom";
@@ -30,11 +32,16 @@ import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
 import MapPage from "./pages/MapPage";
 import FarmerProfile from "./components/FarmerProfile";
+import AdminRoutes from './admin/routes/AdminRoutes'
 
 function App() {
+
+  const location=useLocation();
+  const isAdminRoute=location.pathname.startsWith('/admin')
+
   return (
     <>
-      <Navbar />
+     {!isAdminRoute && <Navbar /> }
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/authpage" element={<AuthPage />} />
@@ -64,9 +71,14 @@ function App() {
         <Route path="/add-crop" element={<AddCrop />} />
         <Route path="/maps" element={<MapPage />} />
         <Route path="/farmer/:id" element={<FarmerProfile />} />
+         {/* Admin Routes */}
+        <Route path="/admin/*" element={<AdminRoutes />} />
+
         
       </Routes>
-      <Footer />
+
+      {!isAdminRoute && <Footer /> }
+      
     </>
   );
 }
