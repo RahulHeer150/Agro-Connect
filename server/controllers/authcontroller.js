@@ -138,6 +138,8 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(req.body);
+    
 
     // 1️⃣ Validate input
     if (!email || !password) {
