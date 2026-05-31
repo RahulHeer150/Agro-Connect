@@ -3,7 +3,7 @@ import {Navigate} from 'react-router-dom'
 import {useAuth} from '../context/AuthContext'
 import Loader from '../components/Loader'
 
-const ProtectedRoute = () => {
+const AdminProtectedRoute = () => {
     const {use,isLoggedIn,loading}  = useAuth();
 
     if(loading){
