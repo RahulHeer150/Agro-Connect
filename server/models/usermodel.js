@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
+
+
+
+
+
 const userSchema = new mongoose.Schema(
   {
     // 🔹 Basic Info
@@ -40,6 +46,11 @@ const userSchema = new mongoose.Schema(
     avatar: String,
 
     isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    isBlocked: {
       type: Boolean,
       default: false,
     },
@@ -88,13 +99,11 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
 
 // 🌍 IMPORTANT: 2dsphere INDEX FOR GEO QUERIES
 userSchema.index({ location: "2dsphere" });
-
 
 // 🔐 HASH PASSWORD BEFORE SAVE
 userSchema.pre("save", async function () {
@@ -102,21 +111,16 @@ userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-
 // 🔑 GENERATE JWT TOKEN
 userSchema.methods.generateAuthToken = function () {
-  return jwt.sign(
-    { id: this._id, role: this.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
-  );
+  return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
 };
-
 
 // 🔍 COMPARE PASSWORD
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-
 
 module.exports = mongoose.model("User", userSchema);
