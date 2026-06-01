@@ -45,7 +45,8 @@ const orderRoutes = require("./routes/orderroutes");
 const paymentRoutes = require("./routes/paymentroutes");
 const farmerRoutes = require("./routes/farmerroutes");
 const cartRoutes = require("./routes/cartroutes");
-const adminRoutes = require('./routes/adminroutes')
+const adminRoutes = require('./routes/admin/adminroutes')
+const farmeradminRoutes = require("./routes/admin/farmerroutes")
 
 
 app.use("/api/auth", authRoutes);
@@ -56,6 +57,7 @@ app.use("/payment", paymentRoutes);
 app.use("/api/farmer", farmerRoutes);
 app.use("/api/cart", cartRoutes);
 app.use('/api/admin', adminRoutes)
+app.use('/api/admin/farmers', farmeradminRoutes)
 
 app.get("/", (req, res) => {
   res.status(200).json({
