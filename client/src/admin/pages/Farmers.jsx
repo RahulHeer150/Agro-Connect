@@ -7,11 +7,14 @@ import Loader from '../../components/Loader';
 const Farmers = () => {
   const[farmers,setFarmers]=useState([]);
   const[loading,setLoading]=useState(true);
+  const [searchTerm,setSearchterm]=useState("");
 
   useEffect(()=>{
     fetchFarmers();
 
   },[]);
+
+ 
 
   const fetchFarmers=async()=>{
     try {
@@ -27,6 +30,11 @@ const Farmers = () => {
     }
 
   };
+
+  const filteredFarmers=farmers.filter((farmer)=>
+    farmer.name.toLowerCase().includes(searchTerm.toLowerCase())||
+    farmer.email.tolowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if(loading){
     return <Loader size='large'/>
