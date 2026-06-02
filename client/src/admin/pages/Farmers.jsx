@@ -79,7 +79,12 @@ const Farmers = () => {
                 Status
 
               </th>
+
+              <th>
+                Actions
+              </th>
             </tr>
+
 
           </thead>
           <tbody>
@@ -118,6 +123,22 @@ const Farmers = () => {
                   }
 
                   </span>
+                </td>
+
+                <td className='p-4'>
+                  <div className='flex gap-2'>
+
+                    <button className='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded'>
+                      View
+                    </button>
+                    <button className='bg-yellow-500 hover:bg-blue-600 text-white px-3 py-1 rounded'>
+                      Suspend
+                    </button>
+                    <button className='bg-red-500 hover:bg-blue-600 text-white px-3 py-1 rounded'>
+                      Delete
+                    </button>
+
+                  </div>
                 </td>
 
               </tr>
