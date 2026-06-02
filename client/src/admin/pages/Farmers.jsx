@@ -46,6 +46,15 @@ const Farmers = () => {
 
       </h1>
 
+      <div className='mb-6'>
+        <input type="text"
+        placeholder='Search farmer by name or email'
+        value={searchTerm}
+        onChange={(e)=>setSearchterm(e.target.value)}
+        className='w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
+         />
+      </div>
+
       <div className='bg-white rounded-xl shadow overflow-hidden'>
         <table className='w-full'>
           <thead className='bg-green-700 text-white'>
@@ -74,7 +83,7 @@ const Farmers = () => {
 
           </thead>
           <tbody>
-            {farmers.map((farmer)=>(
+            {filteredFarmers.map((farmer)=>(
               <tr 
               key={farmer._id}
               className='border-b hover:bg-gray-50'>
