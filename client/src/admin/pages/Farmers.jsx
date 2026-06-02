@@ -33,7 +33,7 @@ const Farmers = () => {
 
   const filteredFarmers=farmers.filter((farmer)=>
     farmer.name.toLowerCase().includes(searchTerm.toLowerCase())||
-    farmer.email.tolowerCase().includes(searchTerm.toLowerCase())
+    farmer.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if(loading){
