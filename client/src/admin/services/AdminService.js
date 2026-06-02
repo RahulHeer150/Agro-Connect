@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getDashboardStats=async()=>{
     const res= await axios.get(
-        "https://agro-connect-8yjz.onrender.com"
+        "http://localhost:5000/api/admin/"
     );
     return res.data;
 }

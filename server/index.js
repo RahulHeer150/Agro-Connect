@@ -17,6 +17,7 @@ connectToDb();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  "http://localhost:5173",
   "https://agro-connect-qtnv.vercel.app",
   "https://agro-connect-8yjz.onrender.com",
 ].filter(Boolean);
