@@ -7,3 +7,11 @@ export const getAllFarmers= async()=>{
 
     return res.data;
 }
+
+export const getFarmerById=async(id)=>{
+    const res= await axios.get(
+          `http://localhost:5000/api/admin/farmers/${id}`
+    )
+    return res.data;
+
+}

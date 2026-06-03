@@ -20,7 +20,10 @@ const Dashboard = () => {
   const fetchStats=async()=>{
     try {
       const data= await getDashboardStats();
-      setStats(data);
+      setStats(data.stats);
+      console.log(stats);
+      
+
       
     } catch (error) {
 
@@ -28,6 +31,8 @@ const Dashboard = () => {
       
     }
   }
+        console.log(stats);
+
 
   const data=[
     {
