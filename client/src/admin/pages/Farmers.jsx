@@ -3,11 +3,14 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { getAllFarmers } from '../services/farmerService'
 import Loader from '../../components/Loader';
+import { useNavigate } from 'react-router-dom';
 
 const Farmers = () => {
   const[farmers,setFarmers]=useState([]);
   const[loading,setLoading]=useState(true);
   const [searchTerm,setSearchterm]=useState("");
+
+  const navigate=useNavigate();
 
   useEffect(()=>{
     fetchFarmers();
@@ -128,7 +131,9 @@ const Farmers = () => {
                 <td className='p-4'>
                   <div className='flex gap-2'>
 
-                    <button className='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded'>
+                    <button
+                    onClick={()=>navigate(`/admin/farmers/${farmer._id}`)}
+                     className='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded'>
                       View
                     </button>
                     <button className='bg-yellow-500 hover:bg-blue-600 text-white px-3 py-1 rounded'>
