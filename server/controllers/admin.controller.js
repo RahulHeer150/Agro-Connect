@@ -43,6 +43,8 @@ exports.getFarmerById=async(req,res)=>{
     try {
         const farmer= await User.findById(req.params.id);
 
+        console.log(req.params.id)
+
         if(!farmer){
             return res.status(404).json({
                 success:false,
@@ -50,9 +52,11 @@ exports.getFarmerById=async(req,res)=>{
             })
         }
 
-        const products= await product.find({
+        const products= await Product.find({
             farmer:req.params.id,
         });
+
+        console.log
 
         res.status(200).json({
             success:true,

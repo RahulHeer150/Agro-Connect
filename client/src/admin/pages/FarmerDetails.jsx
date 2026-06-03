@@ -23,6 +23,11 @@ const FarmerDetails = () => {
 
       setFarmer(data.farmer);
       setProducts(data.products);
+      console.log(farmer)
+
+      console.log("API Response:", data);
+console.log("Farmer:", data.farmer);
+console.log("Products:", data.products);
     } catch (error) {
       console.error(error);
     } finally {
@@ -131,41 +136,44 @@ const FarmerDetails = () => {
 
         <div className="grid md:grid-cols-3 gap-6">
 
-          {products.map((product) => {
-            const imageUrl =
-              product.images?.[0]?.startsWith("http")
-                ? product.images[0]
-                : `http://localhost:5000${product.images?.[0]}`;
+         {products.map((product) => {
+  const image = product.images?.[0];
 
-            return (
-              <div
-                key={product._id}
-                className="border rounded-xl overflow-hidden"
-              >
-                <img
-                  src={imageUrl}
-                  alt={product.name}
-                  className="w-full h-48 object-cover"
-                />
+  const imagePath = image?.url || image;
 
-                <div className="p-4">
+  const imageUrl = imagePath
+    ? imagePath.startsWith("http")
+      ? imagePath
+      : `https://agro-connect-8yjz.onrender.com${imagePath}`
+    : "/placeholder.png";
 
-                  <h3 className="font-semibold">
-                    {product.name}
-                  </h3>
+  return (
+    <div
+      key={product._id}
+      className="border rounded-xl overflow-hidden"
+    >
+      <img
+        src={imageUrl}
+        alt={product.name}
+        className="w-full h-48 object-cover"
+      />
 
-                  <p className="text-green-600 font-bold">
-                    ₹{product.price}
-                  </p>
+      <div className="p-4">
+        <h3 className="font-semibold">
+          {product.name}
+        </h3>
 
-                  <p className="text-gray-500 text-sm">
-                    Stock: {product.quantity}
-                  </p>
+        <p className="text-green-600 font-bold">
+          ₹{product.price}
+        </p>
 
-                </div>
-              </div>
-            );
-          })}
+        <p className="text-gray-500 text-sm">
+          Stock: {product.quantity}
+        </p>
+      </div>
+    </div>
+  );
+})}
 
         </div>
 
