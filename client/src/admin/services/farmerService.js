@@ -15,3 +15,18 @@ export const getFarmerById=async(id)=>{
     return res.data;
 
 }
+
+export const toggleFarmerStatus= async(id)=>{
+    const res= await axios.put(
+    `http://localhost:5000/api/admin/farmers/${id}/toggle-status`    
+    )
+
+    return res.data;
+}
+
+export const deleteFarmer=async(id)=>{
+    const res= await axios.delete(
+        `http://localhost:5000/api/admin/farmers/${id}`
+    )
+    return res.data;
+}
