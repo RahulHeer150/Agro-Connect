@@ -5,7 +5,7 @@ const router=express.Router();
 // const {authUser}= require('../middlewares/authmiddleware')
 
 // const adminMiddleware=require("../middlewares/admin.middleware");
-const {getDashBoardStats,getFarmerById, toggleFarmerStatus,deleteFarmer}= require("../../controllers/admin.controller")
+const {getDashBoardStats,getFarmerById, toggleFarmerStatus,deleteFarmer, getBuyerById,toggleBuyerStatus,deleteBuyer}= require("../../controllers/admin.controller")
 
 
  //FARMER MANAGEMENT  ROUTES FOR FARMERS
@@ -15,4 +15,7 @@ router.put("/farmers/:id/toggle-status",toggleFarmerStatus);
 router.delete("/farmers/:id",deleteFarmer)
 
 // BUYER MANAGEMENT ROUTES FOR BUYERS
+router.get("/buyers/:id",getBuyerById)
+router.put("/buyers/:id/toggle-status",toggleFarmerStatus);
+router.delete("/buyers/:id",deleteFarmer)
 module.exports=router;

@@ -53,7 +53,6 @@ exports.getFarmerById = async (req, res) => {
       farmer: req.params.id,
     });
 
-    console.log;
 
     res.status(200).json({
       success: true,
@@ -129,5 +128,102 @@ exports.deleteFarmer=async(req,res)=>{
         
     }
 
+
+}
+
+// BUYER MANAGEMENT
+
+
+exports.getBuyerById=async(req,res)=>{
+  try {
+    const buyers= req.params.id;
+
+    if(!buyer){
+      res.status(404).json({
+        success:false,
+        message:"Buyer not Found!!"
+      })
+    }
+
+    const orders= await Order.findById({
+      buyer:req.params.id
+    })
+
+    res.status(200).json({
+      success:true,
+      buyer,
+      orders,
+    });
+    
+  } catch (error) {
+    console.error(error.message)
+
+    res.status(500).json({
+      success:false,
+      message:"Internal Server Error!!!"
+    })
+    
+  }
+
+}
+
+exports.toggleBuyerStatus = async(req,res)=>{
+
+  try{
+
+    const buyers= req.params.id;
+
+    if(!buyer){
+      res.status(404).json({
+        success:false,
+        message:"Buyer not Found!!!"
+      })
+
+    }
+     buyer.isBlocked = !buyer.isBlocked
+
+      await buyer.save();
+
+      res.status(200).json({
+        success:true,
+        message:buyer.isBlocked ?
+        "Buyer suspended Successfuly":
+        "buyer activated successfully.!!!",
+        buyer,
+      });
+
+  }catch(error){
+
+     console.error(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server Eror",
+    });
+
+  }
+}
+exports.deleteBuyer=async(req,res)=>{
+  try {
+    const buyer= req.params.id;
+
+    if(!buyer){
+      res.status(404).json({
+        success:false,
+        message:"Buyer not found!!"
+      })
+    }
+     await Order.deleteMany({
+        buyer:req.params.id
+      })
+      await User.findByIdAndDelete(req.params.id);
+
+      res.status(200).json({
+        success:true,
+        message:"Buyer Deleted Successfully..."
+      })
+    
+  } catch (error) {
+    
+  }
 
 }
