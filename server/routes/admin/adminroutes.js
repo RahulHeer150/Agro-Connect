@@ -13,6 +13,7 @@ const {
   toggleBuyerStatus,
   deleteBuyer,
   getAllBuyers,
+  getAllProducts,
 } = require("../../controllers/admin.controller");
 
 //FARMER MANAGEMENT  ROUTES FOR FARMERS
@@ -27,4 +28,8 @@ router.get("/buyers",getAllBuyers)
 router.get("/buyers/:id", getBuyerById);
 router.put("/buyers/:id/toggle-status", toggleFarmerStatus);
 router.delete("/buyers/:id", deleteFarmer);
+
+//PRODUCT ROUTES
+
+router.get("/products",getAllProducts)
 module.exports = router;

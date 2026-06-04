@@ -237,3 +237,23 @@ exports.deleteBuyer = async (req, res) => {
     });
   }
 };
+
+exports.getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find().populate("farmer", "name email");
+
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.error(error.message);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error!!!",
+    });
+  }
+};
+
+
