@@ -26,6 +26,7 @@ const Product = () => {
       setLoading(false);
     }
   };
+  
 
   console.log(products);
 
