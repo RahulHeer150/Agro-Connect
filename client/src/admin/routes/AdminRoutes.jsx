@@ -88,7 +88,7 @@ import AdminLayout from "../components/layout/AdminLayout";
 import Dashboard from "../pages/Dashboard";
 import Farmers from "../pages/Farmers";
 import Buyers from "../pages/Buyers";
-import Products from "../pages/Products";
+import Product from "../pages/Product";
 import Orders from "../pages/Orders";
 import FarmerDetails from "../pages/FarmerDetails";
 
@@ -100,9 +100,10 @@ const AdminRoutes = () => {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="farmers" element={<Farmers />} />
         <Route path="buyers" element={<Buyers />} />
-        <Route path="products" element={<Products />} />
+        <Route path="products" element={<Product />} />
         <Route path="orders" element={<Orders />} />
         <Route path="farmers/:id" element={<FarmerDetails />}
+
 />
       </Route>
 
