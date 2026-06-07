@@ -1,12 +1,15 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import { getAllProducts } from "../services/productService";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchterm] = useState("");
+
+  const navigate=useNavigate();
 
   const fileterdProducts = products.filter(
     (product) =>
