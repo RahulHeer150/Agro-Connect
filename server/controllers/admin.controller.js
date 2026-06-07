@@ -256,4 +256,23 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+exports.getProductById = async (req,res)=>{
+   try{
+
+      const product =
+      await Product.findById(req.params.id)
+      .populate("farmer");
+
+      res.status(200).json({
+         success:true,
+         product,
+      });
+
+   }catch(error){
+      res.status(500).json({
+         success:false,
+      });
+   }
+}
+
 

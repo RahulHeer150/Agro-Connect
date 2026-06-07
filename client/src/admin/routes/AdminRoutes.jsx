@@ -91,6 +91,7 @@ import Buyers from "../pages/Buyers";
 import Product from "../pages/Product";
 import Orders from "../pages/Orders";
 import FarmerDetails from "../pages/FarmerDetails";
+import ProductDetails from "../pages/ProductDetails";
 
 
 const AdminRoutes = () => {
@@ -102,9 +103,9 @@ const AdminRoutes = () => {
         <Route path="buyers" element={<Buyers />} />
         <Route path="products" element={<Product />} />
         <Route path="orders" element={<Orders />} />
-        <Route path="farmers/:id" element={<FarmerDetails />}
+        <Route path="farmers/:id" element={<FarmerDetails />}/>
+        <Route path="products/:id" element={<ProductDetails />}/>
 
-/>
       </Route>
 
       <Route path="*" element={<Navigate to="dashboard" />} />
