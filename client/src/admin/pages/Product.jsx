@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../services/productService";
 
 const Product = () => {
@@ -9,7 +9,7 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchterm] = useState("");
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const fileterdProducts = products.filter(
     (product) =>
@@ -29,7 +29,6 @@ const Product = () => {
       setLoading(false);
     }
   };
-  
 
   console.log(products);
 
@@ -37,12 +36,11 @@ const Product = () => {
     fetchProducts();
   }, []);
 
-
   return (
-<div>
+    <div>
       <h1 className="text-3xl font-bold mb-6">Product Management</h1>
 
-       <div className="mb-6">
+      <div className="mb-6">
         <input
           type="text"
           placeholder="Search Buyer by name or email"
@@ -101,7 +99,15 @@ const Product = () => {
 
                   <td>{product.status}</td>
 
-                  <td>View | Delete</td>
+                  <td>
+                    <button
+                      onClick={() => navigate(`/admin/products/${product._id}`)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded"
+                    >
+                      View
+                    </button>
+                    |Delete
+                  </td>
                 </tr>
               );
             })}
