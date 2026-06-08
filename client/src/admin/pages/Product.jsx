@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllProducts, deleteProduct} from "../services/productService";
+import { getAllProducts, deleteProduct } from "../services/productService";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -18,28 +18,23 @@ const Product = () => {
       product.farmer?.name?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-   const handleDeleteProduct = async(id) =>{
-  
-      const confirmDelete= window.confirm("Are you sure to want to delete your product");
-  
-      if(!confirmDelete) return;
-  
-      try {
-        
-       await deleteProduct(id);
-      
-  
+  const handleDeleteProduct = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure to want to delete your product",
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await deleteProduct(id);
+
       fetchProducts();
-  
-      alert("product deleted Successfully!!!")
-        
-      } catch (error) {
-        
-        console.error(error.message);
-      }
-  
-  
+
+      alert("product deleted Successfully!!!");
+    } catch (error) {
+      console.error(error.message);
     }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -128,18 +123,13 @@ const Product = () => {
                       className="bg-blue-500 text-white px-3 py-1 rounded"
                     >
                       View
-                    </button>
-
-                    {" "}
+                    </button>{" "}
                     <button
                       onClick={() => handleDeleteProduct(product._id)}
                       className="bg-red-500 text-white px-3 py-1 rounded"
                     >
-                    Delete
-
-
+                      Delete
                     </button>
-
                   </td>
                 </tr>
               );
