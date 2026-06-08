@@ -275,4 +275,14 @@ exports.getProductById = async (req,res)=>{
    }
 }
 
+exports.deleteProduct=async(req,res)=>{
+
+  try {
+    const product= req.params.id
+    
+  } catch (error) {
+    
+  }
+
+}
 
