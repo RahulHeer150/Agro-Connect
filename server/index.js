@@ -48,6 +48,7 @@ const farmerRoutes = require("./routes/farmerroutes");
 const cartRoutes = require("./routes/cartroutes");
 const adminRoutes = require('./routes/admin/adminroutes')
 const farmeradminRoutes = require("./routes/admin/farmerroutes")
+const notificationRoutes= require("./routes/notification.routes")
 
 
 app.use("/api/auth", authRoutes);
@@ -59,6 +60,7 @@ app.use("/api/farmer", farmerRoutes);
 app.use("/api/cart", cartRoutes);
 app.use('/api/admin', adminRoutes)
 app.use('/api/admin/farmers', farmeradminRoutes)
+app.use("/api/notifications",notificationRoutes)
 
 app.get("/", (req, res) => {
   res.status(200).json({

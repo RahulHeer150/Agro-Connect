@@ -7,28 +7,25 @@ const {
   markNotificationRead,
   getUnreadCount,
 } = require(
-  "../controllers/notificationController"
+  "../controllers/notification.controller"
 );
 
-const authMiddleware = require(
-  "../middleware/authmiddleware"
-);
+// const authMiddleware = require(
+//   "../middleware/authmiddleware"
+// );
 
 router.get(
   "/my-notifications",
-  authMiddleware,
   getMyNotifications
 );
 
 router.put(
   "/:id/read",
-  authMiddleware,
   markNotificationRead
 );
 
 router.get(
   "/unread-count",
-  authMiddleware,
   getUnreadCount
 );
 
