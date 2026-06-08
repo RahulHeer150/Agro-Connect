@@ -14,7 +14,8 @@ const {
   deleteBuyer,
   getAllBuyers,
   getAllProducts,
-  getProductById
+  getProductById,
+  deleteProduct
 } = require("../../controllers/admin.controller");
 
 //FARMER MANAGEMENT  ROUTES FOR FARMERS
@@ -34,5 +35,6 @@ router.delete("/buyers/:id", deleteFarmer);
 
 router.get("/products",getAllProducts)
 router.get("/products/:id", getProductById);
+router.delete("/products/:id",deleteProduct)
 
 module.exports = router;

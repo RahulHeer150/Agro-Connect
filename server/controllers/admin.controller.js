@@ -278,9 +278,29 @@ exports.getProductById = async (req,res)=>{
 exports.deleteProduct=async(req,res)=>{
 
   try {
-    const product= req.params.id
+    const product= await Product.findById(req.params.id);
+
+    if(!product){
+      return res.status(404).json({
+        success:false,
+        message:"Product not found!!",
+      })
+    }
+
+    await Product.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({
+      success:true,
+      message:"Product deleted Successfully"
+    })
     
   } catch (error) {
+    console.error(error.message);
+
+    return res.status(500).json({
+      success:false,
+      message:"Internal Server Error!!!"
+    })
     
   }
 
