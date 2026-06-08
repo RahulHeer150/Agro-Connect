@@ -18,3 +18,12 @@ export const getProductById = async(id)=>{
 
    return res.data;
 }
+
+export const deleteProduct=async(id)=>{
+    const res= await axios.delete(
+         `http://localhost:5000/api/admin/products/${id}`
+    )
+
+    return res.data;
+
+}

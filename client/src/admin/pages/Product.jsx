@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllProducts } from "../services/productService";
+import { getAllProducts, deleteProduct} from "../services/productService";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -17,6 +17,29 @@ const Product = () => {
       product.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.farmer?.name?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+   const handleDeleteProduct = async(id) =>{
+  
+      const confirmDelete= window.confirm("Are you sure to want to delete your product");
+  
+      if(!confirmDelete) return;
+  
+      try {
+        
+       await deleteProduct(id);
+      
+  
+      fetchProducts();
+  
+      alert("product deleted Successfully!!!")
+        
+      } catch (error) {
+        
+        console.error(error.message);
+      }
+  
+  
+    }
 
   const fetchProducts = async () => {
     try {
@@ -106,7 +129,17 @@ const Product = () => {
                     >
                       View
                     </button>
-                    |Delete
+
+                    {" "}
+                    <button
+                      onClick={() => handleDeleteProduct(product._id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                    Delete
+
+
+                    </button>
+
                   </td>
                 </tr>
               );

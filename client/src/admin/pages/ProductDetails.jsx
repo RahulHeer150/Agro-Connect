@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Loader from "../../components/Loader";
-import { getProductById } from "../services/productService";
+import { getProductById , deleteProduct } from "../services/productService";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -13,6 +13,8 @@ const ProductDetails = () => {
   useEffect(() => {
     fetchProduct();
   }, []);
+
+ 
 
   const fetchProduct = async () => {
     try {
