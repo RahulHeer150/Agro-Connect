@@ -321,6 +321,18 @@ exports.updateApprovalProduct=async(req,res)=>{
 
     await product.save();
 
+    await Notification.create({
+      user:product.farmer,
+      title:
+      status==="approved"?"Product Approved":"Product Rejected",
+      message:
+      status==="approved"?`${product.name} has been approved and is now ready to visible to buyers.`
+      :`${product.name} has been rejected by admin.`,
+
+      type:"product",
+
+    })
+
     res.status(200).json({
       success:true,
       product,
