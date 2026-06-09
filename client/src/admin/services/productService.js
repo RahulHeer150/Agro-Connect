@@ -27,3 +27,13 @@ export const deleteProduct=async(id)=>{
     return res.data;
 
 }
+
+export const updateProductApproval=async(id,status)=>{
+    const res= await axios.put(
+      `http://localhost:5000/api/admin/products/${id}/approval`,{
+        status,
+      }   
+    );
+
+    return res.data;
+}

@@ -71,7 +71,7 @@ console.log("FILES:", req.files);
  */
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({ status: "available" })
+    const products = await Product.find({ status: "available",approvalStatus:"approved" })
       .populate("farmer", "name phone")
       .sort({ createdAt: -1 });
 

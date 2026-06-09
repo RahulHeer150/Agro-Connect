@@ -2,7 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllProducts, deleteProduct } from "../services/productService";
+import {
+  getAllProducts,
+  deleteProduct,
+  updateProductApproval,
+} from "../services/productService";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -54,6 +58,19 @@ const Product = () => {
     fetchProducts();
   }, []);
 
+  const handleApproval=async(id,status)=>{
+    try {
+      await updateProductApproval(id,status);
+
+      fetchProducts();
+      
+    } catch (error) {
+      console.error(error)
+      
+    }
+
+  }
+
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">Product Management</h1>
@@ -80,6 +97,7 @@ const Product = () => {
               <th className="p-4 text-left">Quantity</th>
               <th className="p-4 text-left">Status</th>
               <th className="p-4 text-left">Actions</th>
+              <th className="p-4 text-left">Approval</th>
             </tr>
           </thead>
 
@@ -125,11 +143,36 @@ const Product = () => {
                       View
                     </button>{" "}
                     <button
+                      onClick={() => handleApproval(product._id, "approved")}
+                      className="bg-green-600 text-white px-3 py-1 rounded"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleApproval(product._id, "rejected")}
+                      className="bg-yellow-500 text-white px-3 py-1 rounded"
+                    >
+                      Reject
+                    </button>
+                    <button
                       onClick={() => handleDeleteProduct(product._id)}
                       className="bg-red-500 text-white px-3 py-1 rounded"
                     >
                       Delete
                     </button>
+                  </td>
+                  <td>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm ${
+                        product.approvalStatus === "approved"
+                          ? "bg-green-100 text-green-700"
+                          : product.approvalStatus === "rejected"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
+                      {product.approvalStatus}
+                    </span>
                   </td>
                 </tr>
               );

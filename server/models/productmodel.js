@@ -69,6 +69,11 @@ const productSchema = new mongoose.Schema(
       enum: ["available", "sold_out"],
       default: "available",
     },
+    approvalStatus:{
+      type:String,
+      enum:["pending","approved","rejected"],
+      default:"pending",
+    },
   },
   { timestamps: true }
 );
