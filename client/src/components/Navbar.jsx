@@ -68,69 +68,77 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* 🔹 Right Section */}
-        <div className="hidden md:flex items-center gap-4">
-          {!isLoggedIn ? (
-            <>
-              <Link to="/login" className="text-gray-700 font-medium">
-                Login
-              </Link>
+      {/* 🔹 Right Section */}
+<div className="hidden md:flex items-center gap-4">
+  {!isLoggedIn ? (
+    <>
+      <Link to="/login" className="text-gray-700 font-medium">
+        Login
+      </Link>
+
+      <Link
+        to="/register"
+        className="bg-green-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-800"
+      >
+        Register
+      </Link>
+    </>
+  ) : (
+    <>
+      {/* Cart (Buyer only) */}
+      {user?.role === "buyer" && (
+        <button
+          onClick={() => navigate("/cart")}
+          className="relative p-2 rounded-full hover:bg-gray-100 transition"
+        >
+          <ShoppingCart className="w-6 h-6 text-gray-700" />
+        </button>
+      )}
+
+      {/* Notifications (All Logged-in Users) */}
+      <NotificationBell />
+
+      {/* Profile */}
+      <div className="relative">
+        <button
+          onClick={() => setProfileOpen(!profileOpen)}
+          className="flex items-center gap-2"
+        >
+          <FaUserCircle className="text-2xl text-green-700" />
+
+          <span className="font-medium">
+            {user?.name || "User"}
+          </span>
+        </button>
+
+        <AnimatePresence>
+          {profileOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute right-0 mt-3 w-40 bg-white shadow-lg rounded-lg overflow-hidden"
+            >
               <Link
-                to="/register"
-                className="bg-green-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-800"
+                to="/profile"
+                className="block px-4 py-2 hover:bg-gray-100"
               >
-                Register
+                Profile
               </Link>
-            </>
-          ) : (
-            <>
-              {/* ✅ CART ICON (ONLY FOR BUYER) */}
-              {user?.role === "buyer" && (
-                <button
-                  onClick={() => navigate("/cart")}
-                  className="relative p-2 rounded-full hover:bg-gray-100 transition"
-                >
-                  <ShoppingCart className="w-6 h-6 text-gray-700" />
-                </button>
-              )}
 
-              {/* 🔹 Profile */}
-              <div className="relative">
-                <button
-                  onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2"
-                >
-                  <FaUserCircle className="text-2xl text-green-700" />
-                  <span className="font-medium">{user?.name || "User"}</span>
-                </button>
-
-                <AnimatePresence>
-                  {profileOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-3 w-40 bg-white shadow-lg rounded-lg overflow-hidden"
-                    >
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Profile
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                      >
-                        Logout
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+              >
+                Logout
+              </button>
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
+      </div>
+    </>
+  )}
+</div>
 
         {/* 🔹 Mobile Menu Button */}
         <button
