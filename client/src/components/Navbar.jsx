@@ -6,6 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { ShoppingCart } from "lucide-react"; // ✅ added
 import { useAuth } from "../context/AuthContext";
 import logo from "../assets/logo.png";
+import { NotificationBell } from "./NotificationBell";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
