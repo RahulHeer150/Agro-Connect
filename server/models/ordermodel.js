@@ -12,7 +12,6 @@ const orderSchema = new mongoose.Schema(
 
 
 
-
   
     farmer: {
       type: mongoose.Schema.Types.ObjectId,
