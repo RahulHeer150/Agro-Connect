@@ -8,7 +8,6 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-
     farmer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
