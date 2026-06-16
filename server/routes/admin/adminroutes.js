@@ -16,7 +16,8 @@ const {
   getAllProducts,
   getProductById,
   deleteProduct,
-  updateApprovalProduct
+  updateApprovalProduct,
+  getAllOrders
 } = require("../../controllers/admin.controller");
 
 //FARMER MANAGEMENT  ROUTES FOR FARMERS
@@ -38,5 +39,9 @@ router.get("/products",getAllProducts)
 router.get("/products/:id", getProductById);
 router.delete("/products/:id",deleteProduct)
 router.put("/products/:id/approval",updateApprovalProduct)
+
+//Order Routes
+
+router.get("/orders",getAllOrders)
 
 module.exports = router;

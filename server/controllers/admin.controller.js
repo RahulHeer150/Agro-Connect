@@ -256,96 +256,108 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-exports.getProductById = async (req,res)=>{
-   try{
-
-      const product =
-      await Product.findById(req.params.id)
-      .populate("farmer");
-
-      res.status(200).json({
-         success:true,
-         product,
-      });
-
-   }catch(error){
-      res.status(500).json({
-         success:false,
-      });
-   }
-}
-
-exports.deleteProduct=async(req,res)=>{
-
+exports.getProductById = async (req, res) => {
   try {
-    const product= await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate("farmer");
 
-    if(!product){
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+    });
+  }
+};
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
       return res.status(404).json({
-        success:false,
-        message:"Product not found!!",
-      })
+        success: false,
+        message: "Product not found!!",
+      });
     }
 
     await Product.findByIdAndDelete(req.params.id);
 
     return res.status(200).json({
-      success:true,
-      message:"Product deleted Successfully"
-    })
-    
+      success: true,
+      message: "Product deleted Successfully",
+    });
   } catch (error) {
     console.error(error.message);
 
     return res.status(500).json({
-      success:false,
-      message:"Internal Server Error!!!"
-    })
-    
+      success: false,
+      message: "Internal Server Error!!!",
+    });
   }
+};
+exports.updateApprovalProduct = async (req, res) => {
+  try {
+    const { status } = req.body;
 
-}
-exports.updateApprovalProduct=async(req,res)=>{
-  try{
-    const {status} = req.body;
+    const product = await Product.findById(req.params.id);
 
-    const product= await Product.findById(req.params.id);
-
-    if(!product){
+    if (!product) {
       return res.status(404).json({
-        success:false,
-        message:"Product not found!!",
-      })
+        success: false,
+        message: "Product not found!!",
+      });
     }
-    product.approvalStatus= status;
+    product.approvalStatus = status;
 
     await product.save();
 
     await Notification.create({
-      user:product.farmer,
-      title:
-      status==="approved"?"Product Approved":"Product Rejected",
+      user: product.farmer,
+      title: status === "approved" ? "Product Approved" : "Product Rejected",
       message:
-      status==="approved"?`${product.name} has been approved and is now ready to visible to buyers.`
-      :`${product.name} has been rejected by admin.`,
+        status === "approved"
+          ? `${product.name} has been approved and is now ready to visible to buyers.`
+          : `${product.name} has been rejected by admin.`,
 
-      type:"product",
-
-    })
+      type: "product",
+    });
 
     res.status(200).json({
-      success:true,
+      success: true,
       product,
-    })
+    });
+  } catch (error) {
+    console.error(error.message);
 
-  }catch(error){
+    res.status(500).json({
+      success: false,
+      message: "Server Error!!!",
+    });
+  }
+};
+
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate("buyer", "name email")
+      .populate("farmer", "name email")
+      .populate("items.product", "name images")
+      .sort({
+        createdAt:-1,
+      });
+
+      res.status(200).json({
+        success:true,
+        orders,
+      })
+  } catch (error) {
     console.error(error.message);
 
     res.status(500).json({
       success:false,
-      message:"Server Error!!!"
+      message:"server Error!!"
     })
-
   }
-
-}
+};
