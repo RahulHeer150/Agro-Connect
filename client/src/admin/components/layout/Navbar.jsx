@@ -8,7 +8,6 @@ const Navbar = () => {
     <header className="h-16 bg-white shadow px-6 flex items-center justify-between">
       <h2 className="font-semibold text-2xl">Admin Dashboard</h2>
 
-
       <div className="flex items-center gap-3">
         <NotificationBell />
         <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center text-white">
