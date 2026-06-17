@@ -7,7 +7,7 @@ import logo from "../../../assets/logo.png";
 const Sidebar=()=>{
 
         return (
-    <aside className="w-64 min-h-screen bg-green-950 text-white border-r border-green-800">
+    <aside className="w-64 min-h-screen bg-green-950 text-white border-r border-green-800 ">
 
       {/* Logo */}
       <div className="p-6 border-b border-green-800">
