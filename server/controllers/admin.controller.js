@@ -345,12 +345,40 @@ exports.getAllOrders = async (req, res) => {
       .populate("farmer", "name email")
       .populate("items.product", "name images")
       .sort({
-        createdAt:-1,
+        createdAt: -1,
       });
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    console.error(error.message);
+
+    res.status(500).json({
+      success: false,
+      message: "server Error!!",
+    });
+  }
+};
+
+exports.getOrdersById = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate("buyer", "name email phone")
+      .populate("farmer", "name email phone")
+      .populate("items.product");
+
+      if(!order){
+        res.status(404).json({
+          success:false,
+          message:"Order not Found!!"
+        })
+      }
 
       res.status(200).json({
         success:true,
-        orders,
+        order,
       })
   } catch (error) {
     console.error(error.message);
@@ -358,6 +386,7 @@ exports.getAllOrders = async (req, res) => {
     res.status(500).json({
       success:false,
       message:"server Error!!"
-    })
+    });
+
   }
 };
