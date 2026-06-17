@@ -7,3 +7,12 @@ export const getAllOrders=async()=>{
     )
     return res.data;
 }
+
+export const getOrderById=async(id)=>{
+    const res= await axios.get(
+            `http://localhost:5000/api/admin/orders/${id}`
+
+    )
+
+    return res.data;
+}
