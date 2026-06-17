@@ -12,6 +12,17 @@ const Orders = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
+  const filteredOrders = orders.filter((order) => {
+    const search = searchTerm.toLowerCase();
+
+    return (
+      order._id.toLowerCase().includes(search) ||
+      order.buyer?.name?.toLowerCase().includes(search) ||
+      order.farmer?.name?.toLowerCase().includes(search) ||
+      order.status?.toLowerCase().includes(search)
+    );
+  });
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -28,7 +39,9 @@ const Orders = () => {
     }
   };
 
-  
+  if (loading) {
+    return <Loader size="large" />;
+  }
 
   return (
     <div>
@@ -43,6 +56,8 @@ const Orders = () => {
           type="text"
           placeholder="Search by Order ID, Buyer, Farmer or Status..."
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
@@ -70,7 +85,7 @@ const Orders = () => {
           </thead>
 
           <tbody>
-            {orders.map((order) => {
+            {filteredOrders.map((order) => {
               <tr key={order._id} className="border-b">
                 <td className="p-4">{order._id.slice(-6)}</td>
 
