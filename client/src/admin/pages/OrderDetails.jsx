@@ -36,7 +36,7 @@ const OrderDetails = () => {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Order Details</h1>
 
-      <div className="bg-white rounded-x; shadow p-6">
+      <div className="bg-white rounded-xl shadow p-6">
         <h2>Buyer Information</h2>
         <p>
           <strong>Name:</strong>
@@ -56,7 +56,7 @@ const OrderDetails = () => {
 
       {/* farmer Details  */}
 
-       <div className="bg-white rounded-x; shadow p-6">
+       <div className="bg-white rounded-xl shadow p-6">
         <h2>Farmer Information</h2>
         <p>
           <strong>Name:</strong>
@@ -73,6 +73,52 @@ const OrderDetails = () => {
           {order.farmer?.phone || "N/A"}
         </p>
       </div>
+
+      {/* Order Details  */}
+
+      <div className="bg-white rounded-xl shadow p-6">
+        <h2>Shipping Address Infromation</h2>
+        <p>
+          <strong>Address Line:</strong>
+          {order.shippingAddress?.addressLine || "N/A"}
+        </p>
+
+        <p>
+          <strong>Village:</strong>
+          {order.shippingAddress?.village || "N/A"}
+        </p>
+
+        <p>
+          <strong>District:</strong>
+          {order.shippingAddress?.district || "N/A"}
+        </p>
+
+         <p>
+          <strong>State:</strong>
+          {order.shippingAddress?.state || "N/A"}
+        </p>
+      </div>
+
+      {/* Order Status  */}
+
+       <div className="bg-white rounded-xl shadow p-6">
+        <h2>Order Information</h2>
+        <p>
+          <strong>Total Amount:</strong>
+          {order.totalAmount || "N/A"}
+        </p>
+
+        <p>
+          <strong>PaymentStatus:</strong>
+          {order.paymentStatus || "N/A"}
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          {order.status || "N/A"}
+        </p>
+      </div>
+
     </div>
   );
 };
