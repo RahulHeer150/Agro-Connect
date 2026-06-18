@@ -27,7 +27,41 @@ const OrderDetails = () => {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Order Details</h1>
+
+      <div className="bg-white rounded-x; shadow p-6">
+
+        <h2>
+
+        </h2>
+        <p>
+          <strong></strong>
+
+        </p>
+
+         <p>
+          <strong></strong>
+
+        </p>
+
+         <p>
+          <strong></strong>
+
+        </p>
+
+         <p>
+          <strong></strong>
+
+        </p>
+
+         <p>
+          <strong></strong>
+
+        </p>
+
+
+      </div>
     </div>
+
   );
 };
 
