@@ -53,6 +53,26 @@ const OrderDetails = () => {
           {order.buyer?.phone || "N/A"}
         </p>
       </div>
+
+      {/* farmer Details  */}
+
+       <div className="bg-white rounded-x; shadow p-6">
+        <h2>Farmer Information</h2>
+        <p>
+          <strong>Name:</strong>
+          {order.farmer?.name || "N/A"}
+        </p>
+
+        <p>
+          <strong>Email:</strong>
+          {order.farmer?.email || "N/A"}
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+          {order.farmer?.phone || "N/A"}
+        </p>
+      </div>
     </div>
   );
 };
