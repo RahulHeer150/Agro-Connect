@@ -115,7 +115,17 @@ const OrderDetails = () => {
 
         <p>
           <strong>Status:</strong>
-          {order.status || "N/A"}
+         <span
+  className={`px-3 py-1 rounded-full text-sm ${
+    order.status === "DELIVERED"
+      ? "bg-green-100 text-green-700"
+      : order.status === "CANCELLED"
+      ? "bg-red-100 text-red-700"
+      : "bg-blue-100 text-blue-700"
+  }`}
+>
+  {order.status}
+</span>
         </p>
       </div>
 
@@ -128,11 +138,11 @@ const OrderDetails = () => {
       const imagePath =
         image?.url || image;
 
-      const imageUrl =
-        imagePath?.startsWith("http")
-          ? imagePath
-          : `http://localhost:5000${imagePath}`;
-
+      const imageUrl = imagePath
+  ? imagePath.startsWith("http")
+    ? imagePath
+    : `http://localhost:5000${imagePath}`
+  : "/placeholder.png";
 
             return (
               <div key={item._id} className="flex gap-4 border p-4 rounded-lg">
