@@ -8,9 +8,9 @@ const OrderDetails = () => {
 
   const { id } = useParams();
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchOrder();
-  },[])
+  }, []);
 
   const fetchOrder = async () => {
     try {
@@ -29,39 +29,26 @@ const OrderDetails = () => {
       <h1 className="text-3xl font-bold">Order Details</h1>
 
       <div className="bg-white rounded-x; shadow p-6">
-
-        <h2>
-          Buyer Information
-        </h2>
+        <h2>Buyer Information</h2>
         <p>
-          <strong></strong>
-
+          <strong>Name:</strong>
+          {order.buyer?.name || "N/A"}
         </p>
 
-         <p>
-          <strong></strong>
-
+        <p>
+          <strong>
+            Email:
+          </strong>
+          {order.buyer?.email || "N/A"}
         </p>
 
-         <p>
-          <strong></strong>
-
+        <p>
+          <strong>Phone:</strong>
+          {order.buyer?.phone || "N/A"}
         </p>
-
-         <p>
-          <strong></strong>
-
-        </p>
-
-         <p>
-          <strong></strong>
-
-        </p>
-
 
       </div>
     </div>
-
   );
 };
 
