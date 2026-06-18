@@ -31,7 +31,7 @@ const OrderDetails = () => {
       <div className="bg-white rounded-x; shadow p-6">
 
         <h2>
-
+          Buyer Information
         </h2>
         <p>
           <strong></strong>
