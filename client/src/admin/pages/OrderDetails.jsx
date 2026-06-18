@@ -25,11 +25,11 @@ const OrderDetails = () => {
       setLoading(false);
     }
   };
-  if(loading){
-    return <Loader size="large"/>
+  if (loading) {
+    return <Loader size="large" />;
   }
-  if(!order){
-    return <h2>Order Not found!!</h2>
+  if (!order) {
+    return <h2>Order Not found!!</h2>;
   }
 
   return (
@@ -56,7 +56,7 @@ const OrderDetails = () => {
 
       {/* farmer Details  */}
 
-       <div className="bg-white rounded-xl shadow p-6">
+      <div className="bg-white rounded-xl shadow p-6">
         <h2>Farmer Information</h2>
         <p>
           <strong>Name:</strong>
@@ -93,7 +93,7 @@ const OrderDetails = () => {
           {order.shippingAddress?.district || "N/A"}
         </p>
 
-         <p>
+        <p>
           <strong>State:</strong>
           {order.shippingAddress?.state || "N/A"}
         </p>
@@ -101,7 +101,7 @@ const OrderDetails = () => {
 
       {/* Order Status  */}
 
-       <div className="bg-white rounded-xl shadow p-6">
+      <div className="bg-white rounded-xl shadow p-6">
         <h2>Order Information</h2>
         <p>
           <strong>Total Amount:</strong>
@@ -119,6 +119,43 @@ const OrderDetails = () => {
         </p>
       </div>
 
+      <div className="bg-white rounded-xl shadow p-6">
+        <div className="space-y-4">
+          {order.items.map((item) => {
+ const image =
+        item.product?.images?.[0];
+
+      const imagePath =
+        image?.url || image;
+
+      const imageUrl =
+        imagePath?.startsWith("http")
+          ? imagePath
+          : `http://localhost:5000${imagePath}`;
+
+
+            return (
+              <div key={item._id} className="flex gap-4 border p-4 rounded-lg">
+                <img
+                  src={imageUrl}
+                  alt={item.product?.name}
+                  className="w-24 h-24 object-cover rounded"
+                />
+
+                <div>
+                  <h3 className="font-semibold">
+                    {item.product?.name || "N/A"}
+                  </h3>
+
+                  <p>Quantity:{item.quantity}</p>
+
+                  <p>Price:{item.price}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
