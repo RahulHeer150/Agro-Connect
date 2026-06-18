@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getOrderById } from "../services/orderService";
 import { useParams } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const OrderDetails = () => {
   const [order, setorder] = useState(null);
@@ -15,6 +16,7 @@ const OrderDetails = () => {
   const fetchOrder = async () => {
     try {
       const data = await getOrderById(id);
+      console.log(data);
 
       setorder(data.order);
     } catch (error) {
@@ -23,6 +25,12 @@ const OrderDetails = () => {
       setLoading(false);
     }
   };
+  if(loading){
+    return <Loader size="large"/>
+  }
+  if(!order){
+    return <h2>Order Not found!!</h2>
+  }
 
   return (
     <div className="space-y-6">
