@@ -36,9 +36,7 @@ const OrderDetails = () => {
         </p>
 
         <p>
-          <strong>
-            Email:
-          </strong>
+          <strong>Email:</strong>
           {order.buyer?.email || "N/A"}
         </p>
 
@@ -46,7 +44,6 @@ const OrderDetails = () => {
           <strong>Phone:</strong>
           {order.buyer?.phone || "N/A"}
         </p>
-
       </div>
     </div>
   );
