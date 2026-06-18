@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { getOrderById } from "../services/orderService";
+import { useParams } from "react-router-dom";
 
 const OrderDetails = () => {
-  return (
-    <div>OrderDetails</div>
-  )
-}
+  const [order, setorder] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-export default OrderDetails
+  const { id } = useParams();
+
+  useEffect(()=>{
+    fetchOrder();
+  },[])
+
+  const fetchOrder = async () => {
+    try {
+      const data = await getOrderById(id);
+
+      setorder(data.order);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold">Order Details</h1>
+    </div>
+  );
+};
+
+export default OrderDetails;

@@ -20,7 +20,7 @@
 //                    <Dashboard />
 
 //             </AdminLayout>
-         
+
 //           </AdminProtectedRoute>
 //         }
 //       />
@@ -33,7 +33,7 @@
 //                      <Farmers />
 
 //             </AdminLayout>
-       
+
 //           </AdminProtectedRoute>
 //         }
 //       />
@@ -46,7 +46,7 @@
 //                 <Buyers />
 
 //             </AdminLayout>
-            
+
 //           </AdminProtectedRoute>
 //         }
 //       />
@@ -59,7 +59,7 @@
 //                    <Products />
 
 //             </AdminLayout>
-         
+
 //           </AdminProtectedRoute>
 //         }
 //       />
@@ -72,7 +72,7 @@
 //                  <Orders />
 
 //             </AdminLayout>
-           
+
 //           </AdminProtectedRoute>
 //         }
 //       />
@@ -92,7 +92,7 @@ import Product from "../pages/Product";
 import Orders from "../pages/Orders";
 import FarmerDetails from "../pages/FarmerDetails";
 import ProductDetails from "../pages/ProductDetails";
-
+import OrderDetails from "../pages/OrderDetails";
 
 const AdminRoutes = () => {
   return (
@@ -103,9 +103,9 @@ const AdminRoutes = () => {
         <Route path="buyers" element={<Buyers />} />
         <Route path="products" element={<Product />} />
         <Route path="orders" element={<Orders />} />
-        <Route path="farmers/:id" element={<FarmerDetails />}/>
-        <Route path="products/:id" element={<ProductDetails />}/>
-
+        <Route path="farmers/:id" element={<FarmerDetails />} />
+        <Route path="products/:id" element={<ProductDetails />} />
+        <Route path="orders/:id" element={<OrderDetails />} />
       </Route>
 
       <Route path="*" element={<Navigate to="dashboard" />} />
