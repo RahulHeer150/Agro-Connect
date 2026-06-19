@@ -115,34 +115,32 @@ const OrderDetails = () => {
 
         <p>
           <strong>Status:</strong>
-         <span
-  className={`px-3 py-1 rounded-full text-sm ${
-    order.status === "DELIVERED"
-      ? "bg-green-100 text-green-700"
-      : order.status === "CANCELLED"
-      ? "bg-red-100 text-red-700"
-      : "bg-blue-100 text-blue-700"
-  }`}
->
-  {order.status}
-</span>
+          <span
+            className={`px-3 py-1 rounded-full text-sm ${
+              order.status === "DELIVERED"
+                ? "bg-green-100 text-green-700"
+                : order.status === "CANCELLED"
+                  ? "bg-red-100 text-red-700"
+                  : "bg-blue-100 text-blue-700"
+            }`}
+          >
+            {order.status}
+          </span>
         </p>
       </div>
 
       <div className="bg-white rounded-xl shadow p-6">
         <div className="space-y-4">
           {order.items.map((item) => {
- const image =
-        item.product?.images?.[0];
+            const image = item.product?.images?.[0];
 
-      const imagePath =
-        image?.url || image;
+            const imagePath = image?.url || image;
 
-      const imageUrl = imagePath
-  ? imagePath.startsWith("http")
-    ? imagePath
-    : `http://localhost:5000${imagePath}`
-  : "/placeholder.png";
+            const imageUrl = imagePath
+              ? imagePath.startsWith("http")
+                ? imagePath
+                : `http://localhost:5000${imagePath}`
+              : "/placeholder.png";
 
             return (
               <div key={item._id} className="flex gap-4 border p-4 rounded-lg">
