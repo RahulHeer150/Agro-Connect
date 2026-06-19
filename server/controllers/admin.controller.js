@@ -2,6 +2,8 @@ const User = require("../models/usermodel");
 const Product = require("../models/productmodel");
 const Order = require("../models/ordermodel");
 const productmodel = require("../models/productmodel");
+const Notification = require("../models/notification.model");
+
 
 exports.getDashBoardStats = async (req, res) => {
   try {
