@@ -13,7 +13,7 @@ const ProductDetails = () => {
 
   const { id } = useParams();
 
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState("");
   const apiBaseUrl = import.meta.env.VITE_API_URL || "https://agro-connect-8yjz.onrender.com";
 
   const handleAddToCart = async () => {
@@ -36,9 +36,6 @@ const ProductDetails = () => {
     }
   };
 
-
-
-  useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`${apiBaseUrl}/api/products/${id}`);
@@ -51,6 +48,9 @@ const ProductDetails = () => {
       }
     };
 
+
+
+  useEffect(() => {
     fetchProduct();
   }, [id]);
 
@@ -69,12 +69,12 @@ const ProductDetails = () => {
       <div className="grid md:grid-cols-2 gap-10">
         <img
           src={imageUrl}
-          alt={product.name}
+          alt="wheat"
           className="w-full h-80 object-cover rounded-xl"
         />
 
         <div>
-          <h1 className="text-3xl font-bold">{product.name}</h1>
+          {/* <h1 className="text-3xl font-bold">{product.name ||"N/A"}</h1> */}
 
           <p className="text-green-700 text-xl font-semibold mt-2">
             ₹{product.price} / {product.unit}
