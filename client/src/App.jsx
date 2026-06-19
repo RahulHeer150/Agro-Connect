@@ -33,6 +33,7 @@ import EditProfile from "./components/EditProfile";
 import MapPage from "./pages/MapPage";
 import FarmerProfile from "./components/FarmerProfile";
 import AdminRoutes from './admin/routes/AdminRoutes'
+import Notification from "./pages/Notification";
 
 function App() {
 
@@ -69,10 +70,12 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/add-crop" element={<AddCrop />} />
-        <Route path="/maps" element={<MapPage />} />
+        <Route path="/notifications" element={<Notification />} />
         <Route path="/farmer/:id" element={<FarmerProfile />} />
+
          {/* Admin Routes */}
         <Route path="/admin/*" element={<AdminRoutes />} />
+
 
         
       </Routes>
