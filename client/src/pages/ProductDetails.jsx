@@ -69,12 +69,12 @@ const ProductDetails = () => {
       <div className="grid md:grid-cols-2 gap-10">
         <img
           src={imageUrl}
-          alt="wheat"
+          alt={product.name || "N/A"}
           className="w-full h-80 object-cover rounded-xl"
         />
 
         <div>
-          {/* <h1 className="text-3xl font-bold">{product.name ||"N/A"}</h1> */}
+          <h1 className="text-3xl font-bold">{product.name ||"N/A"}</h1>
 
           <p className="text-green-700 text-xl font-semibold mt-2">
             ₹{product.price} / {product.unit}
