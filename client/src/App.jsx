@@ -70,6 +70,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/add-crop" element={<AddCrop />} />
+        <Route path="/maps" element={<MapPage />} />
         <Route path="/notifications" element={<Notification />} />
         <Route path="/farmer/:id" element={<FarmerProfile />} />
 
