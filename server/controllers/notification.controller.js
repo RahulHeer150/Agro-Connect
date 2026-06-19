@@ -24,15 +24,15 @@ exports.getMyNotifications = async (req, res) => {
 
 exports.markNotificationRead = async (req, res) => {
   try {
-    const notifiction = await Notification.findById(req.params.id);
+    const notification = await Notification.findById(req.params.id);
 
-    if (!notifiction) {
+    if (!notification) {
       return res.status(404).json({
         success: false,
         message: "notificaton not found!!!",
       });
     }
-    notifiction.isRead = true;
+    notification.isRead = true;
 
     await notification.save();
 

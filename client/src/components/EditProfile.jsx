@@ -14,8 +14,18 @@ const EditProfile = () => {
 
       // Pre-fill form
       setFormData({
-        ...res.data.user.farmDetails,
-        ...res.data.user.buyerDetails,
+        farmName: res.data.user.farmDetails?.farmName || "",
+        farmSize: res.data.user.farmDetails?.farmSize || "",
+
+        state: res.data.user.farmDetails?.location?.state || "",
+
+        district: res.data.user.farmDetails?.location?.district || "",
+
+        village: res.data.user.farmDetails?.location?.village || "",
+
+        businessName: res.data.user.buyerDetails?.businessName || "",
+
+        address: res.data.user.buyerDetails?.address || "",
       });
     } catch (err) {
       console.error("Error fetching profile:", err);
@@ -37,7 +47,10 @@ const EditProfile = () => {
     e.preventDefault();
 
     try {
-      await api.put("/api/auth/update-profile", formData);
+      const res = await api.put("/api/auth/update-profile", formData);
+
+      setUser(res.data.user);
+
       alert("Profile Updated ✅");
     } catch (err) {
       console.error("Error updating profile:", err);
@@ -53,10 +66,9 @@ const EditProfile = () => {
         animate={{ opacity: 1, y: 0 }}
         className="max-w-3xl mx-auto bg-white/10 p-6 rounded-xl"
       >
-        <h1 className="text-2xl font-bold mb-6">Edit Profile ✨</h1>
+        <h1 className="text-2xl font-bold mb-6">Edit Profile </h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
           {/* Farmer Form */}
           {user.role === "farmer" && (
             <>
