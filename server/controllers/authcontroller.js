@@ -2,6 +2,7 @@ const User = require("../models/usermodel");
 const BlackListToken = require("../models/blackTokenmodel");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
+const nodemailer= require("nodemailer")
 
 /**
  * =====================================
@@ -22,12 +23,12 @@ exports.googleLogin = async (req, res) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     const { name, email } = googleRes.data;
 
-       console.log(`Google OAuth Login: ${name} (${email}) logged in`);
+    console.log(`Google OAuth Login: ${name} (${email}) logged in`);
 
     // Check if user already exists
     let user = await User.findOne({ email });
@@ -39,12 +40,11 @@ exports.googleLogin = async (req, res) => {
         email,
         phone: "0000000000", // default phone because your schema requires it
         password: "google-auth", // dummy password
-       
+
         isVerified: true,
       });
 
-       console.log(`New Google user created: ${email}`);
-
+      console.log(`New Google user created: ${email}`);
     }
 
     // Generate JWT using your existing method
@@ -57,7 +57,6 @@ exports.googleLogin = async (req, res) => {
       user,
     });
   } catch (error) {
-    
     console.error("Google OAuth Error:", error.message);
 
     res.status(500).json({
@@ -103,7 +102,6 @@ exports.register = async (req, res) => {
       buyerDetails,
     };
 
-
     // 🔹 Create user
     const user = await User.create(userData);
 
@@ -139,7 +137,6 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     console.log(req.body);
-    
 
     // 1️⃣ Validate input
     if (!email || !password) {
@@ -171,12 +168,12 @@ exports.login = async (req, res) => {
     const token = user.generateAuthToken();
 
     // 5️⃣ Set cookie
-   res.cookie("token", token, {
-  httpOnly: true,
-  secure: true,          // MUST be true for HTTPS (Vercel + Render)
-  sameSite: "None",      // MUST be None for cross-origin
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // MUST be true for HTTPS (Vercel + Render)
+      sameSite: "None", // MUST be None for cross-origin
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json({
       success: true,
@@ -217,7 +214,6 @@ exports.getProfile = async (req, res) => {
     });
   }
 };
-
 
 // exports.updateProfile = async (req, res) => {
 //   try {
@@ -337,6 +333,69 @@ exports.logout = async (req, res) => {
   }
 };
 
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
 
+    const user = await User.findOne({ email });
 
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not exists with ths Email",
+      });
+    }
+    const resetToken = crypto.randomByter(32).toString("hex");
+    user.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
 
+    user.resetPasswordExpire = Date.now + 10 * 60 * 1000;
+    await user.save();
+    //generate Reset URL
+
+    const resetURL= `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+    console.log("Reset URL Generated",resetURL)
+
+    //email message Content
+
+    const message= `
+     <h3>Password Reset Request</h3>
+      <p>Click below to reset your password:</p>
+      <a href="${resetURL}" style="padding:10px;background:#007bff;color:#fff;border-radius:5px;text-decoration:none">
+        Reset Password
+      </a>
+      <p>This link expires in 10 minutes.</p>
+    `;
+    // email Sender
+
+    const trasnsporter= nodemailer.createTransport({
+      service:"gmail",
+      auth:{
+        user:process.env.EMAIL_USER,
+        pass:process.env.EMAIL_PASS
+      }
+    });
+
+    await trasnsporter.sendMail({
+      to:email,
+      from:`"AGROCONNECT Support"<${process.env.EMAIL_USER}>`,
+      subject:"Password Reset Request",
+      html:message,
+    });
+
+    return res.status(200).json({
+      message:"Reset Password Link send to Registered Email"
+    }
+    )
+
+    
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server error!!",
+    });
+  }
+};

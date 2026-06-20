@@ -7,7 +7,8 @@ const {
   logout,
   getProfile,
   googleLogin,
-  updateProfile
+  updateProfile,
+  forgotPassword
 } = require("../controllers/authcontroller");
 
 const { authUser } = require("../middlewares/authmiddleware");
@@ -26,7 +27,7 @@ router.get("/profile", authUser, getProfile);
 router.post("/logout", authUser, logout);
 
 router.put("/update-profile",authUser,updateProfile)
-
+router.post("forgot-password",forgotPassword)
 // Google Login
 router.post("/google-login", googleLogin);
 
