@@ -345,13 +345,13 @@ exports.forgotPassword = async (req, res) => {
         message: "User not exists with ths Email",
       });
     }
-    const resetToken = crypto.randomByter(32).toString("hex");
+    const resetToken = crypto.randomByte(32).toString("hex");
     user.resetPasswordToken = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
 
-    user.resetPasswordExpire = Date.now + 10 * 60 * 1000;
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
     await user.save();
     //generate Reset URL
 
@@ -411,7 +411,7 @@ exports.resetPassword=async(req,res)=>{
 
     const user = await User.findOne({
       resetPasswordToken: hashedToken,
-      resetPasswordExpires: { $gt: Date.now() }, // Valid token only
+      resetPasswordExpire: { $gt: Date.now() }, // Valid token only
     });
 
     if (!user) {
