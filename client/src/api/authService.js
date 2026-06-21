@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from './axios';
 
 
@@ -13,7 +12,7 @@ export const forgotPassword=async(email)=>{
     return res.data;
 }
 
-export const resetPassword=(token,newPassword)=>{
+export const resetPassword=async(token,newPassword)=>{
     const res= await api.post(
         `/api/auth/reset-password/${token}`,
         {newPassword}

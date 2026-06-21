@@ -34,6 +34,8 @@ import MapPage from "./pages/MapPage";
 import FarmerProfile from "./components/FarmerProfile";
 import AdminRoutes from './admin/routes/AdminRoutes'
 import Notification from "./pages/Notification";
+import ForgotPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 
@@ -73,6 +75,9 @@ function App() {
         <Route path="/maps" element={<MapPage />} />
         <Route path="/notifications" element={<Notification />} />
         <Route path="/farmer/:id" element={<FarmerProfile />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        
 
          {/* Admin Routes */}
         <Route path="/admin/*" element={<AdminRoutes />} />
