@@ -288,7 +288,17 @@ exports.updateProfile = async (req, res) => {
       });
     }
 
-    const { lat, lng, address } = req.body;
+    const {
+      lat,
+      lng,
+      address,
+      farmName,
+      farmSize,
+      businessName,
+      state,
+      district,
+      village,
+    } = req.body;
 
     if (lat && lng) {
       user.location = {
@@ -297,12 +307,42 @@ exports.updateProfile = async (req, res) => {
       };
     }
 
-    if (address) {
+    if (farmName !== undefined) {
+      user.farmDetails = user.farmDetails || {};
+      user.farmDetails.farmName = farmName;
+    }
+
+    if (farmSize !== undefined) {
+      user.farmDetails = user.farmDetails || {};
+      user.farmDetails.farmSize = farmSize;
+    }
+
+    if (state !== undefined || district !== undefined || village !== undefined) {
+      user.farmDetails = user.farmDetails || {};
       user.farmDetails.location = {
-        state: address.state,
-        district: address.district,
-        village: address.village,
+        state:
+          state !== undefined
+            ? state
+            : user.farmDetails.location?.state || "",
+        district:
+          district !== undefined
+            ? district
+            : user.farmDetails.location?.district || "",
+        village:
+          village !== undefined
+            ? village
+            : user.farmDetails.location?.village || "",
       };
+    }
+
+    if (businessName !== undefined) {
+      user.buyerDetails = user.buyerDetails || {};
+      user.buyerDetails.businessName = businessName;
+    }
+
+    if (address && typeof address === "string") {
+      user.buyerDetails = user.buyerDetails || {};
+      user.buyerDetails.address = address;
     }
 
     await user.save();

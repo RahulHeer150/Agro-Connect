@@ -258,7 +258,7 @@ const Profile = () => {
           <div>
 
             <h3 className="text-xl text-blue-400 mb-3">
-              Business Details 🏢
+              Business Details 
             </h3>
 
             <p>
@@ -274,7 +274,7 @@ const Profile = () => {
             {/* 🔥 NO MAP, NO LOCATION BUTTONS */}
 
             <div className="mt-6 text-gray-400">
-              📍 Location features are available for farmers only
+               Location features are available for farmers only
             </div>
 
           </div>
@@ -288,7 +288,7 @@ const Profile = () => {
           onClick={() => navigate("/edit-profile")}
           className="bg-gradient-to-r from-green-500 to-green-700 px-6 py-2 rounded-xl"
         >
-          Edit Profile ✨
+          Edit Profile 
         </button>
       </div>
 

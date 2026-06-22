@@ -83,6 +83,7 @@ const EditProfile = () => {
               <input
                 name="state"
                 placeholder="State"
+                value={formData.state || ""}
                 onChange={handleChange}
                 className="w-full p-3 bg-gray-800 rounded"
               />
@@ -90,6 +91,7 @@ const EditProfile = () => {
               <input
                 name="district"
                 placeholder="District"
+                value={formData.district || ""}
                 onChange={handleChange}
                 className="w-full p-3 bg-gray-800 rounded"
               />
@@ -97,6 +99,7 @@ const EditProfile = () => {
               <input
                 name="village"
                 placeholder="Village"
+                value={formData.village || ""}
                 onChange={handleChange}
                 className="w-full p-3 bg-gray-800 rounded"
               />
@@ -104,6 +107,7 @@ const EditProfile = () => {
               <input
                 name="farmSize"
                 placeholder="Farm Size"
+                value={formData.farmSize || ""}
                 onChange={handleChange}
                 className="w-full p-3 bg-gray-800 rounded"
               />
@@ -135,7 +139,7 @@ const EditProfile = () => {
             whileHover={{ scale: 1.05 }}
             className="bg-green-600 px-6 py-2 rounded"
           >
-            Save Changes 🚀
+            Save Changes
           </motion.button>
         </form>
       </motion.div>
