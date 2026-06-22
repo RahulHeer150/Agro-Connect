@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { forgotPassword } from "../api/authService";
+import mainlogo from '../assets/logo.png'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -24,6 +25,14 @@ const ForgotPassword = () => {
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
 
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+         {/* Logo */}
+                <div className="flex justify-center mb-6">
+                  <img
+                    src={mainlogo}
+                    alt="AgroConnect Logo"
+                    className="w-56"
+                  />
+                </div>
 
         <h2 className="text-2xl font-bold mb-4">
           Forgot Password
