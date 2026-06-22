@@ -2,7 +2,8 @@ const User = require("../models/usermodel");
 const BlackListToken = require("../models/blackTokenmodel");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
-const nodemailer= require("nodemailer")
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 /**
  * =====================================
@@ -271,7 +272,21 @@ exports.getProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
+    if (!req.user?.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: User not authenticated",
+      });
+    }
+
     const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
 
     const { lat, lng, address } = req.body;
 
@@ -312,8 +327,12 @@ exports.updateProfile = async (req, res) => {
  */
 exports.logout = async (req, res) => {
   try {
+    const authHeader = req.headers.authorization;
     const token =
-      req.cookies?.token || req.headers.authorization?.split(" ")[1];
+      req.cookies?.token ||
+      (authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : undefined);
 
     if (token) {
       await BlackListToken.create({ token });
@@ -333,103 +352,180 @@ exports.logout = async (req, res) => {
   }
 };
 
+// const User = require("../models/usermodel");
+// const crypto = require("crypto");
+// const nodemailer = require("nodemailer");
+
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email });
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    const user = await User.findOne({
+      email: email.toLowerCase().trim(),
+    });
 
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "User not exists with ths Email",
+        message: "User not found with this email",
       });
     }
-    const resetToken = crypto.randomByte(32).toString("hex");
+
+    // Generate reset token
+    const resetToken = crypto
+      .randomBytes(32)
+      .toString("hex");
+
+    // Store hashed token in DB
     user.resetPasswordToken = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
 
-    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+    user.resetPasswordExpire =
+      Date.now() + 10 * 60 * 1000; // 10 min
+
     await user.save();
-    //generate Reset URL
 
-    const resetURL= `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+    // Frontend Reset URL
+    const resetURL =
+      `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
 
-    console.log("Reset URL Generated",resetURL)
+    const transporter =
+      nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
 
-    //email message Content
+    const message = `
+      <h2>Password Reset Request</h2>
 
-    const message= `
-     <h3>Password Reset Request</h3>
-      <p>Click below to reset your password:</p>
-      <a href="${resetURL}" style="padding:10px;background:#007bff;color:#fff;border-radius:5px;text-decoration:none">
+      <p>
+        Click the button below to reset your password.
+      </p>
+
+      <a
+        href="${resetURL}"
+        style="
+          background:#16a34a;
+          color:white;
+          padding:12px 20px;
+          text-decoration:none;
+          border-radius:8px;
+          display:inline-block;
+        "
+      >
         Reset Password
       </a>
-      <p>This link expires in 10 minutes.</p>
+
+      <p>
+        This link will expire in 10 minutes.
+      </p>
+
+      <p>
+        If you didn't request this,
+        please ignore this email.
+      </p>
     `;
-    // email Sender
 
-    const trasnsporter= nodemailer.createTransport({
-      service:"gmail",
-      auth:{
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS
-      }
-    });
-
-    await trasnsporter.sendMail({
-      to:email,
-      from:`"AGROCONNECT Support"<${process.env.EMAIL_USER}>`,
-      subject:"Password Reset Request",
-      html:message,
+    await transporter.sendMail({
+      from: `"AgroConnect Support" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Reset Your AgroConnect Password",
+      html: message,
+    }).catch(err => {
+      console.error("Email send error (non-critical):", err.message);
+      // Don't fail the request if email fails
     });
 
     return res.status(200).json({
-      message:"Reset Password Link send to Registered Email"
-    }
-    )
+      success: true,
+      message:
+        "Password reset link sent successfully",
+    });
 
-    
   } catch (error) {
+    console.error("Forgot password error:", error.message);
+
     return res.status(500).json({
       success: false,
-      message: "Internal Server error!!",
+      message: "Server Error",
     });
   }
 };
 
-exports.resetPassword=async(req,res)=>{
 
- try {
+exports.resetPassword = async (req, res) => {
+  try {
+
     const { token } = req.params;
     const { newPassword } = req.body;
 
-    // Hash token to compare with DB
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    if (!newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Password is required",
+      });
+    }
+
+    // Hash incoming token
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
 
     const user = await User.findOne({
       resetPasswordToken: hashedToken,
-      resetPasswordExpire: { $gt: Date.now() }, // Valid token only
+
+      resetPasswordExpire: {
+        $gt: Date.now(),
+      },
     });
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: "Invalid or expired reset token" });
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid or expired reset token",
+      });
     }
 
-    // Update password (model hashes automatically via pre-save hook)
+    // Update Password
     user.password = newPassword;
+
+    // Clear reset fields
     user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
+    user.resetPasswordExpire = undefined;
 
     await user.save();
 
-    return res.status(200).json({ message: "Password reset successful" });
-  } catch (err) {
-    console.error("Reset Password Error:", err);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(200).json({
+      success: true,
+      message:
+        "Password reset successful",
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+
   }
-}
+};

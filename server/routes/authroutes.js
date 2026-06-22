@@ -27,9 +27,9 @@ router.get("/profile", authUser, getProfile);
 // Logout
 router.post("/logout", authUser, logout);
 
-router.put("/update-profile",authUser,updateProfile)
-router.post("forgot-password",forgotPassword)
-router.post("reset-password",resetPassword)
+router.put("/update-profile", authUser, updateProfile);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password/:token", resetPassword);
 // Google Login
 router.post("/google-login", googleLogin);
 

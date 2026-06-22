@@ -10,8 +10,11 @@ const BlackListToken = require("../models/blackTokenmodel");
 module.exports.authUser = async (req, res, next) => {
   try {
     // 1️⃣ Get token from cookie OR Authorization header
-    const token =
-      req.cookies?.token || req.headers.authorization?.split(" ")[1];
+    const authHeader = req.headers.authorization;
+    const token = req.cookies?.token ||
+      (authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : undefined);
 
     if (!token) {
       return res.status(401).json({
@@ -32,6 +35,13 @@ module.exports.authUser = async (req, res, next) => {
     // 3️⃣ Verify JWT
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    if (!decoded?.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Invalid token payload",
+      });
+    }
+
     // 4️⃣ Get user from DB
     const user = await User.findById(decoded.id).select("-password");
 
@@ -46,6 +56,7 @@ module.exports.authUser = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    console.error("Auth middleware error:", error.message);
     return res.status(401).json({
       success: false,
       message: "Unauthorized: Invalid or expired token",

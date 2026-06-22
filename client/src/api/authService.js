@@ -1,10 +1,11 @@
 import api from './axios';
+import axios from 'axios';
 
 
 export const forgotPassword=async(email)=>{
 
-    const res= await api.post(
-        "/api/auth/forgot-password",
+      const res= await axios.post(
+        "http://localhost:5000/api/auth/forgot-password",
         {email}
 
     )
@@ -13,8 +14,8 @@ export const forgotPassword=async(email)=>{
 }
 
 export const resetPassword=async(token,newPassword)=>{
-    const res= await api.post(
-        `/api/auth/reset-password/${token}`,
+     const res= await axios.post(
+        `http://localhost:5000/api/auth/reset-password/${token}`,
         {newPassword}
 
     )

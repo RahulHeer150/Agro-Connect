@@ -9,7 +9,8 @@ const transporter=nodemailer.createTransport({
      tls: {
       rejectUnauthorized: false,
     },
-
+    logger: false,
+    debug: false,
 }); 
 
 

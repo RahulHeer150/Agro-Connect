@@ -110,6 +110,7 @@ const UserLogin = () => {
             Register here
           </Link>
         </p>
+        <p className="text-center text-sm mt-2 text-green-600" onClick={()=>navigate("/forgot-password")}>Forget Password?</p>
       </div>
     </div>
   );
