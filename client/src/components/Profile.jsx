@@ -294,7 +294,6 @@ const Profile = () => {
 
     </div>
 
-
     {/* MAP MODAL */}
     {showMap && user.role === "farmer" && (
       <LocationPicker
