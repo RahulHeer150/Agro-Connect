@@ -20,7 +20,6 @@ const Profile = () => {
 
 
 
-
   const fetchProfile = async () => {
     try {
       const res = await api.get("/api/auth/profile");
