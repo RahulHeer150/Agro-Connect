@@ -17,6 +17,11 @@ const Profile = () => {
   const navigate = useNavigate();
   const completion = calculateProfileCompletion(user);
 
+
+
+
+
+  
   const fetchProfile = async () => {
     try {
       const res = await api.get("/api/auth/profile");
