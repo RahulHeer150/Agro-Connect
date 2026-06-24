@@ -14,6 +14,7 @@ const Profile = () => {
   const [showMap, setShowMap] = useState(false);
   const [error, setError] = useState("");
 
+  
   const navigate = useNavigate();
   const completion = calculateProfileCompletion(user);
 
