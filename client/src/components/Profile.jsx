@@ -10,7 +10,6 @@ import MiniMap from "./MiniMap.jsx";
 
 
 
-
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [geoLocation, setGeoLocation] = useState(null);
