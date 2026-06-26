@@ -43,7 +43,6 @@ const Profile = () => {
 
 
 
-
   // 🌍 GET ADDRESS FROM LAT/LNG (FRONTEND)
   const getAddressFromCoords = async (lat, lng) => {
     try {
