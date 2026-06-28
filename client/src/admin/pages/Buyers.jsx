@@ -141,7 +141,7 @@ const Buyers = () => {
                     >
 
 
-                      
+                    
                       Delete
                     </button>
                   </div>
