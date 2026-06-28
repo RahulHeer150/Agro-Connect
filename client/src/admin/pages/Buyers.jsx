@@ -139,7 +139,6 @@ const Buyers = () => {
                       onClick={() => handleBuyerDelete(buyer._id)}
                       className="bg-red-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >
-                  
                       Delete
                     </button>
                   </div>
