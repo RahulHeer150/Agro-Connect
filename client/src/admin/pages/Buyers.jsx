@@ -33,8 +33,6 @@ const Buyers = () => {
     }
   };
 
-
-
   const handleToggleStatus = async (id) => {
     try {
       await toggleBuyerStatus(id);
