@@ -48,7 +48,7 @@ const Buyers = () => {
     );
 
 
-    
+
     if (!confirmDelete) return;
 
     try {
