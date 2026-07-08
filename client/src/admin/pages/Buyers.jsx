@@ -47,7 +47,6 @@ const Buyers = () => {
       "Are you sure You want to delete this Buyer???",
     );
 
-
     if (!confirmDelete) return;
 
     try {
