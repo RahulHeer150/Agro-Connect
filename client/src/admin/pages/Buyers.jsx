@@ -11,7 +11,6 @@ import Loader from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 
 
-
 const Buyers = () => {
   const [buyers, setBuyers] = useState([]);
   const [loading, setLoading] = useState(true);
