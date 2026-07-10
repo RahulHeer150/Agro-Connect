@@ -9,4 +9,3 @@ export const createRazorpayOrderAPI = ({ orderId }) => {
 export const verifyRazorpayPaymentAPI = (paymentData) => {
   return api.post("/payment/razorpay/verify", paymentData);
 };
-
