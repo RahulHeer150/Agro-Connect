@@ -10,7 +10,6 @@ module.exports.getFarmerdashboard = async (req, res) => {
 
 
 
-
     //product Stats
 
     const totalProducts = await Product.countDocuments({
