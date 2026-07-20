@@ -7,8 +7,6 @@ module.exports.getFarmerdashboard = async (req, res) => {
   try {
     const farmerId = req.user._id;
 
-
-
     //product Stats
 
     const totalProducts = await Product.countDocuments({
