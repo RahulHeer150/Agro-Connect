@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const fs = require("fs");
 const connectToDb = require("./config/db");
+// const helmet=require("helmet");
+const morgan=require("morgan")
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// app.use(helmet());
+app.use(morgan("dev"))
 connectToDb();
 
 const allowedOrigins = [
