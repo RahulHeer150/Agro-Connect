@@ -13,6 +13,18 @@ module.exports.getFarmerdashboard = async (req, res) => {
       farmer: farmerId,
     });
 
+
+
+
+
+
+
+
+
+
+
+
+    
     const activeProduct = await Product.countDocuments({
       farmer: farmerId,
       status: "available",
