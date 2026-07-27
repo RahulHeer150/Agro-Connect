@@ -26,6 +26,9 @@ const allowedOrigins = [
   "https://agro-connect-8yjz.onrender.com",
 ].filter(Boolean);
 
+
+
+
 app.use(
   cors({
     origin: (origin, callback) => {
