@@ -42,7 +42,6 @@ app.use(
 
 
 
-
 app.use("/uploads", express.static(require("path").join(__dirname, "uploads")));
 
 // =======================
