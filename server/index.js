@@ -57,6 +57,14 @@ const farmeradminRoutes = require("./routes/admin/farmerroutes")
 const notificationRoutes= require("./routes/notification.routes")
 
 
+
+
+
+
+
+
+
+
 app.use("/api/auth", authRoutes);
 app.use("/api/map", mapsRoutes);
 app.use("/api/products", productRoutes);
