@@ -6,7 +6,7 @@ const path = require("path");
 const fs = require("fs");
 const connectToDb = require("./config/db");
 // const helmet=require("helmet");
-const morgan=require("morgan")
+const morgan = require("morgan");
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // app.use(helmet());
-app.use(morgan("dev"))
+app.use(morgan("dev"));
 connectToDb();
 
 const allowedOrigins = [
@@ -25,8 +25,6 @@ const allowedOrigins = [
   "https://agro-connect-qtnv.vercel.app",
   "https://agro-connect-8yjz.onrender.com",
 ].filter(Boolean);
-
-
 
 app.use(
   cors({
@@ -37,7 +35,7 @@ app.use(
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
-  })
+  }),
 );
 
 app.use("/uploads", express.static(require("path").join(__dirname, "uploads")));
@@ -52,16 +50,9 @@ const orderRoutes = require("./routes/orderroutes");
 const paymentRoutes = require("./routes/paymentroutes");
 const farmerRoutes = require("./routes/farmerroutes");
 const cartRoutes = require("./routes/cartroutes");
-const adminRoutes = require('./routes/admin/adminroutes')
-const farmeradminRoutes = require("./routes/admin/farmerroutes")
-const notificationRoutes= require("./routes/notification.routes")
-
-
-
-
-
-
-
+const adminRoutes = require("./routes/admin/adminroutes");
+const farmeradminRoutes = require("./routes/admin/farmerroutes");
+const notificationRoutes = require("./routes/notification.routes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/map", mapsRoutes);
@@ -70,9 +61,9 @@ app.use("/api/orders", orderRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/api/farmer", farmerRoutes);
 app.use("/api/cart", cartRoutes);
-app.use('/api/admin', adminRoutes)
-app.use('/api/admin/farmers', farmeradminRoutes)
-app.use("/api/notifications",notificationRoutes)
+app.use("/api/admin", adminRoutes);
+app.use("/api/admin/farmers", farmeradminRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -105,11 +96,3 @@ if (fs.existsSync(clientBuildPath)) {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
