@@ -29,7 +29,6 @@ The Checkout page handles payment processing with COD and Razorpay options.
 
 
 
-
 - ✅ Delivery details form (address, city, phone)
 - ✅ Payment method selection (COD or ONLINE)
 - ✅ **Cash on Delivery (COD) Flow:**
