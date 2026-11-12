@@ -1,27 +1,23 @@
-import React from 'react'
-import {Navigate} from 'react-router-dom'
-import {useAuth} from '../context/AuthContext'
-import Loader from '../components/Loader'
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Loader from "./Loader";
 
-const AdminProtectedRoute = () => {
-    const {use,isLoggedIn,loading}  = useAuth();
+const ProtectedRoute = ({ children, requireAdmin = false }) => {
+  const { user, isLoggedIn, loading } = useAuth();
 
-    if(loading){
-        return <Loader size='large'/>
-    }
+  if (loading) {
+    return <Loader size="large" />;
+  }
 
-    if(!isLoggedIn){
-        return <Navigate to='/login' replace/>
-    }
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if(user?.role !== 'admin'){
-        return <Navigate to='/' replace/>
-    }
+  if (requireAdmin && user?.role !== "admin") {
+    return <Navigate to="/" replace />;
+  }
 
-    return children;
+  return children ?? <Outlet />;
+};
 
-
-  
-}
-
-export default AdminProtectedRoute;
+export default ProtectedRoute;

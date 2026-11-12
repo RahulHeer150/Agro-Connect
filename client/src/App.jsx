@@ -1,10 +1,8 @@
-import { useState } from "react";
-
 import { useLocation } from "react-router-dom";
 
 import "./index.css";
 import Navbar from "./components/Navbar";
-import { Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import CartItem from "./components/CartItem";
 import CartSummary from "./components/CartSummary";
@@ -36,6 +34,7 @@ import AdminRoutes from './admin/routes/AdminRoutes'
 import Notification from "./pages/Notification";
 import ForgotPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -48,42 +47,46 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/authpage" element={<AuthPage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/contact" element={<ContactUs />} />
         <Route path="/" element={<Home />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/payment-success" element={<PaymentSuccess />} />
-        <Route path="/payment-failure" element={<PaymentFailure />} />
-        <Route path="/addProduct" element={<AddProduct />} />
-        <Route path="/cart-item" element={<CartItem />} />
-        <Route path="/cart-summary" element={<CartSummary />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/my-orders" element={<MyOrders />} />
-        <Route path="/my-products" element={<MyProduct />} />
-        <Route path="/farmer-dashboard" element={<FarmerDashBoard />} />
-        <Route path="/buyer-dashboard" element={<BuyerDashBoard />} />
-        <Route path="/marketplace" element={<MarketPlace />} />
-        <Route path="/product-details" element={<ProductDetails />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/add-crop" element={<AddCrop />} />
-        <Route path="/maps" element={<MapPage />} />
-        <Route path="/notifications" element={<Notification />} />
-        <Route path="/farmer/:id" element={<FarmerProfile />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        
 
-         {/* Admin Routes */}
-        <Route path="/admin/*" element={<AdminRoutes />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-failure" element={<PaymentFailure />} />
+          <Route path="/addProduct" element={<AddProduct />} />
+          <Route path="/cart-item" element={<CartItem />} />
+          <Route path="/cart-summary" element={<CartSummary />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/my-products" element={<MyProduct />} />
+          <Route path="/farmer-dashboard" element={<FarmerDashBoard />} />
+          <Route path="/buyer-dashboard" element={<BuyerDashBoard />} />
+          <Route path="/marketplace" element={<MarketPlace />} />
+          <Route path="/product-details" element={<ProductDetails />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/add-crop" element={<AddCrop />} />
+          <Route path="/maps" element={<MapPage />} />
+          <Route path="/notifications" element={<Notification />} />
+          <Route path="/farmer/:id" element={<FarmerProfile />} />
+        </Route>
 
-
-        
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute requireAdmin>
+              <AdminRoutes />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {!isAdminRoute && <Footer /> }
